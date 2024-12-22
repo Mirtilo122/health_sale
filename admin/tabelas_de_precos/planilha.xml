@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Usuario</Author>
+  <LastAuthor>Usuario</LastAuthor>
+  <Revision>4</Revision>
+  <TotalTime>62</TotalTime>
+  <Created>2024-10-15T12:10:56Z</Created>
+  <LastSaved>2024-10-15T16:40:02Z</LastSaved>
+  <Paragraphs>pt-BR</Paragraphs>
+  <Version>16.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>9465</WindowHeight>
+  <WindowWidth>19920</WindowWidth>
+  <WindowTopX>32767</WindowTopX>
+  <WindowTopY>32767</WindowTopY>
+  <TabRatio>500</TabRatio>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial" x:Family="Swiss"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Planilha1">
+  <Table ss:ExpandedColumnCount="15" ss:ExpandedRowCount="4" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="60.75">
+   <Column ss:AutoFitWidth="0" ss:Width="112.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="47.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="32.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="29.25"/>
+   <Column ss:Index="6" ss:AutoFitWidth="0" ss:Width="105"/>
+   <Column ss:AutoFitWidth="0" ss:Width="41.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="49.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="243.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="96"/>
+   <Column ss:AutoFitWidth="0" ss:Width="177"/>
+   <Column ss:AutoFitWidth="0" ss:Width="208.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="193.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="1092"/>
+   <Column ss:AutoFitWidth="0" ss:Width="64.5"/>
+   <Row>
+    <Cell><Data ss:Type="String">Nome</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 1</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 2</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 3</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 4</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 5</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 6</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 7</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 8</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 9</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 10</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 11</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 12</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 13</Data></Cell>
+    <Cell><Data ss:Type="String">Procedimento 14</Data></Cell>    
+    <Cell><Data ss:Type="String">Procedimento 15</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Tabela 2</Data></Cell>
+    <Cell><Data ss:Type="String">28</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="Number">46</Data></Cell>
+    <Cell><Data ss:Type="String">32</Data></Cell>
+    <Cell><Data ss:Type="String">65</Data></Cell>
+    <Cell><Data ss:Type="String">120</Data></Cell>
+    <Cell><Data ss:Type="String">78</Data></Cell>
+    <Cell><Data ss:Type="String">14</Data></Cell>
+    <Cell><Data ss:Type="String">19</Data></Cell>
+    <Cell><Data ss:Type="String">25</Data></Cell>
+    <Cell><Data ss:Type="String">33</Data></Cell>
+    <Cell><Data ss:Type="String">15</Data></Cell>
+    <Cell><Data ss:Type="String">12</Data></Cell>
+    <Cell><Data ss:Type="String">124</Data></Cell>        
+    <Cell><Data ss:Type="String">74.5</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Layout x:StartPageNumber="1"/>
+    <Header x:Margin="0.78749999999999998" x:Data="&amp;C&amp;A"/>
+    <Footer x:Margin="0.78749999999999998" x:Data="&amp;CPágina &amp;P"/>
+    <PageMargins x:Bottom="1.0249999999999999" x:Left="0.78749999999999998"
+     x:Right="0.78749999999999998" x:Top="1.0249999999999999"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>300</HorizontalResolution>
+    <VerticalResolution>300</VerticalResolution>
+   </Print>
+   <Zoom>130</Zoom>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
