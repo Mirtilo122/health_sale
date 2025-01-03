@@ -175,8 +175,9 @@ color: var(--cor-terciaria);
   border-radius: 50%;
   margin-right: 8px;
 }
-.status-pendente { background-color: #808080; } /* Cinza */
-.status-aguardando { background-color: #FFD700; } /* Amarelo */
-.status-negociacao { background-color: #28a745; } /* Verde */
-.status-cancelado { background-color: #dc3545; } /* Vermelho */
-.status-aprovado { background-color: #007bff; } /* Azul */
+.status-pendente { background-color: #808080; }
+.status-aguardando { background-color: #FFD700; }
+.status-negociacao { background-color: #28a745; }
+.status-cancelado { background-color: #dc3545; }
+.status-aprovado { background-color: #007bff; }
+

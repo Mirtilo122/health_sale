@@ -103,8 +103,8 @@
                 <label for="emailCirurgiao">Email</label>
                 <input type="email" id="email" name="email">
                 
-                <label for="raCirurgiao">RA</label>
-                <input type="raCirurgiao" id="raCirurgiao" name="raCirurgiao">   
+                <label for="crmCirurgiao">RA</label>
+                <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
 
             </div>       
             
@@ -279,8 +279,8 @@
                 <label for="emailCirurgiao">Email</label>
                 <input type="email" id="email" name="email">
                 
-                <label for="raCirurgiao">RA</label>
-                <input type="raCirurgiao" id="raCirurgiao" name="raCirurgiao">   
+                <label for="crmCirurgiao">RA</label>
+                <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
 
             </div>       
             
