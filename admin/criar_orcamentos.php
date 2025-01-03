@@ -37,97 +37,12 @@ $stmt_precos->bindParam(':preco_id', $preco_id, PDO::PARAM_INT);
 $stmt_precos->execute();
 $precos = $stmt_precos->fetch(PDO::FETCH_ASSOC);
 
+$procedimentos = $pdo->query("SELECT * FROM procedimentos")->fetchAll(PDO::FETCH_ASSOC);
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    $formulario = $_POST['formulario'] ?? '';
-    $nomeSolicitante = $_POST['nome'] ?? '';
-    $sobrenome = $_POST['sobrenome'] ?? '';
-    $telefone = $_POST['telefone'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $canalContato = $_POST['contato'] ?? '';
-    $tipoOrcamento = $_POST['tipoOrcamento'] ?? '';
-    $convenio = $_POST['convenio'] ?? '';
-    $nomePaciente = $_POST['nomePaciente'] ?? '';
-    $dataNascimento = $_POST['dataNasc'] ?? null;
-    $cidade = $_POST['cidade'] ?? '';
-    $comorbidades = $_POST['comorbidades'] ?? 'nao';
-    $descricaoComorbidades = $_POST['descComorbidades'] ?? null;
-    $descricaoSumaria = $_POST['descSumaria'] ?? '';
-    $descricaoDetalhada = $_POST['descDetalhada'] ?? '';
-    $tempoCirurgia = $_POST['tempoCirurgico'] ?? 0;
-    $dataProvavel = $_POST['dataProvavel'] ?? null;
-    $diariasEnfermaria = $_POST['enfermaria'] ?? 0;
-    $diariasApartamento = $_POST['apartamento'] ?? 0;
-    $diariasUTI = $_POST['utiAdulto'] ?? 0;
-    $anestesias = isset($_POST['anestesia']) ? implode(",", $_POST['anestesia']) : null;
-    $anestesiaOutros = $_POST['anestesiaOutros'] ?? null;
-    $observacoes = $_POST['observacoes'] ?? '';
-    $urgenteImediato = $_POST['urgenteImediato'] ?? 0;
-
-
-    $query = "INSERT INTO orcamentos (
-        solicitante, nome_solicitante, telefone, email, canal_contato, tipo_orcamento, convenio,
-        nome_paciente, data_nascimento, cidade, comorbidades, descricao_comorbidades,
-        resumo_procedimento, detalhes_procedimento, tempo_cirurgia, data_provavel,
-        diarias_enfermaria, diarias_apartamento, diarias_uti, anestesia_raqui, anestesia_sma,
-        anestesia_peridural, anestesia_sedacao, anestesia_externo, anestesia_bloqueio,
-        anestesia_local, anestesia_outros, observacoes, arquivo_pdf, urgencia
-    ) VALUES (
-        :solicitante, :nome_solicitante, :telefone, :email, :canal_contato, :tipo_orcamento, :convenio,
-        :nome_paciente, :data_nascimento, :cidade, :comorbidades, :descricao_comorbidades,
-        :resumo_procedimento, :detalhes_procedimento, :tempo_cirurgia, :data_provavel,
-        :diarias_enfermaria, :diarias_apartamento, :diarias_uti, :anestesia_raqui, :anestesia_sma,
-        :anestesia_peridural, :anestesia_sedacao, :anestesia_externo, :anestesia_bloqueio,
-        :anestesia_local, :anestesia_outros, :observacoes, :arquivo_pdf, :urgencia
-    )";
-
-
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([
-        ':solicitante' => $formulario,
-        ':nome_solicitante' => "$nomeSolicitante $sobrenome",
-        ':telefone' => $telefone,
-        ':email' => $email,
-        ':canal_contato' => $canalContato,
-        ':tipo_orcamento' => $tipoOrcamento,
-        ':convenio' => $convenio,
-        ':nome_paciente' => $nomePaciente,
-        ':data_nascimento' => $dataNascimento,
-        ':cidade' => $cidade,
-        ':comorbidades' => $comorbidades,
-        ':descricao_comorbidades' => $descricaoComorbidades,
-        ':resumo_procedimento' => $descricaoSumaria,
-        ':detalhes_procedimento' => $descricaoDetalhada,
-        ':tempo_cirurgia' => $tempoCirurgia,
-        ':data_provavel' => $dataProvavel,
-        ':diarias_enfermaria' => $diariasEnfermaria,
-        ':diarias_apartamento' => $diariasApartamento,
-        ':diarias_uti' => $diariasUTI,
-        ':anestesia_raqui' => strpos($anestesias, 'raqui') !== false ? 1 : 0,
-        ':anestesia_sma' => strpos($anestesias, 'sma') !== false ? 1 : 0,
-        ':anestesia_peridural' => strpos($anestesias, 'peridural') !== false ? 1 : 0,
-        ':anestesia_sedacao' => strpos($anestesias, 'sedacao') !== false ? 1 : 0,
-        ':anestesia_externo' => strpos($anestesias, 'externo') !== false ? 1 : 0,
-        ':anestesia_bloqueio' => strpos($anestesias, 'bloqueio') !== false ? 1 : 0,
-        ':anestesia_local' => strpos($anestesias, 'local') !== false ? 1 : 0,
-        ':anestesia_outros' => $anestesiaOutros,
-        ':observacoes' => $observacoes,
-        ':arquivo_pdf' => $arquivoPDF,
-        ':urgencia' => $urgenteImediato
-    ]);
-
-    $stmt = $pdo->prepare("INSERT INTO orcamentos 
-        (id_solicitacao, nome_solicitante, telefone, email, tipo_orcamento, valor_total, usuarios_vinculados, data_criacao) 
-        VALUES (:id_solicitacao, :nome_solicitante, :telefone, :email, :tipo_orcamento, :valor_total, :usuarios_vinculados, :data_criacao)
-    ");
-
-    if ($stmt->execute($dados_orcamento)) {
-        echo "Orçamento criado com sucesso!";
-        exit;
-    } else {
-        echo "Erro ao criar orçamento.";
-    }
+    
 
     echo "Formulário enviado com sucesso!";
 
@@ -136,7 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $convenioAtual = $solicitacao['convenio'] ;
 $solicitacao_id = $solicitacao['codigo_solicitacao'];
 $contatoAtual = $solicitacao['canal_contato'];
-
+$cirurgiaoDefinido = $solicitacao['cirurgiao'];
+$comorbidades = $solicitacao['comorbidades'];
+$tipoOrc = $solicitacao['tipo_orcamento'];
+$urgencia = $solicitacao['urgencia'];
 
   
 ?>
@@ -165,6 +83,10 @@ $contatoAtual = $solicitacao['canal_contato'];
             display: none;
         }
 
+        .disabled {
+            color: gray; pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
@@ -179,19 +101,19 @@ $contatoAtual = $solicitacao['canal_contato'];
                     <h1>Informações do Solicitante</h1> <br>
 
                     <label for="formulario">Solicitante</label>
-                    <input type="text" id="formulario" name="formulario">
+                    <input type="text" id="formulario" name="formulario" value="<?php echo $solicitacao['solicitante']; ?>">
+
 
                     <label for="nome">Nome do Solicitante</label>
-                    <input type="text" id="nome" name="nome">
+                    <input type="text" id="nome" name="nome" value="<?php echo $solicitacao['nome_solicitante']; ?>">
 
-                    <label for="sobrenome">Sobrenome</label>
-                    <input type="text" id="sobrenome" name="sobrenome">
+
                     
                     <label for="telefone">Telefone</label>
-                    <input type="tel" id="telefone" name="telefone">
-                    
+                    <input type="tel" id="telefone" name="telefone" value="<?php echo $solicitacao['telefone']; ?>">
+                     
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email">
+                    <input type="email" id="email" name="email" value="<?php echo $solicitacao['email']; ?>">
                     
                     <label for="contato">Canal de Preferência para Contato</label>
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
@@ -204,61 +126,77 @@ $contatoAtual = $solicitacao['canal_contato'];
 
                 </div>
 
+                <br><br><br><br>
+
                 <div>
                     <h1>Informações do Paciente</h1> <br>
 
                     <label for="nomePaciente">Nome do Paciente</label>
-                    <input type="text" id="nomePaciente" name="nomePaciente">
+                    <input type="text" id="nomePaciente" name="nomePaciente" value="<?php echo $solicitacao['nome_paciente']; ?>">
 
                     <label for="dataNasc">Data de Nascimento</label>
-                    <input type="date" id="dataNasc" name="dataNasc">
+                    <input type="date" id="dataNasc" name="dataNasc" value="<?php echo $solicitacao['data_nascimento']; ?>">
 
                     <label for="cidade">Cidade</label>
-                    <input type="text" id="cidade" name="cidade">
+                    <input type="text" id="cidade" name="cidade" value="<?php echo $solicitacao['cidade']; ?>">
 
                     <label for="comorbidades">Paciente tem Comorbidades?</label>
-                    <input type="text" id="cidade" name="cidade" disabled>
+                    <select id="comorbidades" name="comorbidades" onchange='toggleComorbidade()' disabled>
+                        <option value="nao" <?php echo $comorbidades === "nao" ? "selected" : ""; ?>>Não</option>
+                        <option value="sim" <?php echo $comorbidades === "sim" ? "selected" : ""; ?>>Sim</option>
+                    </select> 
+                    <button type="button" id="alterarComorbidade" onclick="alterar('comorbidades')">Alterar</button>
+
                     
-                    <label for="descComorbidades">Descrição das Comorbidades</claslabel>
-                    <textarea id="descComorbidades" name="descComorbidades" disabled></textarea>
+                    <div class="hidden" id="comorbidade">
+
+                    <label for="descComorbidades">Descrição das Comorbidades</label>
+                    <textarea id="descComorbidades" name="descComorbidades" disabled><?php echo $solicitacao['descricao_comorbidades']; ?></textarea>
+
+                    </div>
 
                 </div>
+
+                <br><br><br><br>
 
                 <div>
                     <h1>Informações do Cirurgião</h1> <br>
 
-                    <label for="cirurgiaoDefinido">Tem cirurgião definido?</label>
-                </select>
-                    <select id="cirurgiaoDefinido" name="cirurgiaoDefinido" onchange="toggleCirurgiao()">
-                    <option value="">Selecione...</option>
-                    <option value="nao">Não</option>
-                    <option value="sim">Sim</option>
-                </select>        
+                    <label for="cirurgiaoDefinido">Tem cirurgião definido?</label>                    
+                    <select id="cirurgiaoDefinido" name="cirurgiaoDefinido" onchange="toggleCirurgiao()" disabled>
+                    <option value="nao" <?php echo $cirurgiaoDefinido === "nao" ? "selected" : ""; ?>>Não</option>
+                    <option value="sim" <?php echo $cirurgiaoDefinido === "sim" ? "selected" : ""; ?>>Sim</option>
+                </select>    
+                <button type="button" id="alterarCirurgiao" onclick="alterar('cirurgiaoDefinido')">Alterar</button>    
 
                 <div class="hidden" id="dadosCirurgiao">
                     
                     <h3>Dados do Cirurgião</h3>
                     <label for="nome">Nome Completo</label>
-                    <input type="text" id="nome" name="nome">
+                    <input type="text" id="nome" name="nome" value="<?php echo $solicitacao['nome_cirurgiao']; ?>">
                     
                     <label for="telefoneCirurgiao">Telefone</label>
-                    <input type="tel" id="telefone" name="telefone">
+                    <input type="tel" id="telefone" name="telefone" value="<?php echo $solicitacao['telefone_cirurgiao']; ?>">
                     
                     <label for="emailCirurgiao">Email</label>
-                    <input type="email" id="email" name="email">
+                    <input type="email" id="email" name="email" value="<?php echo $solicitacao['email_cirurgiao']; ?>">
                     
                     <label for="crmCirurgiao">CRM</label>
-                    <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
+                    <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao" value="<?php echo $solicitacao['crm_cirurgiao']; ?>">   
+
                 </div>
+
+                <br><br><br><br>
 
                 <div>
                     <h3>Informações do Procedimento</h3>
 
                     <label for="tipoOrcamento">Tipo de Orçamento</label>
-                    <select id="tipoOrcamento" name="tipoOrcamento">
-                        <option value="cirurgia">Cirurgia</option>
-                        <option value="parto">Parto e Maternidade</option>
+                    <select id="tipoOrcamento" name="tipoOrcamento" disabled>
+                        <option value="cirurgia" <?php echo $tipoOrc === "cirurgia" ? "selected" : ""; ?>>Cirurgia</option>
+                        <option value="parto" <?php echo $tipoOrc === "parto" ? "selected" : ""; ?>>Parto e Maternidade</option>
                     </select>
+                    <button type="button" id="alterarTipo" onclick="alterar('tipoOrcamento')">Alterar</button>
                     
 
                     <label for="convenio">Convênio</label>
@@ -273,27 +211,26 @@ $contatoAtual = $solicitacao['canal_contato'];
                     </div>
 
                     <label for="descSumaria">Descrição Sumária do Procedimento</label>
-                    <textarea id="descSumaria" name="descSumaria"></textarea>
+                    <textarea id="descSumaria" name="descSumaria"><?php echo $solicitacao['resumo_procedimento']; ?></textarea>
 
                     <label for="descDetalhada">Descrição Detalhada do Procedimento</label>
-                    <textarea id="descDetalhada" name="descDetalhada"></textarea>
+                    <textarea id="descDetalhada" name="descDetalhada"><?php echo $solicitacao['detalhes_procedimento']; ?></textarea>
 
                     <label for="tempoCirurgico">Tempo Cirúrgico Previsto (em horas)</label>
-                    <input type="number" id="tempoCirurgico" name="tempoCirurgico" min="0" step="0.5">
+                    <input type="number" id="tempoCirurgico" name="tempoCirurgico" min="0" step="0.5" value="<?php echo $solicitacao['tempo_cirurgia']; ?>">
 
                     <label for="dataProvavel">Data Provável</label>
-                    <input type="date" id="dataProvavel" name="dataProvavel">
+                    <input type="date" id="dataProvavel" name="dataProvavel" value="<?php echo $solicitacao['data_provavel']; ?>">
 
                     <label for="urgenteImediato">Urgente/Imediato?</label>
-                    <select id="urgenteImediato" name="urgenteImediato">
-                        <option value="">Selecione...</option>
-                        <option value="1">Sim</option>
-                        <option value="0">Não</option>
+                    <select id="urgenteImediato" name="urgenteImediato" disabled>
+                        <option value= 0 <?php echo $urgencia === 0 ? "selected" : ""; ?>>Não</option>
+                        <option value= 1 <?php echo $urgencia === 1 ? "selected" : ""; ?>>Sim</option>
                     </select>
 
                     <div>
                         <label for="observacoes">Observações Adicionais</label>
-                        <textarea id="observacoes" name="observacoes"></textarea>
+                        <textarea id="observacoes" name="observacoes"><?php echo $solicitacao['observacoes']; ?></textarea>
                     </div>
                 </div>
 
@@ -311,6 +248,8 @@ $contatoAtual = $solicitacao['canal_contato'];
 
 
 
+            <br><br><br><br>
+            <br><br><br><br>
 
 
 
@@ -328,6 +267,8 @@ $contatoAtual = $solicitacao['canal_contato'];
                         </option>
                     <?php endforeach; ?>
                 </select>
+
+                <br><br><br><br>
 
                 <div>
                     <label for="diarias_enfermaria">Enfermaria</label>
@@ -368,8 +309,10 @@ $contatoAtual = $solicitacao['canal_contato'];
                     <input type="text" id="total_uti" value="0.00" disabled>
                 </div>
 
+                <br><br><br><br>
+
                 <div>
-                    <h3>Anestesia</h3>
+                    <h3>Anestesias</h3>
 
                     <!-- Raqui -->
 
@@ -434,6 +377,27 @@ $contatoAtual = $solicitacao['canal_contato'];
                         Local (R$ <?php echo number_format($precos['anestesia_local'], 2, ',', '.'); ?>)
                     </label><br>
 
+                    <!-- Outros -->
+                    
+                    <label for="anestesia_outros">
+                        <input type="checkbox" id="anestesia_outros" name="anestesia[]" value="outros" 
+                            onclick="toggleOutrosInputs(this)"
+                            <?php echo !empty($solicitacao['anestesia_outros']) ? 'checked' : ''; ?>
+                            disabled>
+                        Outros
+                    </label>
+                    <div style="display: flex; flex-direction: row;">
+                        <input type="text" id="texto_outros" name="anestesia_outros_nome" placeholder="Informe as anestesias"
+                            style="width: 80%; margin-left: 10px; <?php echo !empty($solicitacao['anestesia_outros']) ? '' : 'display: none;'; ?>" 
+                            value="<?php echo !empty($solicitacao['anestesia_outros']) ? htmlspecialchars($solicitacao['anestesia_outros']) : ''; ?>"
+                            disabled>
+                        <input type="number" id="valor_outros" name="anestesia_outros_valor" placeholder="Valor (R$)"
+                            style="width: 10%; margin-left: 10px; <?php echo !empty($solicitacao['anestesia_outros']) ? '' : 'display: none;'; ?>"
+                            disabled>
+                    </div>
+
+                    <br>
+
                     <button type="button" onclick="alterar('anestesia')">Alterar Anestesias</button>
                 </div>
 
@@ -456,10 +420,51 @@ $contatoAtual = $solicitacao['canal_contato'];
                     </div>
                 </div>
 
-                <label>Valor Total:
-                    <input type="number" name="valor_total" step="0.01" disabled>
-                </label>
+
+                <br><br><br><br>
+
+
+
+                <div class="container mt-5">
+                    <h1>Procedimentos</h1>
+                    
+                    <button type="button" id="adicionarProcedimentoBtn" class="btn btn-primary mb-3">Adicionar Procedimento</button>
+
+                    <div id="listaProcedimentos" class="mb-3">
+                    </div>
+
+                    <div class="modal fade" id="popupProcedimentos" tabindex="-1" aria-labelledby="popupProcedimentosLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="popupProcedimentosLabel">Selecione um Procedimento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <select id="procedimentoSelect" class="form-select">
+                                        <option value="">Selecione...</option>
+                                        <?php foreach ($procedimentos as $procedimento): ?>
+                                            <option value="<?= $procedimento['id'] ?>" data-nome="<?= $procedimento['nome_procedimento'] ?>">
+                                                <?= $procedimento['nome_procedimento'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button type="button" id="adicionarProcedimento" class="btn btn-primary">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
+
+
+
+
+
+            <br><br><br><br>
 
             <fieldset>
                 <legend>Vincular Usuários</legend>
@@ -472,7 +477,19 @@ $contatoAtual = $solicitacao['canal_contato'];
         </form>
 
     </main>
-    <script>
+
+
+
+
+    <script> 
+
+            if ("<?php echo $comorbidades; ?>" === "sim") {
+                toggleComorbidade();
+            }
+
+            if ("<?php echo $cirurgiaoDefinido; ?>" === "sim") {
+                toggleCirurgiao();
+            }
 
             function confirmarMudancaTabela(select) {
                 const modal = new bootstrap.Modal(document.getElementById('modalConfirmarMudanca'));
@@ -506,7 +523,6 @@ $contatoAtual = $solicitacao['canal_contato'];
                         if (dados.error) {
                             console.error(dados.error);
                         } else {
-                            // Atualizar outros campos
                             document.getElementById('valor_enfermaria').value = dados.enfermaria_diaria;
                             document.getElementById('valor_apartamento').value = dados.apartamento_diaria;
                             document.getElementById('valor_uti').value = dados.uti_adulto_diaria;
@@ -515,7 +531,6 @@ $contatoAtual = $solicitacao['canal_contato'];
                             atualizarTotal('apartamento');
                             atualizarTotal('uti');
 
-                            // Atualizar os valores das anestesias
                             const anestesias = [
                                 { id: 'anestesia_raqui', preco: dados.anestesia_raqui },
                                 { id: 'anestesia_sma', preco: dados.anestesia_sma },
@@ -566,16 +581,49 @@ $contatoAtual = $solicitacao['canal_contato'];
             }
         }
 
-        function alterar(lista) {
-            if (lista == 'anestesia') {
-                const anestesias = document.querySelectorAll('.anestesia');
+        function toggleComorbidade() {
+            const comorbidades = document.getElementById("comorbidades").value;
+            const descricaoComorbidade = document.getElementById("comorbidade");
+        
+            if (comorbidades === "sim") {
+                descricaoComorbidade.classList.remove("hidden");
+            } else {
+                descricaoComorbidade.classList.add("hidden");
+            }
+        }
 
-                anestesias.forEach(function(anestesia) {
+        function toggleOutrosInputs(checkbox) {
+            const textoOutros = document.getElementById('texto_outros');
+            const valorOutros = document.getElementById('valor_outros');
+            if (checkbox.checked) {
+                textoOutros.style.display = 'inline-block';
+                valorOutros.style.display = 'inline-block';
+            } else {
+                textoOutros.style.display = 'none';
+                valorOutros.style.display = 'none';
+                textoOutros.value = '';
+                valorOutros.value = '';
+            }
+        }
+
+        function alterar(lista) {
+            if (lista === 'anestesia') {
+                const anestesias = document.querySelectorAll('.anestesia');
+                const outrosCheckbox = document.getElementById('anestesia_outros');
+                const textoOutros = document.getElementById('texto_outros');
+                const valorOutros = document.getElementById('valor_outros');
+
+                anestesias.forEach(function (anestesia) {
                     anestesia.disabled = !anestesia.disabled;
-                    if (!anestesia.disabled) {
-                        anestesia.focus();
-                    }
                 });
+
+                outrosCheckbox.disabled = !outrosCheckbox.disabled;
+                textoOutros.disabled = !textoOutros.disabled;
+                valorOutros.disabled = !valorOutros.disabled;
+
+                if (!textoOutros.disabled) {
+                    textoOutros.focus();
+                }
             } else {
                 const selectField = document.getElementById(lista);
                 selectField.disabled = !selectField.disabled;
@@ -585,6 +633,48 @@ $contatoAtual = $solicitacao['canal_contato'];
             }
         }
 
-    </script>
+        
+        
+        const procedimentosSelecionados = [];
+
+        const adicionarProcedimentoBtn = document.getElementById('adicionarProcedimentoBtn');
+        
+        adicionarProcedimentoBtn.addEventListener('click', function() {
+            const modal = new bootstrap.Modal(document.getElementById('popupProcedimentos'));
+            modal.show();
+        });
+
+        document.getElementById('adicionarProcedimento').addEventListener('click', function() {
+            const select = document.getElementById('procedimentoSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            const procedimentoId = selectedOption.value;
+            const procedimentoNome = selectedOption.dataset.nome;
+
+            if (procedimentoId && !procedimentosSelecionados.includes(procedimentoId)) {
+                procedimentosSelecionados.push(procedimentoId);
+
+                const itemLista = document.createElement('div');
+                itemLista.classList.add('procedimentoItem', 'mb-2');
+                itemLista.innerHTML = `
+                    <span>${procedimentoNome}</span>
+                    <input type="number" name="valor_${procedimentoId}" placeholder="Valor" class="form-control" required>
+                `;
+                
+                const option = document.querySelector(`option[value="${procedimentoId}"]`);
+                option.classList.add('disabled');
+                option.disabled = true;
+
+                document.getElementById('listaProcedimentos').appendChild(itemLista);
+            }
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('popupProcedimentos'));
+            modal.hide();
+        });
+        
+        
+        
+        
+        
+        </script>
 </body>
 </html>

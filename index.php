@@ -130,8 +130,8 @@
             <label for="urgenteImediato">Urgente/Imediato?</label>
             <select id="urgenteImediato" name="urgenteImediato">
                 <option value="">Selecione...</option>
-                <option value="1">Sim</option>
-                <option value="0">Não</option>
+                <option value="nao">Não</option>
+                <option value="sim">Sim</option>
             </select>
         </div>
 
@@ -324,10 +324,10 @@
 
 </form>
 
-    <a href="admin/login.php">Painel</a>
 </div>
   
 
+<a href="admin/login.php">Painel</a>
   
 
   
