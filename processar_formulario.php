@@ -3,6 +3,8 @@ require 'conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+        $protocolo = 'PRT' . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
         $formulario = $_POST['formulario'] ?? '';
         $nomeSolicitante = $_POST['nome'] ?? '';
         $sobrenome = $_POST['sobrenome'] ?? '';
@@ -12,18 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tipoOrcamento = $_POST['tipoOrcamento'] ?? '';
         $convenio = $_POST['convenio'] ?? '';
         $nomePaciente = $_POST['nomePaciente'] ?? '';
-        $dataNascimento = $_POST['dataNasc'] ?? null;
+        $dataNascimento = $_POST['dataNasc'] ?? '';
         $cidade = $_POST['cidade'] ?? '';
         $comorbidades = $_POST['comorbidades'] ?? 'nao';
         $descricaoComorbidades = $_POST['descComorbidades'] ?? null;
         $descricaoSumaria = $_POST['descSumaria'] ?? '';
         $descricaoDetalhada = $_POST['descDetalhada'] ?? '';
         $tempoCirurgia = $_POST['tempoCirurgico'] ?? 0;
-        $dataProvavel = $_POST['dataProvavel'] ?? null;
+        $dataProvavel = $_POST['dataProvavel'] ?? 'Não definida';
         $diariasEnfermaria = $_POST['enfermaria'] ?? 0;
         $diariasApartamento = $_POST['apartamento'] ?? 0;
         $diariasUTI = $_POST['utiAdulto'] ?? 0;
-        $anestesias = isset($_POST['anestesia']) ? implode(",", $_POST['anestesia']) : null;
+        $anestesias = isset($_POST['anestesia']) ? implode(",", $_POST['anestesia']) : '';
         $anestesiaOutros = $_POST['anestesiaOutros'] ?? null;
         $observacoes = $_POST['observacoes'] ?? '';
         $urgenteImediato = $_POST['urgenteImediato'] ?? 0;
@@ -46,14 +48,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $query = "INSERT INTO solicitacoes_orcamentos (
-            solicitante, nome_solicitante, telefone, email, canal_contato, tipo_orcamento, convenio,
+            solicitante, protocolo, nome_solicitante, telefone, email, canal_contato, tipo_orcamento, convenio,
             nome_paciente, data_nascimento, cidade, comorbidades, descricao_comorbidades,
             resumo_procedimento, detalhes_procedimento, tempo_cirurgia, data_provavel,
             diarias_enfermaria, diarias_apartamento, diarias_uti, anestesia_raqui, anestesia_sma,
             anestesia_peridural, anestesia_sedacao, anestesia_externo, anestesia_bloqueio,
             anestesia_local, anestesia_outros, observacoes, arquivo_pdf, urgencia
         ) VALUES (
-            :solicitante, :nome_solicitante, :telefone, :email, :canal_contato, :tipo_orcamento, :convenio,
+            :solicitante, :protocolo, :nome_solicitante, :telefone, :email, :canal_contato, :tipo_orcamento, :convenio,
             :nome_paciente, :data_nascimento, :cidade, :comorbidades, :descricao_comorbidades,
             :resumo_procedimento, :detalhes_procedimento, :tempo_cirurgia, :data_provavel,
             :diarias_enfermaria, :diarias_apartamento, :diarias_uti, :anestesia_raqui, :anestesia_sma,
@@ -65,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':solicitante' => $formulario,
+            ':protocolo' => $protocolo,
             ':nome_solicitante' => "$nomeSolicitante $sobrenome",
             ':telefone' => $telefone,
             ':email' => $email,
@@ -99,7 +102,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Formulário enviado com sucesso!";
     
 }
-
-header("Location: index.php");
 
 ?>

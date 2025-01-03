@@ -63,7 +63,7 @@
             <input type="text" id="nomePaciente" name="nomePaciente">
 
             <label for="dataNasc">Data de Nascimento</label>
-            <input type="date" id="dataNasc" name="dataNasc">
+            <input type="date" id="dataNasc" name="dataNasc" required>
 
             <label for="cidade">Cidade</label>
             <input type="text" id="cidade" name="cidade">
@@ -103,7 +103,7 @@
                 <label for="emailCirurgiao">Email</label>
                 <input type="email" id="email" name="email">
                 
-                <label for="crmCirurgiao">RA</label>
+                <label for="crmCirurgiao">CRM</label>
                 <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
 
             </div>       
@@ -239,7 +239,7 @@
             <input type="text" id="nomePaciente" name="nomePaciente">
 
             <label for="dataNasc">Data de Nascimento</label>
-            <input type="date" id="dataNasc" name="dataNasc">
+            <input type="date" id="dataNasc" name="dataNasc" required>
 
             <label for="cidade">Cidade</label>
             <input type="text" id="cidade" name="cidade">
@@ -279,7 +279,7 @@
                 <label for="emailCirurgiao">Email</label>
                 <input type="email" id="email" name="email">
                 
-                <label for="crmCirurgiao">RA</label>
+                <label for="crmCirurgiao">CRM</label>
                 <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
 
             </div>       
@@ -324,6 +324,7 @@
 
 </form>
 
+    <a href="admin/login.php">Painel</a>
 </div>
   
 
