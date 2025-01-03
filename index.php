@@ -173,8 +173,8 @@
 
         <div class="upload">
             <h2>Envio da Solicitação</h2>
-            <label>Arquivo</label>
-            <input type="file" name="arquivo_solicitacao"><br><br>
+            <label for="arquivo_pdf">Solicitação (PDF):</label>
+            <input type="file" id="arquivo_pdf" name="arquivo_solicitacao" accept=".pdf" required><br><br>
         </div>
       
 

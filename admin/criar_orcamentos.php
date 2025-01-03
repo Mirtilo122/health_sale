@@ -20,12 +20,18 @@ if (!$solicitacao) {
     exit;
 }
 
+if ($solicitacao && !empty($solicitacao['arquivo_pdf'])) {
+    $arquivoPdf = $solicitacao['arquivo_pdf'];
+    $arquivoUrl = '../uploads/' . basename($arquivoPdf); 
+}
+
 $stmti = $pdo->query("SELECT * FROM tabela_de_precos ORDER BY id DESC");
 $tabelas_precos = $stmti->fetchAll(PDO::FETCH_ASSOC);
 
 $preco_id = $tabelas_precos[0]['id'];
 
-$sql_precos = "SELECT enfermaria_diaria, apartamento_diaria, uti_adulto_diaria FROM tabela_de_precos WHERE id = :preco_id";
+$sql_precos = "SELECT enfermaria_diaria, apartamento_diaria, uti_adulto_diaria, anestesia_raqui, anestesia_sma, anestesia_peridural, anestesia_sedacao, 
+                 anestesia_externo, anestesia_bloqueio, anestesia_local FROM tabela_de_precos WHERE id = :preco_id";
 $stmt_precos = $pdo->prepare($sql_precos);
 $stmt_precos->bindParam(':preco_id', $preco_id, PDO::PARAM_INT);
 $stmt_precos->execute();
@@ -284,15 +290,36 @@ $contatoAtual = $solicitacao['canal_contato'];
                         <option value="1">Sim</option>
                         <option value="0">Não</option>
                     </select>
+
+                    <div>
+                        <label for="observacoes">Observações Adicionais</label>
+                        <textarea id="observacoes" name="observacoes"></textarea>
+                    </div>
                 </div>
 
+                <div>
+                    <h1>Solicitação em PDF</h1>
+
+                    <?php if (isset($arquivoUrl)): ?>
+                        <a href="<?= $arquivoUrl ?>" target="_blank" class="btn btn-info">Visualizar Solicitação</a>
+                    <?php else: ?>
+                        <p>Arquivo não disponível.</p>
+                    <?php endif; ?>
+                </div>
             </fieldset>
 
 
+
+
+
+
+
+
+
             <fieldset>
+
                 <legend>Definir Preços</legend>
 
-                
                 <label for="tabela_preco">Tabela de Preços:</label>
                 <select id="tabela_preco" name="tabela_preco" onchange="confirmarMudancaTabela(this)">
                     <?php foreach ($tabelas_precos as $tabela): ?>
@@ -301,7 +328,6 @@ $contatoAtual = $solicitacao['canal_contato'];
                         </option>
                     <?php endforeach; ?>
                 </select>
-                
 
                 <div>
                     <label for="diarias_enfermaria">Enfermaria</label>
@@ -342,6 +368,75 @@ $contatoAtual = $solicitacao['canal_contato'];
                     <input type="text" id="total_uti" value="0.00" disabled>
                 </div>
 
+                <div>
+                    <h3>Anestesia</h3>
+
+                    <!-- Raqui -->
+
+                    <label for="anestesia_raqui">
+                        <input type="checkbox" id="anestesia_raqui" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_raqui']) && $solicitacao['anestesia_raqui'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        Raqui (R$ <?php echo number_format($precos['anestesia_raqui'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <!-- SMA -->
+
+                    <label for="anestesia_sma">
+                        <input type="checkbox" id="anestesia_sma" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_sma']) && $solicitacao['anestesia_sma'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        SMA (R$ <?php echo number_format($precos['anestesia_sma'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <!-- Peridural -->
+
+                    <label for="anestesia_peridural">
+                        <input type="checkbox" id="anestesia_peridural" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_peridural']) && $solicitacao['anestesia_peridural'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        Peridural (R$ <?php echo number_format($precos['anestesia_peridural'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <!-- Sedação -->
+
+                    <label for="anestesia_sedacao">
+                        <input type="checkbox" id="anestesia_sedacao" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_sedacao']) && $solicitacao['anestesia_sedacao'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        Sedação (R$ <?php echo number_format($precos['anestesia_sedacao'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <!-- Externo -->
+
+                    <label for="anestesia_externo">
+                        <input type="checkbox" id="anestesia_externo" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_externo']) && $solicitacao['anestesia_externo'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        Externo (R$ <?php echo number_format($precos['anestesia_externo'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <!-- Bloqueio -->
+
+                    <label for="anestesia_bloqueio">
+                        <input type="checkbox" id="anestesia_bloqueio" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_bloqueio']) && $solicitacao['anestesia_bloqueio'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        Bloqueio (R$ <?php echo number_format($precos['anestesia_bloqueio'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <!-- Local -->
+                    
+                    <label for="anestesia_local">
+                        <input type="checkbox" id="anestesia_local" name="anestesia[]" value="raqui" class="anestesia" 
+                            <?php echo isset($solicitacao['anestesia_local']) && $solicitacao['anestesia_local'] > 0 ? 'checked' : ''; ?> 
+                            disabled>
+                        Local (R$ <?php echo number_format($precos['anestesia_local'], 2, ',', '.'); ?>)
+                    </label><br>
+
+                    <button type="button" onclick="alterar('anestesia')">Alterar Anestesias</button>
+                </div>
+
                 <div class="modal" tabindex="-1" id="modalConfirmarMudanca">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -350,10 +445,11 @@ $contatoAtual = $solicitacao['canal_contato'];
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Você tem certeza que deseja mudar a tabela de preços? Todos os valores serão atualizados de acordo com a nova tabela selecionada.</p>
+                                <p>Você tem certeza que deseja mudar a tabela de preços?</p>
+                                <p>Todos os valores serão atualizados de acordo com a nova tabela selecionada.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="cancelarBtn">Cancelar</button>
                                 <button type="button" class="btn btn-primary" id="continuarBtn">Continuar</button>
                             </div>
                         </div>
@@ -361,7 +457,7 @@ $contatoAtual = $solicitacao['canal_contato'];
                 </div>
 
                 <label>Valor Total:
-                    <input type="number" name="valor_total" step="0.01" required>
+                    <input type="number" name="valor_total" step="0.01" disabled>
                 </label>
             </fieldset>
 
@@ -378,11 +474,31 @@ $contatoAtual = $solicitacao['canal_contato'];
     </main>
     <script>
 
-        document.getElementById('tabela_preco').addEventListener('change', function () {
-                var preco_id = this.value;
+            function confirmarMudancaTabela(select) {
+                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarMudanca'));
+                const continuarBtn = document.getElementById('continuarBtn');
+                const cancelarBtn = document.getElementById('cancelarBtn');
+                
+                modal.show();
 
+                const tabelaAnterior = select.value;
+                const tabelaId = select.value;
+
+                continuarBtn.onclick = function() {
+                    modal.hide();
+                    atualizarTabela(tabelaId);
+                };
+
+                cancelarBtn.onclick = function() {
+                    modal.hide();
+                    select.value = tabelaAnterior;
+                };
+            }
+
+
+            function atualizarTabela(tabelaId) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'ajax_preco.php?preco_id=' + preco_id, true);
+                xhr.open('GET', 'ajax_preco.php?preco_id=' + tabelaId, true);
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         var dados = JSON.parse(xhr.responseText);
@@ -390,48 +506,54 @@ $contatoAtual = $solicitacao['canal_contato'];
                         if (dados.error) {
                             console.error(dados.error);
                         } else {
+                            // Atualizar outros campos
                             document.getElementById('valor_enfermaria').value = dados.enfermaria_diaria;
                             document.getElementById('valor_apartamento').value = dados.apartamento_diaria;
                             document.getElementById('valor_uti').value = dados.uti_adulto_diaria;
+
+                            atualizarTotal('enfermaria');
+                            atualizarTotal('apartamento');
+                            atualizarTotal('uti');
+
+                            // Atualizar os valores das anestesias
+                            const anestesias = [
+                                { id: 'anestesia_raqui', preco: dados.anestesia_raqui },
+                                { id: 'anestesia_sma', preco: dados.anestesia_sma },
+                                { id: 'anestesia_peridural', preco: dados.anestesia_peridural },
+                                { id: 'anestesia_sedacao', preco: dados.anestesia_sedacao },
+                                { id: 'anestesia_externo', preco: dados.anestesia_externo },
+                                { id: 'anestesia_bloqueio', preco: dados.anestesia_bloqueio },
+                                { id: 'anestesia_local', preco: dados.anestesia_local }
+                            ];
+
+                            anestesias.forEach(anestesia => {
+                                const label = document.querySelector(`label[for='${anestesia.id}']`);
+                                if (label) {
+                                    label.innerHTML = label.innerHTML.replace(
+                                        /\(R\$ .*?\)/, 
+                                        `(R$ ${parseFloat(anestesia.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`
+                                    );
+                                }
+                            });
                         }
                     }
                 };
                 xhr.send();
-            });
-
-
-
-            function confirmarMudancaTabela(select) {
-                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarMudanca'));
-                const continuarBtn = document.getElementById('continuarBtn');
-                
-                modal.show();
-
-                const tabelaAnterior = select.options[select.selectedIndex].getAttribute('data-prev-value');
-                
-                continuarBtn.onclick = function() {
-                    modal.hide();
-                    atualizarTabela(select.value);
-                };
-
-                select.setAttribute('data-prev-value', select.value);
             }
 
-            function atualizarTabela(tabelaId) {
-        
-
-                const preco_id = tabelaId;
-                fetch(`/get_preco.php?id=${preco_id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById("valor_enfermaria").value = data.enfermaria_diaria;
-                        document.getElementById("valor_apartamento").value = data.apartamento_diaria;
-                        document.getElementById("valor_uti").value = data.uti_adulto_diaria;
-                        atualizarTotal('enfermaria');
-                        atualizarTotal('apartamento');
-                        atualizarTotal('uti');
-                    });
+            function atualizarTotal(tipo) {
+                let diarias = parseFloat(document.getElementById('diarias_' + tipo).value) || 0;
+                let valorDiaria = parseFloat(document.getElementById('valor_' + tipo).value) || 0;
+                
+                let total = diarias * valorDiaria;
+                
+                document.getElementById('total_' + tipo).value = total.toFixed(2);
             }
+
+            atualizarTotal('enfermaria');
+            atualizarTotal('apartamento');
+            atualizarTotal('uti');
+
 
         function toggleCirurgiao() {
             const cirurgiaoDefinido = document.getElementById("cirurgiaoDefinido").value;
@@ -444,34 +566,24 @@ $contatoAtual = $solicitacao['canal_contato'];
             }
         }
 
-        
-
         function alterar(lista) {
+            if (lista == 'anestesia') {
+                const anestesias = document.querySelectorAll('.anestesia');
 
-            const selectField = document.getElementById(lista);
-            selectField.disabled = !selectField.disabled;
-            if (!selectField.disabled) {
-                selectField.focus();
+                anestesias.forEach(function(anestesia) {
+                    anestesia.disabled = !anestesia.disabled;
+                    if (!anestesia.disabled) {
+                        anestesia.focus();
+                    }
+                });
+            } else {
+                const selectField = document.getElementById(lista);
+                selectField.disabled = !selectField.disabled;
+                if (!selectField.disabled) {
+                    selectField.focus();
+                }
             }
-            
         }
-
-
-
-        function atualizarTotal(tipo) {
-
-            let diarias = parseFloat(document.getElementById('diarias_' + tipo).value) || 0;
-            let valorDiaria = parseFloat(document.getElementById('valor_' + tipo).value) || 0;
-            
-            let total = diarias * valorDiaria;
-            
-            document.getElementById('total_' + tipo).value = total.toFixed(2);
-        }
-
-        atualizarTotal('enfermaria');
-        atualizarTotal('apartamento');
-        atualizarTotal('uti');
-
 
     </script>
 </body>
