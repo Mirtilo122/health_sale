@@ -1,400 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Orçamentos - Health Sale</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Formulário de Orçamentos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f4f8;
+    }
+
+    main {
+      text-align: center;
+      background: #ffffff;
+      padding: 20px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333333;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: block;
+      margin-top: 20px;
+      color: #007bff;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div class="form-container">
+  <main>
     <h1>Formulário de Orçamentos</h1>
-
-    
-    <label for="solicitante">Quem solicita?</label>
-    <select id="solicitante" onchange="toggleFormSections()">
-      <option value="">Selecione...</option>
-      <option value="medico">Médico Cirurgião</option>
-      <option value="paciente">Representante/Paciente</option>
-    </select>
-
-    
-    <form id="formMedico" class="hidden" method="POST" action="processar_formulario.php" enctype="multipart/form-data">
-        <input type="hidden" name="formulario" value="medico">
-       
-        <div>
-            <label for="nome">Nome do Solicitante</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="sobrenome">Sobrenome</label>
-            <input type="text" id="sobrenome" name="sobrenome" required>
-            
-            <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" name="telefone" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="contato">Canal de Preferência para Contato</label>
-            <select id="contato" name="contato">
-            <option value="telefone">Telefone</option>
-            <option value="email">Email</option>
-            </select>
-
-            <label for="tipoOrcamento">Tipo de Orçamento</label>
-            <select id="tipoOrcamento" name="tipoOrcamento">
-                <option value="cirurgia">Cirurgia</option>
-                <option value="parto">Parto e Maternidade</option>
-            </select>
-            
-
-            <label for="convenio">Convênio</label>
-            <select id="convenio" name="convenio">
-                <option value="nenhum">Sem Convênio</option>
-                <option value="particular">Particular</option>
-                <option value="cartaoDesconto">Cartão Desconto</option>
-                <option value="judicial">Judicial</option>
-            </select>
-        </div>
-
-        <div>
-            <h3>Informações do Paciente</h3>
-            <label for="nomePaciente">Nome do Paciente</label>
-            <input type="text" id="nomePaciente" name="nomePaciente">
-
-            <label for="dataNasc">Data de Nascimento</label>
-            <input type="date" id="dataNasc" name="dataNasc" required>
-
-            <label for="cidade">Cidade</label>
-            <input type="text" id="cidade" name="cidade">
-
-            <label for="comorbidades">Paciente tem Comorbidades?</label>
-            <select id="comorbidades" name="comorbidades" onchange="toggleComorbidades()">
-                <option value="nao">Selecione...</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-            </select>
-
-            <div class="hidden" id="descricaoComorbidades">
-                <label for="descComorbidades">Descrever as Comorbidades</claslabel>
-                <textarea id="descComorbidades" name="descComorbidades"></textarea>
-            </div>
-        </div>
-
-        <div>
-
-            <label for="cirurgiaoDefinido">Tem cirurgião definido?</label>
-            </select>
-                <select id="cirurgiaoDefinido" name="cirurgiaoDefinido" onchange="toggleCirurgiao()">
-                <option value="">Selecione...</option>
-                <option value="nao">Não</option>
-                <option value="sim">Sim</option>
-            </select>        
-
-            <div class="hidden" id="dadosCirurgiao">
-                
-                <h3>Dados do Cirurgião</h3>
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome">
-                
-                <label for="telefoneCirurgiao">Telefone</label>
-                <input type="tel" id="telefone" name="telefone">
-                
-                <label for="emailCirurgiao">Email</label>
-                <input type="email" id="email" name="email">
-                
-                <label for="crmCirurgiao">CRM</label>
-                <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
-
-            </div>       
-            
-        </div>
-
-       
-
-        <div>
-            <h3>Informações do Procedimento</h3>
-
-            <label for="descSumaria">Descrição Sumária do Procedimento</label>
-            <textarea id="descSumaria" name="descSumaria"></textarea>
-
-            <label for="descDetalhada">Descrição Detalhada do Procedimento</label>
-            <textarea id="descDetalhada" name="descDetalhada"></textarea>
-
-            <label for="tempoCirurgico">Tempo Cirúrgico Previsto (em horas)</label>
-            <input type="number" id="tempoCirurgico" name="tempoCirurgico" min="0" step="0.5">
-
-            <label for="dataProvavel">Data Provável</label>
-            <input type="date" id="dataProvavel" name="dataProvavel">
-
-            <label for="urgenteImediato">Urgente/Imediato?</label>
-            <select id="urgenteImediato" name="urgenteImediato">
-                <option value="">Selecione...</option>
-                <option value="nao">Não</option>
-                <option value="sim">Sim</option>
-            </select>
-        </div>
-
-
-        <div>
-            <h3>Definição das Acomodações</h3>
-
-            <label for="enfermaria">Enfermaria (Quantas diárias)</label>
-            <input type="number" id="enfermaria" name="enfermaria" min="0">
-
-            <label for="apartamento">Apartamento (Quantas diárias)</label>
-            <input type="number" id="apartamento" name="apartamento" min="0">
-
-            <label for="utiAdulto">UTI Adulto (Quantas diárias)</label>
-            <input type="number" id="utiAdulto" name="utiAdulto" min="0">
-        </div>
-
-
-        <div>
-            <h3>Anestesia</h3>
-
-            <label><input type="checkbox" name="anestesia[]" value="raqui"> Raqui</label><br>
-            <label><input type="checkbox" name="anestesia[]" value="sma"> SMA</label><br>
-            <label><input type="checkbox" name="anestesia[]" value="peridural"> Peridural</label><br>
-            <label><input type="checkbox" name="anestesia[]" value="sedacao"> Sedação</label><br>
-            <label><input type="checkbox" name="anestesia[]" value="externo"> Externo</label><br>
-            <label><input type="checkbox" name="anestesia[]" value="bloqueio"> Bloqueio</label><br>
-            <label><input type="checkbox" name="anestesia[]" value="local"> Local</label><br>
-            <label>
-                <input type="checkbox" name="anestesia[]" value="outros"> Outros:
-                <input type="text" id="anestesiaOutros" name="anestesiaOutros" placeholder="Especifique">
-            </label>
-        </div>
-
-        <div>
-            <label for="observacoes">Observações Adicionais</label>
-            <textarea id="observacoes" name="observacoes"></textarea>
-        </div>
-
-        <div class="upload">
-            <h2>Envio da Solicitação</h2>
-            <label for="arquivo_pdf">Solicitação (PDF):</label>
-            <input type="file" id="arquivo_pdf" name="arquivo_solicitacao" accept=".pdf" required><br><br>
-        </div>
-      
-
-     
-        <button type="submit" name="enviarFormulario" class="submit-btn">Enviar</button>
-    </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <form id="formRepresent" class="hidden" method="POST" action="processar_formulario.php" enctype="multipart/form-data">
-        <input type="hidden" name="formulario" value="paciente">
-        <input type="hidden" name="anestesia[]" value="">
-      
-        <div>
-            <label for="nome">Nome do Solicitante</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="nome">Sobrenome</label>
-            <input type="text" id="sobrenome" name="sobrenome" required>
-            
-            <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" name="telefone" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="contato">Canal de Preferência para Contato</label>
-            <select id="contato" name="contato">
-            <option value="telefone">Telefone</option>
-            <option value="email">Email</option>
-            </select>
-
-            <label for="tipoOrcamento">Tipo de Orçamento</label>
-            <select id="tipoOrcamento" name="tipoOrcamento">
-                <option value="cirurgia">Cirurgia</option>
-                <option value="parto">Parto e Maternidade</option>
-            </select>
-            
-
-            <label for="convenio">Convênio</label>
-            <select id="convenio" name="convenio">
-                <option value="nenhum">Sem Convênio</option>
-                <option value="particular">Particular</option>
-                <option value="cartaoDesconto">Cartão Desconto</option>
-                <option value="judicial">Judicial</option>
-            </select>
-        </div>
-
-        <div>
-            <h3>Informações do Paciente</h3>
-            <label for="nomePaciente">Nome do Paciente</label>
-            <input type="text" id="nomePaciente" name="nomePaciente">
-
-            <label for="dataNasc">Data de Nascimento</label>
-            <input type="date" id="dataNasc" name="dataNasc" required>
-
-            <label for="cidade">Cidade</label>
-            <input type="text" id="cidade" name="cidade">
-
-            <label for="comorbidades">Paciente tem Comorbidades?</label>
-            <select id="comorbidadess" name="comorbidades" onchange="toggleComorbidadess()">
-                <option value="nao">Selecione...</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-            </select>
-
-            <div class="hidden" id="descricaoComorbidadess">
-                <label for="descComorbidades">Descrever as Comorbidades</claslabel>
-                <textarea id="descComorbidades" name="descComorbidades"></textarea>
-            </div>
-        </div>
-
-        <div>
-
-        <label for="cirurgiaoDefinido">Tem cirurgião definido?</label>
-            </select>
-                <select id="cirurgiaoDefinidoo" name="cirurgiaoDefinido" onchange="toggleCirurgiaoo()">
-                <option value="">Selecione...</option>
-                <option value="nao">Não</option>
-                <option value="sim">Sim</option>
-            </select>        
-
-            <div class="hidden" id="dadosCirurgiaoo">
-                
-                <h3>Dados do Cirurgião</h3>
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome">
-                
-                <label for="telefoneCirurgiao">Telefone</label>
-                <input type="tel" id="telefone" name="telefone">
-                
-                <label for="emailCirurgiao">Email</label>
-                <input type="email" id="email" name="email">
-                
-                <label for="crmCirurgiao">CRM</label>
-                <input type="crmCirurgiao" id="crmCirurgiao" name="crmCirurgiao">   
-
-            </div>       
-            
-        </div>
-
-       
-
-        <div>
-            <h3>Informações do Procedimento</h3>
-
-            <label for="descSumaria">Descrição Sumária do Procedimento</label>
-            <textarea id="descSumaria" name="descSumaria"></textarea>
-
-            <label for="dataProvavel">Data Provável</label>
-            <input type="date" id="dataProvavel" name="dataProvavel">
-
-            <label for="urgenteImediato">Urgente/Imediato?</label>
-            <select id="urgenteImediato" name="urgenteImediato">
-                <option value="">Selecione...</option>
-                <option value="1">Sim</option>
-                <option value="0">Não</option>
-            </select>
-        </div>
-
-
-        
-
-        <div>
-            <label for="observacoes">Observações Adicionais</label>
-            <textarea id="observacoes" name="observacoes"></textarea>
-        </div>
-
-        <div class="upload">
-            <h2>Envio da Solicitação</h2>
-            <label>Arquivo</label>
-            <input type="file" name="arquivo_solicitacao"><br><br>
-        </div>
-
-     
-        <button type="submit" name="enviarFormulario" class="submit-btn">Enviar</button>
-
-</form>
-
-</div>
-  
-
-<a href="admin/login.php">Painel</a>
-  
-
-  
-  <script>
-
-    function toggleFormSections() {
-    const solicitante = document.getElementById("solicitante").value;
-    const formMedico = document.getElementById("formMedico");
-    const formRepresent = document.getElementById("formRepresent");
-  
-    if (solicitante === "medico") {
-      formMedico.classList.remove("hidden");
-    } else {
-      formMedico.classList.add("hidden");
-    }
-
-    if (solicitante === "paciente") {
-      formRepresent.classList.remove("hidden");
-    } else {
-      formRepresent.classList.add("hidden");
-    }
-  }
-
-  function toggleCirurgiao() {
-    const cirurgiaoDefinido = document.getElementById("cirurgiaoDefinido").value;
-    const dadosCirurgiao = document.getElementById("dadosCirurgiao");
-  
-    if (cirurgiaoDefinido === "sim") {
-       dadosCirurgiao.classList.remove("hidden");
-    } else {
-       dadosCirurgiao.classList.add("hidden");
-    }
-  }
-
-  function toggleCirurgiaoo() {
-    const cirurgiaoDefinido = document.getElementById("cirurgiaoDefinidoo").value;
-    const dadosCirurgiao = document.getElementById("dadosCirurgiaoo");
-  
-    if (cirurgiaoDefinido === "sim") {
-       dadosCirurgiao.classList.remove("hidden");
-    } else {
-       dadosCirurgiao.classList.add("hidden");
-    }
-  }
-
-  function toggleComorbidades() {
-    const comorbidades = document.getElementById("comorbidades").value;
-    const descricaoComorbidades = document.getElementById("descricaoComorbidades");
-  
-    if (comorbidades === "sim") {
-        descricaoComorbidades.classList.remove("hidden");
-    } else {
-        descricaoComorbidades.classList.add("hidden");
-    }
-  }
-
-  function toggleComorbidadess() {
-    const comorbidades = document.getElementById("comorbidadess").value;
-    const descricaoComorbidades = document.getElementById("descricaoComorbidadess");
-  
-    if (comorbidades === "sim") {
-        descricaoComorbidades.classList.remove("hidden");
-    } else {
-        descricaoComorbidades.classList.add("hidden");
-    }
-  }
-  
-  </script>
+    <h3>Quem solicita o orçamento?</h3>
+
+    <button class="btn" onclick="window.location.href='medico.php';">
+      <i class="fas fa-user-md"></i> Médico ou Cirurgião
+    </button>
+    <button class="btn" onclick="window.location.href='paciente.php';">
+      <i class="fas fa-user"></i> Paciente ou Representante
+    </button>
+
+    <a href="admin/login.php">Painel</a>
+  </main>
 </body>
 </html>

@@ -260,7 +260,7 @@ $urgencia = $solicitacao['urgencia'];
                 <legend>Definir Preços</legend>
 
                 <label for="tabela_preco">Tabela de Preços:</label>
-                <select id="tabela_preco" name="tabela_preco" onchange="confirmarMudancaTabela(this)">
+                <select id="tabela_preco" name="tabela_preco" onchange="confirmarMudancaTabela(this); atualizarValorTotal()">
                     <?php foreach ($tabelas_precos as $tabela): ?>
                         <option value="<?= $tabela['id'] ?>" <?= $preco_id == $tabela['id'] ? 'selected' : ''; ?>>
                             <?= htmlspecialchars($tabela['nome_tabela']) ?>
@@ -274,11 +274,11 @@ $urgencia = $solicitacao['urgencia'];
                     <label for="diarias_enfermaria">Enfermaria</label>
                     <input type="number" id="diarias_enfermaria" name="diarias_enfermaria" 
                         value="<?= isset($solicitacao['diarias_enfermaria']) ? $solicitacao['diarias_enfermaria'] : 0; ?>" 
-                        min="0" onchange="atualizarTotal('enfermaria')">
+                        min="0" onchange="atualizarTotal('enfermaria'); atualizarValorTotal()">
 
                     <input type="number" id="valor_enfermaria" name="valor_enfermaria" 
                         value="<?= isset($precos['enfermaria_diaria']) ? $precos['enfermaria_diaria'] : 0; ?>" 
-                        min="0" step="0.01" onchange="atualizarTotal('enfermaria')">
+                        min="0" step="0.01" onchange="atualizarTotal('enfermaria'); atualizarValorTotal()">
 
                     <input type="text" id="total_enfermaria" value="0.00" disabled>
                 </div>
@@ -287,11 +287,11 @@ $urgencia = $solicitacao['urgencia'];
                     <label for="diarias_apartamento">Apartamento</label>
                     <input type="number" id="diarias_apartamento" name="diarias_apartamento" 
                         value="<?= isset($solicitacao['diarias_apartamento']) ? $solicitacao['diarias_apartamento'] : 0; ?>" 
-                        min="0" onchange="atualizarTotal('apartamento')">
+                        min="0" onchange="atualizarTotal('apartamento'); atualizarValorTotal()">
 
                     <input type="number" id="valor_apartamento" name="valor_apartamento" 
                         value="<?= isset($precos['apartamento_diaria']) ? $precos['apartamento_diaria'] : 0; ?>" 
-                        min="0" step="0.01" onchange="atualizarTotal('apartamento')">
+                        min="0" step="0.01" onchange="atualizarTotal('apartamento'); atualizarValorTotal()">
 
                     <input type="text" id="total_apartamento" value="0.00" disabled>
                 </div>
@@ -300,11 +300,11 @@ $urgencia = $solicitacao['urgencia'];
                     <label for="diarias_uti">UTI Adulto</label>
                     <input type="number" id="diarias_uti" name="diarias_uti" 
                         value="<?= isset($solicitacao['diarias_uti']) ? $solicitacao['diarias_uti'] : 0; ?>" 
-                        min="0" onchange="atualizarTotal('uti')">
+                        min="0" onchange="atualizarTotal('uti'); atualizarValorTotal()">
 
                     <input type="number" id="valor_uti" name="valor_uti" 
                         value="<?= isset($precos['uti_adulto_diaria']) ? $precos['uti_adulto_diaria'] : 0; ?>" 
-                        min="0" step="0.01" onchange="atualizarTotal('uti')">
+                        min="0" step="0.01" onchange="atualizarTotal('uti'); atualizarValorTotal()">
 
                     <input type="text" id="total_uti" value="0.00" disabled>
                 </div>
@@ -457,6 +457,13 @@ $urgencia = $solicitacao['urgencia'];
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <br> <br> <br> <br>
+
+                <div>
+                    <label for="valor_total">Valor Total:</label>
+                    <input type="text" id="valor_total" value="0.00" disabled>
                 </div>
             </fieldset>
 
@@ -673,7 +680,54 @@ $urgencia = $solicitacao['urgencia'];
         
         
         
-        
+        function atualizarTotalDiarias() {
+            const diarias = ['enfermaria', 'apartamento', 'uti'];
+            let totalDiarias = 0;
+
+            diarias.forEach(tipo => {
+                const qtd = parseFloat(document.getElementById(`diarias_${tipo}`).value) || 0;
+                const valor = parseFloat(document.getElementById(`valor_${tipo}`).value) || 0;
+                const total = qtd * valor;
+
+                totalDiarias += total;
+                document.getElementById(`total_${tipo}`).value = total.toFixed(2);
+            });
+
+            return totalDiarias;
+        }
+
+        function atualizarTotalAnestesias() {
+            const anestesias = document.querySelectorAll('.anestesia:checked');
+            let totalAnestesias = 0;
+
+            anestesias.forEach(anestesia => {
+                const valorAnestesia = parseFloat(anestesia.dataset.valor) || 0;
+                totalAnestesias += valorAnestesia;
+            });
+
+            return totalAnestesias;
+        }
+
+        function atualizarTotalProcedimentos() {
+            const procedimentos = document.querySelectorAll('.procedimento-valor');
+            let totalProcedimentos = 0;
+
+            procedimentos.forEach(procedimento => {
+                const valor = parseFloat(procedimento.value) || 0;
+                totalProcedimentos += valor;
+            });
+
+            return totalProcedimentos;
+        }
+
+        function atualizarValorTotal() {
+            const totalDiarias = atualizarTotalDiarias();
+            const totalAnestesias = atualizarTotalAnestesias();
+            const totalProcedimentos = atualizarTotalProcedimentos();
+
+            const valorTotal = totalDiarias + totalAnestesias + totalProcedimentos;
+            document.getElementById('valor_total').value = valorTotal.toFixed(2);
+        }
         
         </script>
 </body>
