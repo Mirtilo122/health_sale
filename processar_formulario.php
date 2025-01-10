@@ -1,12 +1,23 @@
 <?php
+session_start();
 require 'conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+        $isValid = true;
+
+        if ($isValid) {
+            $_SESSION['status'] = 'success';
+        } else {
+            $_SESSION['status'] = 'error';
+        }
+        
+
+
         $protocolo = 'PRT' . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
         $formulario = $_POST['formulario'] ?? '';
-        $nomeSolicitante = $_POST['nome'] ?? '';
+        $nomeSolicitante = $_POST['nome'] ?? 'erro';
         $sobrenome = $_POST['sobrenome'] ?? '';
         $telefone = $_POST['telefone'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -47,59 +58,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $query = "INSERT INTO solicitacoes_orcamentos (
-            solicitante, protocolo, nome_solicitante, telefone, email, canal_contato, tipo_orcamento, convenio,
-            nome_paciente, data_nascimento, cidade, comorbidades, descricao_comorbidades,
-            resumo_procedimento, detalhes_procedimento, tempo_cirurgia, data_provavel,
-            diarias_enfermaria, diarias_apartamento, diarias_uti, anestesia_raqui, anestesia_sma,
-            anestesia_peridural, anestesia_sedacao, anestesia_externo, anestesia_bloqueio,
-            anestesia_local, anestesia_outros, observacoes, arquivo_pdf, urgencia
-        ) VALUES (
-            :solicitante, :protocolo, :nome_solicitante, :telefone, :email, :canal_contato, :tipo_orcamento, :convenio,
-            :nome_paciente, :data_nascimento, :cidade, :comorbidades, :descricao_comorbidades,
-            :resumo_procedimento, :detalhes_procedimento, :tempo_cirurgia, :data_provavel,
-            :diarias_enfermaria, :diarias_apartamento, :diarias_uti, :anestesia_raqui, :anestesia_sma,
-            :anestesia_peridural, :anestesia_sedacao, :anestesia_externo, :anestesia_bloqueio,
-            :anestesia_local, :anestesia_outros, :observacoes, :arquivo_pdf, :urgencia
-        )";
+
+        try {
+            $query = "INSERT INTO solicitacoes_orcamentos (
+                solicitante, protocolo, nome_solicitante, telefone, email, canal_contato, tipo_orcamento, convenio,
+                nome_paciente, data_nascimento, cidade, comorbidades, descricao_comorbidades,
+                resumo_procedimento, detalhes_procedimento, tempo_cirurgia, data_provavel,
+                diarias_enfermaria, diarias_apartamento, diarias_uti, anestesia_raqui, anestesia_sma,
+                anestesia_peridural, anestesia_sedacao, anestesia_externo, anestesia_bloqueio,
+                anestesia_local, anestesia_outros, observacoes, arquivo_pdf, urgencia
+            ) VALUES (
+                :solicitante, :protocolo, :nome_solicitante, :telefone, :email, :canal_contato, :tipo_orcamento, :convenio,
+                :nome_paciente, :data_nascimento, :cidade, :comorbidades, :descricao_comorbidades,
+                :resumo_procedimento, :detalhes_procedimento, :tempo_cirurgia, :data_provavel,
+                :diarias_enfermaria, :diarias_apartamento, :diarias_uti, :anestesia_raqui, :anestesia_sma,
+                :anestesia_peridural, :anestesia_sedacao, :anestesia_externo, :anestesia_bloqueio,
+                :anestesia_local, :anestesia_outros, :observacoes, :arquivo_pdf, :urgencia
+            )";
 
 
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([
-            ':solicitante' => $formulario,
-            ':protocolo' => $protocolo,
-            ':nome_solicitante' => "$nomeSolicitante $sobrenome",
-            ':telefone' => $telefone,
-            ':email' => $email,
-            ':canal_contato' => $canalContato,
-            ':tipo_orcamento' => $tipoOrcamento,
-            ':convenio' => $convenio,
-            ':nome_paciente' => $nomePaciente,
-            ':data_nascimento' => $dataNascimento,
-            ':cidade' => $cidade,
-            ':comorbidades' => $comorbidades,
-            ':descricao_comorbidades' => $descricaoComorbidades,
-            ':resumo_procedimento' => $descricaoSumaria,
-            ':detalhes_procedimento' => $descricaoDetalhada,
-            ':tempo_cirurgia' => $tempoCirurgia,
-            ':data_provavel' => $dataProvavel,
-            ':diarias_enfermaria' => $diariasEnfermaria,
-            ':diarias_apartamento' => $diariasApartamento,
-            ':diarias_uti' => $diariasUTI,
-            ':anestesia_raqui' => strpos($anestesias, 'raqui') !== false ? 1 : 0,
-            ':anestesia_sma' => strpos($anestesias, 'sma') !== false ? 1 : 0,
-            ':anestesia_peridural' => strpos($anestesias, 'peridural') !== false ? 1 : 0,
-            ':anestesia_sedacao' => strpos($anestesias, 'sedacao') !== false ? 1 : 0,
-            ':anestesia_externo' => strpos($anestesias, 'externo') !== false ? 1 : 0,
-            ':anestesia_bloqueio' => strpos($anestesias, 'bloqueio') !== false ? 1 : 0,
-            ':anestesia_local' => strpos($anestesias, 'local') !== false ? 1 : 0,
-            ':anestesia_outros' => $anestesiaOutros,
-            ':observacoes' => $observacoes,
-            ':arquivo_pdf' => $arquivoPDF,
-            ':urgencia' => $urgenteImediato
-        ]);
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([
+                ':solicitante' => $formulario,
+                ':protocolo' => $protocolo,
+                ':nome_solicitante' => "$nomeSolicitante $sobrenome",
+                ':telefone' => $telefone,
+                ':email' => $email,
+                ':canal_contato' => $canalContato,
+                ':tipo_orcamento' => $tipoOrcamento,
+                ':convenio' => $convenio,
+                ':nome_paciente' => $nomePaciente,
+                ':data_nascimento' => $dataNascimento,
+                ':cidade' => $cidade,
+                ':comorbidades' => $comorbidades,
+                ':descricao_comorbidades' => $descricaoComorbidades,
+                ':resumo_procedimento' => $descricaoSumaria,
+                ':detalhes_procedimento' => $descricaoDetalhada,
+                ':tempo_cirurgia' => $tempoCirurgia,
+                ':data_provavel' => $dataProvavel,
+                ':diarias_enfermaria' => $diariasEnfermaria,
+                ':diarias_apartamento' => $diariasApartamento,
+                ':diarias_uti' => $diariasUTI,
+                ':anestesia_raqui' => strpos($anestesias, 'raqui') !== false ? 1 : 0,
+                ':anestesia_sma' => strpos($anestesias, 'sma') !== false ? 1 : 0,
+                ':anestesia_peridural' => strpos($anestesias, 'peridural') !== false ? 1 : 0,
+                ':anestesia_sedacao' => strpos($anestesias, 'sedacao') !== false ? 1 : 0,
+                ':anestesia_externo' => strpos($anestesias, 'externo') !== false ? 1 : 0,
+                ':anestesia_bloqueio' => strpos($anestesias, 'bloqueio') !== false ? 1 : 0,
+                ':anestesia_local' => strpos($anestesias, 'local') !== false ? 1 : 0,
+                ':anestesia_outros' => $anestesiaOutros,
+                ':observacoes' => $observacoes,
+                ':arquivo_pdf' => $arquivoPDF,
+                ':urgencia' => $urgenteImediato
+            ]);
 
-        echo "Formulário enviado com sucesso!";
+            $allowedPages = ['medico', 'paciente'];
+
+            $_SESSION['protocolo'] = $protocolo;
+            $_SESSION['nomeSolicitante'] = "$nomeSolicitante $sobrenome";
+            $_SESSION['nomePaciente'] = $nomePaciente;
+
+            header("Location: confirmacao.php");
+            exit;
+        } catch (PDOException $e) {
+            if (isset($formulario) && in_array($formulario, $allowedPages)) {
+                $_SESSION['status'] = 'error';
+                header("Location: {$formulario}.php");
+                exit;
+            } else {
+                header("Location: index.php");
+                exit;
+            }
+        }
     
 }
 

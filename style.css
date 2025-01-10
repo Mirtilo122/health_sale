@@ -16,7 +16,6 @@ body {
     border-radius: 8px;
 }
 
-/* Título principal */
 .form-container h1 {
     text-align: center;
     font-size: 24px;
@@ -24,7 +23,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Estilização das abas */
 .nav-tabs {
     display: flex;
     justify-content: space-between;
@@ -34,9 +32,14 @@ body {
     list-style: none;
 }
 
-.nav-tabs .nav-item {
+.nav-tabs .nav-item {    
+    width: 100%;
     flex: 1;
     text-align: center;
+}
+
+.nav-tabs .nav-item button{    
+    width: 100%;
 }
 
 .nav-tabs .nav-link {
@@ -56,7 +59,6 @@ body {
     font-weight: bold;
 }
 
-/* Conteúdo das abas */
 .tab-content {
     padding: 20px;
     background-color: #fff;
@@ -64,10 +66,10 @@ body {
     border-radius: 0 0 8px 8px;
 }
 
-/* Labels e inputs */
 label {
     display: block;
     margin-bottom: 5px;
+    margin-top: 15px;
     font-size: 14px;
     color: #555;
 }
@@ -98,13 +100,10 @@ select:focus {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Textarea */
 textarea {
     resize: vertical;
 }
 
-/* Botões */
-button,
 input[type="submit"] {
     display: inline-block;
     padding: 10px 20px;
@@ -121,7 +120,6 @@ input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* Mensagens de upload */
 .upload {
     margin-top: 20px;
 }
@@ -132,19 +130,17 @@ input[type="submit"]:hover {
     margin-bottom: 10px;
 }
 
-/* Seções condicionais */
 .hidden {
     display: none;
 }
 
-/* Estilo para h3 */
 h3 {
     font-size: 18px;
     color: #333;
     margin-bottom: 10px;
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
     .form-container {
         padding: 15px;
@@ -152,7 +148,7 @@ h3 {
 
     .nav-tabs .nav-item {
         flex: none;
-        width: auto;
+        width: 100%;
     }
 
     .nav-tabs .nav-link {
