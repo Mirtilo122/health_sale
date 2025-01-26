@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #6a11cb, #2575fc);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.bloco {
+    background: #ffffff;
+    color: #333333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.bloco h1 {
+    font-size: 1.8rem;
+    color: #6a11cb;
+    margin-bottom: 20px;
+}
+
+.imag img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.login h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+form p {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #666666;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #6a11cb;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #6a11cb;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: #4a0eb1;
+}
+
+@media (max-width: 500px) {
+    .bloco {
+        padding: 20px 15px;
+    }
+
+    .bloco h1, .login h2 {
+        font-size: 1.5rem;
+    }
+
+    form label {
+        font-size: 0.9rem;
+    }
+}
