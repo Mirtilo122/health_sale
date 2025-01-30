@@ -62,7 +62,6 @@ return new class extends Migration {
 
             // Chaves estrangeiras
             $table->foreign('codigo_solicitacao')->references('codigo_solicitacao')->on('solicitacoes_orcamentos')->onDelete('cascade');
-            $table->foreign('codigo_tabela_base')->references('codigo_tabela')->on('tabela_de_precos')->onDelete('set null');
             $table->foreign('id_usuario_responsavel')->references('id')->on('usuarios')->onDelete('set null');
 
             $table->timestamps();

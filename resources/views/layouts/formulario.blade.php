@@ -107,7 +107,7 @@
 
                     <button type="button" class="btn btn-secondary" onclick="navigateTo('solicitante', 'paciente')">Voltar</button>
                     <button type="button" class="btn btn-primary" onclick="navigateTo('solicitante', 'geral')">Prosseguir</button>
-                </div>
+                </div> 
 
                 <!-- Orçamento -->
 

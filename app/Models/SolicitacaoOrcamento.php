@@ -24,5 +24,19 @@ class SolicitacaoOrcamento extends Model {
         'anestesia_local', 'anestesia_outros', 'observacoes', 'status',
         'id_usuario', 'arquivo_pdf', 'urgencia', 'cirurgiao',
         'nome_cirurgiao',
+
+        'data_atribuido', 'data_cirurgiao', 'data_anestesista', 'data_criacao',
+        'data_liberacao', 'data_negociacao', 'data_concluido', 'orcamento_teste', 'favoritos'
     ];
+
+
+    protected $casts = [
+        'favoritos' => 'array',
+        'orcamento_teste' => 'boolean',
+    ];
+
+    public function responsavel()
+    {
+        return $this->belongsTo(Usuarios::class, 'id_usuario');
+    }
 }

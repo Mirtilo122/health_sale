@@ -9,13 +9,16 @@ namespace App\Http\Controllers;
     use App\Models\Usuarios;
 
 
+    use Illuminate\Support\Facades\Auth;
+
+
     class SolicitacaoOrcamentoController extends Controller
     {
 
     public function index()
     {
 
-        
+
     }
     public function store(Request $request)
     {
@@ -25,6 +28,7 @@ namespace App\Http\Controllers;
 
     $solicitacao->solicitante = $request->input('formulario');
     $solicitacao->origem_orcamento = 'site';
+    $solicitacao->status = 'novo';
     $solicitacao->nome_solicitante = $request->input('nome') . ' ' . $request->input('sobrenome');
     $solicitacao->telefone = $request->input('telefone');
     $solicitacao->email = $request->input('email');
@@ -129,10 +133,49 @@ namespace App\Http\Controllers;
 
 
         $solicitacao->id_usuario = $request->id_usuario;
-        $solicitacao->status = 'aguardando';
+        $solicitacao->status = 'atribuido';
+        if (!$solicitacao->data_atribuido) {
+            $solicitacao->data_atribuido = now();
+        }
 
         $solicitacao->save();
 
         return redirect()->route('dashboard')->with('success', 'Orçamento atualizado com sucesso.');
+    }
+
+
+
+
+    public function toggleFavorite(Request $request, $codigoSolicitacao)
+    {
+        // Pegando o ID do usuário autenticado
+        $userId = Auth::id();
+
+        // Encontrando a solicitação no banco de dados
+        $solicitacao = SolicitacaoOrcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
+
+        if (!$solicitacao) {
+            return response()->json(['success' => false, 'message' => 'Solicitação não encontrada.']);
+        }
+
+        // Convertendo a coluna `favoritos` para array
+        $favoritos = json_decode($solicitacao->favoritos, true) ?? [];
+
+        // Verifica se o usuário já favoritou
+        if (in_array($userId, $favoritos)) {
+            // Se já favoritou, remove o ID do usuário
+            $favoritos = array_diff($favoritos, [$userId]);
+            $isFavorited = false;
+        } else {
+            // Se não favoritou, adiciona o ID do usuário
+            $favoritos[] = $userId;
+            $isFavorited = true;
+        }
+
+        // Salvar no banco de dados como JSON
+        $solicitacao->favoritos = json_encode(array_values($favoritos)); // Garantir que seja um array válido
+        $solicitacao->save();
+
+        return response()->json(['success' => true, 'favorite' => $isFavorited]);
     }
 }

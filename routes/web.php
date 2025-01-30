@@ -56,6 +56,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
+
+
 // Rotas do Painel
 
 Route::get('/dashboard', [PainelController::class, 'index'])->name('dashboard')->middleware('auth');
@@ -66,6 +68,7 @@ Route::get('/dashboard/filter', [PainelController::class, 'filtrar'])->name('das
 
 Route::get('/dashboard/order', [PainelController::class, 'ordenar'])->name('dashboard.order')->middleware('auth');
 
+Route::post('/favoritar/{codigoSolicitacao}', [SolicitacaoOrcamentoController::class, 'toggleFavorite'])->middleware('auth');
 
 
 

@@ -12,126 +12,202 @@
     <div class="container">
         <h2 class="text-center my-4">Solicitações de Orçamento</h2>
 
-        {{$selected_status = ''}}
 
-        <!-- Filtro -->
-        <div class="filter-section mb-4">
-            <form method="get" action="{{ url('dashboard.filter') }}" class="row align-items-center">
-                <div class="col-md-9">
-                    <label for="status" class="form-label">Filtrar por Status:</label>
-                    <select name="status" id="status" class="form-select">
-                        <option value="">Todos</option>
-                        <option value="pendente" {{ $selected_status === 'pendente' ? 'selected' : '' }}>Pendente</option>
-                        <option value="aguardando" {{ $selected_status === 'aguardando' ? 'selected' : '' }}>Aguardando</option>
-                        <option value="negociação" {{ $selected_status === 'negociação' ? 'selected' : '' }}>Negociação</option>
-                        <option value="cancelado" {{ $selected_status === 'cancelado' ? 'selected' : '' }}>Cancelado</option>
-                        <option value="aprovado" {{ $selected_status === 'aprovado' ? 'selected' : '' }}>Aprovado</option>
-                    </select>
-                </div>
-                <div class="col-md-3 d-flex justify-content-center justify-content-md-start">
-                <button type="submit" class="btn btn-primary" style="height: 100%; width: auto; aspect-ratio: 1;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
-                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
-                        </svg>
-                    </button>
-                </div>
-            </form>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane" type="button" role="tab" aria-controls="novos-tab-pane" aria-selected="true">Novas</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane" type="button" role="tab" aria-controls="atribuido-tab-pane" aria-selected="false">Atribuídas</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane" type="button" role="tab" aria-controls="cirurgiao-tab-pane" aria-selected="false">Aguardando Cirurgião</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane" type="button" role="tab" aria-controls="anestesista-tab-pane" aria-selected="false">Aguardando Anestesista</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane" type="button" role="tab" aria-controls="orcamento-tab-pane" aria-selected="false">Finalizando Orçamento</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane" type="button" role="tab" aria-controls="liberacao-tab-pane" aria-selected="false">Liberação</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane" type="button" role="tab" aria-controls="negociacao-tab-pane" aria-selected="false">Negociação</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane" type="button" role="tab" aria-controls="concluidos-tab-pane" aria-selected="false">Concluídas</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane" type="button" role="tab" aria-controls="favoritos-tab-pane" aria-selected="false">Favoritas</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+
+            <!-- Novos -->
+
+            <div class="tab-pane  fade show active align-top text-start" id="novos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Novas Solicitações</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.novos')
+
+            </div>
+
+            <!-- Atribuídos -->
+
+            <div class="tab-pane fade show" id="atribuido-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Solicitações Atribuídas</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.atribuidos')
+
+            </div>
+
+            <!-- Aguardando Cirurgiao -->
+
+            <div class="tab-pane fade show" id="cirurgiao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Aguardando Edição do Cirurgiao</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.cirurgiao')
+
+            </div>
+
+            <!-- Aguardando Anestesista -->
+
+            <div class="tab-pane fade show" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Aguardando Edição do Anestesista</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.anestesista')
+
+            </div>
+
+            <!-- Aguardando Vendedor -->
+
+            <div class="tab-pane fade show" id="orcamento-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Aguardando Edição do Responsável</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.criacao')
+
+            </div>
+
+            <!-- Liberação -->
+
+            <div class="tab-pane fade show" id="liberacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Aguardando Liberação</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.liberacao')
+
+            </div>
+
+            <!-- Negociação -->
+
+            <div class="tab-pane fade show" id="negociacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Orçamentos em Negociação</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.negociacao')
+
+            </div>
+
+            <!-- Concluídos -->
+
+            <div class="tab-pane fade show" id="concluidos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Orçamentos Finalizados</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.concluidos')
+
+            </div>
+
+            <!-- Favoritos -->
+
+            <div class="tab-pane fade show" id="favoritos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Marcados como Favorito</h4>
+
+                @include('admin.filtro')
+
+                @include('tabelasPainel.favoritos')
+
+            </div>
+
         </div>
 
-        <!-- Tabela de Solicitações -->
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col" class="align-middle text-center"><a href="{{ route('dashboard.order', ['order_by' => 'nome_solicitante', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }} " class="text-start">Solicitante</a></th>
-                        <th scope="col" class="align-middle text-center"><a href="{{ route('dashboard.order', ['order_by' => 'nome_paciente', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}" class="text-start">Paciente</a></th>
-                        <th scope="col" class="align-middle text-center">Tipo de Orçamento</th>
-                        <th scope="col" class="align-middle text-center">Status</th>
-                        <th scope="col" class="align-middle text-center">Urgência</th>
-                        <th scope="col" class="align-middle text-center">Horário de Solicitação</th>
-                        <th scope="col" class="align-middle text-center"><a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}" class="text-start">Tempo desde a Solicitação</a></th>
-                        <th scope="col" class="align-middle text-center">Ações</th>
-                    </tr>
-                </thead>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($solicitacoes as $solicitacao)
-                        <tr>
-                            <td scope="row">{{ $solicitacao->nome_solicitante }}</td>
-                            <td scope="row">{{ $solicitacao->nome_paciente }}</td>
-                            <td scope="row" class="align-middle text-center">
-                                @php
-                                    $tipoOrcamento = ucfirst(strtolower($solicitacao->tipo_orcamento));
-                                @endphp
-                                @if($tipoOrcamento == 'cirurgia')
-                                    Cirurgia
-                                @elseif($tipoOrcamento == 'parto')
-                                    Parto
-                                @else
-                                    {{ $tipoOrcamento }}
-                                @endif
-                            </td>
-                            <td scope="row" class="align-middle text-center">
-                                @php
-                                    $statusClass = match (strtolower($solicitacao->status)) {
-                                        'pendente' => 'bg-secondary text-dark',
-                                        'aguardando' => 'bg-warning text-dark',
-                                        'negociação' => 'bg-primary text-white',
-                                        'cancelado' => 'bg-danger text-white',
-                                        'aprovado' => 'bg-success text-white',
-                                        default => '',
-                                    };
-                                @endphp
-                                <span class="badge {{ $statusClass }}">{{ ucfirst($solicitacao->status) }}</span>
-                            </td>
-                            <td scope="row" class="align-middle text-center">
-                                @if ($solicitacao->urgencia)
-                                    <div class="text-danger d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="urgent-icon bi bi-exclamation-triangle" viewBox="0 0 16 16">
-                                            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
-                                            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-                                        </svg>
-                                        <span>Urgente</span>
-                                    </div>
-                                @endif
-                            </td>
-                            <td scope="row" class="align-middle text-center">{{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('d/m/y H:i') }}</td>
-                            <td scope="row" class="align-middle text-center">
-                                @php
-                                    $diferenca = \Carbon\Carbon::parse($solicitacao->data_solicitacao)->diffForHumans();
-                                @endphp
-                                {{ $diferenca }}
-                            </td>
-                            <td scope="row" class="align-middle text-center">
-                                @switch(strtolower($solicitacao->status))
-                                    @case('pendente')
-                                        <a href="{{ route('orcamento.atribuir', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Detalhes</a>
-                                        @break
-                                    @case('aguardando')
-                                        <a href="{{ url('criar_orcamentos', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-warning btn-sm" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Criar</a>
-                                        @break
-                                    @case('negociação')
-                                        <a href="{{ url('visualizar_orcamento', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-info btn-sm">Visualizar</a>
-                                        <a href="{{ url('editar_orcamento', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-primary btn-sm">Editar</a>
-                                        @break
-                                    @case('cancelado')
-                                    @case('aprovado')
-                                        <a href="{{ url('visualizar_orcamento', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-success btn-sm">Visualizar</a>
-                                        @break
-                                @endswitch
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center">Nenhuma solicitação de orçamento encontrada.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+
+
     </div>
 </main>
 <script src="/js/script.js"></script>
+<script>
+
+function toggleFavorite(event, codigoSolicitacao) {
+    event.preventDefault(); // Evita redirecionamento da página
+
+    fetch(`/favoritar/${codigoSolicitacao}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let starElement = document.querySelector(`.star-${codigoSolicitacao}`);
+
+            if (data.favorite) {
+                // Substitui pelo SVG preenchido (favoritado)
+                starElement.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>`;
+            } else {
+                // Substitui pelo SVG vazio (não favoritado)
+                starElement.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star" viewBox="0 0 16 16">
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+                    </svg>`;
+            }
+        } else {
+            alert("Erro ao favoritar.");
+        }
+    })
+    .catch(error => console.error('Erro:', error));
+}
+
+</script>
 
 @endsection

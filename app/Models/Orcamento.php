@@ -74,10 +74,6 @@ class Orcamento extends Model
         return $this->belongsTo(SolicitacaoOrcamento::class, 'codigo_solicitacao');
     }
 
-    public function tabelaPreco()
-    {
-        return $this->belongsTo(TabelaPreco::class, 'codigo_tabela_base');
-    }
 
     public function responsavel()
     {

@@ -55,7 +55,7 @@
         }
         .btn-primary {
             margin-top: 30px;
-            display: block;
+            display: block; 
             width: 100%;
         }
     </style>
@@ -84,4 +84,3 @@
     </div>
 </body>
 </html>
- 

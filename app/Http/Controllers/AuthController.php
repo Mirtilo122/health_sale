@@ -20,6 +20,16 @@ class AuthController extends Controller
 
         // Tenta autenticar o usuário
         if (Auth::attempt(['email' => $request->email, 'password' => $request->senha])) {
+            // Obtém o usuário autenticado
+            $usuario = Auth::user();
+
+            // Armazena os dados na sessão
+            session()->put([
+                'id' => $usuario->id,
+                'nome' => $usuario->usuario,
+                'acesso' => $usuario->acesso
+            ]);
+
             return redirect()->route('dashboard');
         }
 
@@ -28,7 +38,10 @@ class AuthController extends Controller
 
     public function logout()
     {
+        // Limpa a sessão e faz logout
+        session()->flush();
         Auth::logout();
+
         return redirect()->route('login');
     }
 
