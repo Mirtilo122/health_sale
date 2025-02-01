@@ -56,7 +56,7 @@
                                     Judicial
                                 @else
                                     {{ $convenio }}
-                                @endif
+                                @endif 
             </div>
             <div class="info mb-3">
                 <strong>Cidade:</strong> <span class="text-muted">{{ $detalhes->cidade }}</span>

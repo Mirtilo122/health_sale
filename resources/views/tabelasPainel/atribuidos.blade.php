@@ -122,7 +122,7 @@
                                 {{ \Carbon\Carbon::parse($solicitacao->data_atribuido)->diffForHumans() }}
                             </td>
                             <td scope="row" class="align-middle text-center">
-                            <a href="{{ url('criar_orcamentos', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-info btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Iniciar Processo</a>
+                            <a href="{{ route('orcamento.montarEquipe', $solicitacao->codigo_solicitacao) }}" class="btn btn-info btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Iniciar Processo</a>
                             </td>
                         </tr>
                     @empty

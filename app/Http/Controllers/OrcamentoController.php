@@ -2,54 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Orcamento;
-use App\Models\SolicitacaoOrcamento;
-use App\Models\TabelaPreco;
 use Illuminate\Http\Request;
+use App\Models\SolicitacaoOrcamento;
+use App\Models\Orcamento;
+use App\Models\Usuarios;
 
 class OrcamentoController extends Controller
 {
-    public function index()
+    public function atribuirUsuarios($id)
     {
-        $orcamentos = Orcamento::with(['solicitacao', 'tabelaPreco', 'responsavel'])->get();
-        return response()->json($orcamentos);
+        $solicitacao = SolicitacaoOrcamento::findOrFail($id);
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $agentes = Usuarios::where('nivel_acesso', 'agente')->get();
+
+        return view('orcamento.montarEquipe', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes'));
     }
 
-    public function store(Request $request)
+    public function salvarOrcamento(Request $request)
     {
         $request->validate([
-            'codigo_solicitacao' => 'required|exists:solicitacoes_orcamentos,codigo_solicitacao',
-            'solicitante' => 'required|string|max:255',
-            'telefone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'nome_paciente' => 'required|string|max:255',
-            'data_nascimento' => 'required|date',
-            'status' => 'string|max:50',
-            'precos_procedimentos' => 'required|json',
+            'solicitacao_id' => 'required|exists:solicitacoes_orcamentos,id',
+            'cirurgiao' => 'required|exists:users,id',
+            'anestesista' => 'required|exists:users,id',
+            'agentes_edicao' => 'nullable|array',
+            'agentes_visualizacao' => 'nullable|array',
         ]);
 
-        $orcamento = Orcamento::create($request->all());
+        $solicitacao = SolicitacaoOrcamento::findOrFail($request->solicitacao_id);
 
-        return response()->json($orcamento, 201);
-    }
+        $orcamento = new Orcamento();
+        $orcamento->codigo_solicitacao = $solicitacao->id;
+        $orcamento->cirurgiao = $request->cirurgiao;
+        $orcamento->anestesista = $request->anestesista;
+        $orcamento->agentes_edicao = json_encode($request->agentes_edicao ?? []);
+        $orcamento->agentes_visualizacao = json_encode($request->agentes_visualizacao ?? []);
 
-    public function show($id)
-    {
-        $orcamento = Orcamento::with(['solicitacao', 'tabelaPreco', 'responsavel'])->findOrFail($id);
-        return response()->json($orcamento);
-    }
+        // Copia os dados da solicitação para o orçamento
+        $orcamento->fill($solicitacao->toArray());
 
-    public function update(Request $request, $id)
-    {
-        $orcamento = Orcamento::findOrFail($id);
-        $orcamento->update($request->all());
-        return response()->json($orcamento);
-    }
+        $orcamento->save();
 
-    public function destroy($id)
-    {
-        $orcamento = Orcamento::findOrFail($id);
-        $orcamento->delete();
-        return response()->json(['message' => 'Orçamento excluído com sucesso']);
+        return redirect()->route('orcamento.montarEquipe', $solicitacao->id)
+                         ->with('success', 'Orçamento atribuído com sucesso.');
     }
 }

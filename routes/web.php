@@ -7,7 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\ConvenioController;
 use App\Http\Controllers\ProcedimentosController;
-
+use App\Http\Controllers\OrcamentoController;
 
 
 // Rotas da página Inicial
@@ -124,6 +124,9 @@ Route::get('/precos', function() {
 Route::get('/atribuirOrcamento/{codigo_solicitacao}',[SolicitacaoOrcamentoController::class, 'atribuirOrcamento'])->name('orcamento.atribuir');
 
 Route::post('/atualizar_orcamento', [SolicitacaoOrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.atualizar');
+
+Route::get('/orcamento/montarEquipe/{id}', [OrcamentoController::class, 'atribuirUsuarios'])->name('orcamento.montarEquipe');
+Route::post('/orcamento/salvar', [OrcamentoController::class, 'salvarOrcamento'])->name('orcamento.salvar');
 
 
 
