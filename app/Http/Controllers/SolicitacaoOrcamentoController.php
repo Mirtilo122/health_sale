@@ -47,6 +47,7 @@ namespace App\Http\Controllers;
     $solicitacao->diarias_enfermaria = $request->input('enfermaria', 0);
     $solicitacao->diarias_apartamento = $request->input('apartamento', 0);
     $solicitacao->diarias_uti = $request->input('utiAdulto', 0);
+    $solicitacao->favoritos = '[1]';
 
     if (empty($anestesiasSelecionadas) || $anestesiasSelecionadas === [null]) {
         $tiposAnestesia = ['raqui', 'sma', 'peridural', 'sedacao', 'externo', 'bloqueio', 'local'];
@@ -70,27 +71,30 @@ namespace App\Http\Controllers;
     if ($request->hasFile('arquivo_solicitacao')) {
         $arquivo = $request->file('arquivo_solicitacao');
 
+        if (in_array($arquivo->getClientOriginalExtension(), ['pdf', 'jpg', 'jpeg', 'png'])) {
 
-        if ($arquivo->getClientOriginalExtension() === 'pdf') {
 
             $nomeArquivo = time() . '_' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
 
 
-            $caminho = $arquivo->storeAs('public/uploads', $nomeArquivo);
+            $caminho = $arquivo->storeAs('uploads', $nomeArquivo, 'public');
 
 
-            $solicitacao->arquivo_pdf = str_replace('public/', 'storage/', $caminho);
+            $solicitacao->arquivo_pdf = 'storage/' . $caminho;
         }
     }
 
     $solicitacao->save();
+
+    // Recarrega o modelo do banco para garantir que o protocolo gerado pelo trigger seja carregado
+    $solicitacao->refresh();
 
     return redirect()->route('confirmacao')->with([
         'nome_solicitante' => $solicitacao->nome_solicitante,
         'nome_paciente' => $solicitacao->nome_paciente,
         'protocolo' => $solicitacao->protocolo
     ]);
-    }
+}
 
 
 

@@ -38,6 +38,7 @@
                 </thead>
                 <tbody>
                     @forelse ($solicitacoes->where('status', 'novo') as $solicitacao)
+
                         <tr>
                         <td scope="row" class="align-middle text-center">
                         <a href="#" onclick="toggleFavorite(event, {{ $solicitacao->codigo_solicitacao }})">

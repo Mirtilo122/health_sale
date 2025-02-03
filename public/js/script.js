@@ -1,3 +1,6 @@
+
+
+
 function toggleCirurgiao() {
     const cirurgiaoDefinido = document.getElementById("cirurgiaoDefinido").value;
     const dadosCirurgiao = document.getElementById("dadosCirurgiao");
@@ -94,6 +97,8 @@ document.getElementById("formRepresent").addEventListener("submit", function (ev
 
     this.classList.add("was-validated");
 });
+
+
 
 
 

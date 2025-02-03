@@ -1,6 +1,5 @@
-@extends('layouts.admin')
 
-@section('content')
+
 <div class="container">
     <h2>Atribuir Usuários ao Orçamento</h2>
 
@@ -17,7 +16,7 @@
             <select name="cirurgiao" id="cirurgiao" class="form-control" required>
                 <option value="">Selecione um cirurgião</option>
                 @foreach($cirurgioes as $cirurgiao)
-                    <option value="{{ $cirurgiao->id }}">{{ $cirurgiao->name }}</option>
+                    <option value="{{ $cirurgiao->id }}">{{ $cirurgiao->usuario }}</option>
                 @endforeach
             </select>
         </div>
@@ -27,7 +26,7 @@
             <select name="anestesista" id="anestesista" class="form-control" required>
                 <option value="">Selecione um anestesista</option>
                 @foreach($anestesistas as $anestesista)
-                    <option value="{{ $anestesista->id }}">{{ $anestesista->name }}</option>
+                    <option value="{{ $anestesista->id }}">{{ $anestesista->usuario }}</option>
                 @endforeach
             </select>
         </div>
@@ -36,7 +35,7 @@
             <label for="agentes_edicao" class="form-label">Agentes (Edição)</label>
             <select name="agentes_edicao[]" id="agentes_edicao" class="form-control" multiple>
                 @foreach($agentes as $agente)
-                    <option value="{{ $agente->id }}">{{ $agente->name }}</option>
+                    <option value="{{ $agente->id }}">{{ $agente->usuario }}</option>
                 @endforeach
             </select>
             <small class="text-muted">Mantenha em branco se não houver agentes para edição.</small>
@@ -46,7 +45,7 @@
             <label for="agentes_visualizacao" class="form-label">Agentes (Visualização)</label>
             <select name="agentes_visualizacao[]" id="agentes_visualizacao" class="form-control" multiple>
                 @foreach($agentes as $agente)
-                    <option value="{{ $agente->id }}">{{ $agente->name }}</option>
+                    <option value="{{ $agente->id }}">{{ $agente->usuario }}</option>
                 @endforeach
             </select>
             <small class="text-muted">Mantenha em branco se não houver agentes para visualização.</small>
@@ -55,4 +54,4 @@
         <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 </div>
-@endsection
+

@@ -37,6 +37,12 @@
                                     Cirurgia
                                 @elseif($tipoOrcamento == 'parto')
                                     Parto
+                                @elseif($tipoOrcamento == 'homecare')
+                                    Home Care
+                                @elseif($tipoOrcamento == 'remocao')
+                                    Remoção
+                                @elseif($tipoOrcamento == 'leito')
+                                    Leito Uti
                                 @else
                                     {{ $tipoOrcamento }}
                                 @endif
@@ -56,15 +62,36 @@
                                     Judicial
                                 @else
                                     {{ $convenio }}
-                                @endif 
+                                @endif
             </div>
             <div class="info mb-3">
                 <strong>Cidade:</strong> <span class="text-muted">{{ $detalhes->cidade }}</span>
             </div>
             <div class="info mb-3">
-                <strong>Status Atual:</strong> <span class="text-muted">{{ $detalhes->status }}</span>
+                <strong>Status Atual:</strong>
+                                @php
+                                    $status_orcamento = ucfirst(strtolower($detalhes->status));
+                                @endphp
+                                @if($status_orcamento == 'Novo')
+                                    <span class="badge bg-info text-light">Novo</span>
+                                @else
+                                    <span class="badge bg-secondary text-light">{{ $status_orcamento }}</span>
+                                @endif
+            </div>
+
+            <div class="info mb-3">
+            <strong>Arquivo:</strong>
+            @if(is_null($detalhes->arquivo_pdf))
+                <p class="text-danger">Solicitação não foi enviada</p>
+            @else
+                @php
+                    $caminhoArquivo = asset($detalhes->arquivo_pdf);
+                @endphp
+                <a href="{{ $caminhoArquivo }}" class="btn btn-primary" download>Baixar Arquivo</a>
+            @endif
             </div>
         </div>
+
 
         <!-- Formulário de vinculação a usuário -->
         <div class="card p-4 mb-4">

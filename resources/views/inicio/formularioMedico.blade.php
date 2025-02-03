@@ -30,19 +30,19 @@
 
 @section('maisInfo')
     <label for="tempoCirurgico">Tempo Cirúrgico Previsto (em horas)</label>
-    <input type="number" id="tempoCirurgico" name="tempoCirurgico" min="0" step="0.5">
+    <input type="number" id="tempoCirurgico" name="tempoCirurgico" min="0" step="0.5" value="0">
 
     <div>
         <h3>Definição das Acomodações</h3>
 
         <label for="enfermaria">Enfermaria (Quantas diárias)</label>
-        <input type="number" id="enfermaria" name="enfermaria" min="0">
+        <input type="number" id="enfermaria" name="enfermaria" min="0" value="0">
 
         <label for="apartamento">Apartamento (Quantas diárias)</label>
-        <input type="number" id="apartamento" name="apartamento" min="0">
+        <input type="number" id="apartamento" name="apartamento" min="0" value="0">
 
         <label for="utiAdulto">UTI Adulto (Quantas diárias)</label>
-        <input type="number" id="utiAdulto" name="utiAdulto" min="0">
+        <input type="number" id="utiAdulto" name="utiAdulto" min="0" value="0">
     </div> <br>
 
     <div>

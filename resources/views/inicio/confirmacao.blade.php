@@ -55,8 +55,8 @@
         }
         .btn-primary {
             margin-top: 30px;
-            display: block; 
-            width: 100%;
+            display: block;
+            width: 100%; 
         }
     </style>
 </head>

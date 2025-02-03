@@ -8,47 +8,51 @@
 
 
 <main>
+        @php
+            use Illuminate\Support\Str;
+            $id_usuario_atual = auth()->id();
+        @endphp
+
 
     <div class="container">
         <h2 class="text-center my-4">Solicitações de Orçamento</h2>
 
-
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane" type="button" role="tab" aria-controls="novos-tab-pane" aria-selected="true">Novas</button>
+                <button class="nav-link active" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane" type="button" role="tab" aria-controls="novos-tab-pane" aria-selected="true">Novas ({{ $solicitacoes->where('status', 'novo')->count() }})<span class="badge bg-success text-light badge-animated d-none">Novo</span></button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane" type="button" role="tab" aria-controls="atribuido-tab-pane" aria-selected="false">Atribuídas</button>
+                <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane" type="button" role="tab" aria-controls="atribuido-tab-pane" aria-selected="false">Atribuídas ({{ $solicitacoes->where('status', 'anestesista')->count() }}) </button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane" type="button" role="tab" aria-controls="cirurgiao-tab-pane" aria-selected="false">Aguardando Cirurgião</button>
+                <button class="nav-link" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane" type="button" role="tab" aria-controls="cirurgiao-tab-pane" aria-selected="false">Aguardando Cirurgião ({{ $solicitacoes->where('status', 'cirurgiao')->count() }})</button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane" type="button" role="tab" aria-controls="anestesista-tab-pane" aria-selected="false">Aguardando Anestesista</button>
+                <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane" type="button" role="tab" aria-controls="anestesista-tab-pane" aria-selected="false">Aguardando Anestesista ({{ $solicitacoes->where('status', 'anestesista')->count() }})</button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane" type="button" role="tab" aria-controls="orcamento-tab-pane" aria-selected="false">Finalizando Orçamento</button>
+                <button class="nav-link" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane" type="button" role="tab" aria-controls="orcamento-tab-pane" aria-selected="false">Finalizando Orçamento ({{ $solicitacoes->where('status', 'criacao')->count() }})</button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane" type="button" role="tab" aria-controls="liberacao-tab-pane" aria-selected="false">Liberação</button>
+                <button class="nav-link" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane" type="button" role="tab" aria-controls="liberacao-tab-pane" aria-selected="false">Liberação ({{ $solicitacoes->where('status', 'liberacao')->count() }})</button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane" type="button" role="tab" aria-controls="negociacao-tab-pane" aria-selected="false">Negociação</button>
+                <button class="nav-link" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane" type="button" role="tab" aria-controls="negociacao-tab-pane" aria-selected="false">Negociação ({{ $solicitacoes->where('status', 'negociacao')->count() }})</button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane" type="button" role="tab" aria-controls="concluidos-tab-pane" aria-selected="false">Concluídas</button>
+                <button class="nav-link" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane" type="button" role="tab" aria-controls="concluidos-tab-pane" aria-selected="false">Concluídas ({{ $solicitacoes->whereIn('status', ['perdido', 'aprovado', 'recusado'])->count() }})</button>
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane" type="button" role="tab" aria-controls="favoritos-tab-pane" aria-selected="false">Favoritas</button>
+                <button class="nav-link" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane" type="button" role="tab" aria-controls="favoritos-tab-pane" aria-selected="false">Favoritas ({{ $solicitacoes->filter(fn($solicitacao) => Str::contains($solicitacao->favoritos, (string) $id_usuario_atual))->count() }})</button>
             </li>
         </ul>
 

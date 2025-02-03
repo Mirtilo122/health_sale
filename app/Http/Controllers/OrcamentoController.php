@@ -14,21 +14,20 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
-        $agentes = Usuarios::where('nivel_acesso', 'agente')->get();
+        $agentes = Usuarios::where('acesso', 'agente')->get();
 
-        return view('orcamento.montarEquipe', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes'));
+        return view('orcamento.teste', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes'));
     }
 
     public function salvarOrcamento(Request $request)
     {
         $request->validate([
             'solicitacao_id' => 'required|exists:solicitacoes_orcamentos,id',
-            'cirurgiao' => 'required|exists:users,id',
-            'anestesista' => 'required|exists:users,id',
+            'cirurgiao' => 'required|exists:usuarios,id',
+            'anestesista' => 'required|exists:usuarios,id',
             'agentes_edicao' => 'nullable|array',
             'agentes_visualizacao' => 'nullable|array',
         ]);
-
         $solicitacao = SolicitacaoOrcamento::findOrFail($request->solicitacao_id);
 
         $orcamento = new Orcamento();

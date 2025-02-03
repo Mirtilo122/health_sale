@@ -107,7 +107,7 @@
 
                     <button type="button" class="btn btn-secondary" onclick="navigateTo('solicitante', 'paciente')">Voltar</button>
                     <button type="button" class="btn btn-primary" onclick="navigateTo('solicitante', 'geral')">Prosseguir</button>
-                </div> 
+                </div>
 
                 <!-- Orçamento -->
 
@@ -134,6 +134,9 @@
                         <option value="nao">Selecione...</option>
                         <option value="cirurgia">Cirurgia</option>
                         <option value="parto">Parto e Maternidade</option>
+                        <option value="homecare">Home Care</option>
+                        <option value="remocao">Remoção</option>
+                        <option value="leito">Leito de Uti</option>
                     </select>
 
                     <button type="button" class="btn btn-secondary" onclick="navigateTo('geral', 'solicitante')">Voltar</button>
@@ -165,11 +168,6 @@
 
                         @yield('descDetalhe')
 
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Envio da Solicitação</label>
-                            <input class="form-control" type="file" id="arquivo_solicitacao" name="arquivo_solicitacao">
-                        </div>
-
                     </div>
 
                     <label for="urgenteImediato">Urgente/Imediato?</label>
@@ -181,6 +179,11 @@
 
                     <label for="dataProvavel">Data Provável</label>
                     <input type="date" id="dataProvavel" name="dataProvavel">
+
+                    <div class="mb-3">
+                            <label for="formFile" class="form-label">Envio da Solicitação</label>
+                            <input class="form-control" type="file" id="arquivo_solicitacao" name="arquivo_solicitacao">
+                    </div>
 
                     @yield('maisInfo')
 

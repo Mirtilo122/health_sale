@@ -125,7 +125,7 @@ Route::get('/atribuirOrcamento/{codigo_solicitacao}',[SolicitacaoOrcamentoContro
 
 Route::post('/atualizar_orcamento', [SolicitacaoOrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.atualizar');
 
-Route::get('/orcamento/montarEquipe/{id}', [OrcamentoController::class, 'atribuirUsuarios'])->name('orcamento.montarEquipe');
+Route::get('/orcamento/teste/{id}', [OrcamentoController::class, 'atribuirUsuarios'])->name('orcamento.montarEquipe');
 Route::post('/orcamento/salvar', [OrcamentoController::class, 'salvarOrcamento'])->name('orcamento.salvar');
 
 
