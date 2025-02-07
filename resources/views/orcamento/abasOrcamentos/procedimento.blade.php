@@ -1,0 +1,37 @@
+<button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#procedimentoModal">Inserir Novo Procedimento</button>
+
+<!-- Modal -->
+<input type="hidden" name="precos_procedimentos" id="precosProcedimentosInput"
+       value='{{ old("precos_procedimentos", $orcamento->precos_procedimentos ?? "[]") }}'>
+<div class="modal fade" id="procedimentoModal" tabindex="-1" aria-labelledby="procedimentoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="procedimentoModalLabel">Novo Procedimento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="procedimentoNome" class="form-label">Nome do Procedimento</label>
+          <input type="text" class="form-control" id="procedimentoNome" placeholder="Digite o nome">
+        </div>
+        <div class="mb-3">
+          <label for="procedimentoValor" class="form-label">Valor</label>
+          <input type="number" class="form-control" id="procedimentoValor" placeholder="Digite o valor">
+        </div>
+        <div class="mb-3">
+          <label for="procedimentoTuss" class="form-label">Código Tuss</label>
+          <input type="text" class="form-control" id="procedimentoTuss" placeholder="Digite o código Tuss">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" id="salvarProcedimento">Prosseguir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ul id="lista-procedimentos" class="list-group mt-3">
+    <!-- Lista de procedimentos adicionados -->
+</ul>

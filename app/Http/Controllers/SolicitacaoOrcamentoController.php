@@ -60,7 +60,7 @@ namespace App\Http\Controllers;
         foreach ($tiposAnestesia as $tipo) {
             $campo = "anestesia_{$tipo}";
             $solicitacao->$campo = in_array($tipo, $anestesiasSelecionadas) ? 1 : 0;
-        }
+        } 
     }
 
     $solicitacao->anestesia_outros = $request->input('anestesiaOutros');

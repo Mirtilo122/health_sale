@@ -28,14 +28,14 @@
 
         <div class="row mt-1">
             <div class="col-md-4">
-                @if($solicitacao->solicitante == "paciente")
-                    <p><strong>Solicitante:</strong> Paciente ou Representante</p>
-                @else
-                    <p><strong>Solicitante:</strong> Médico/Cirurgião</p>
-                @endif
-
                 <p><strong>Nome do Solicitante:</strong> {{$solicitacao->nome_solicitante}}</p>
                 <p><strong>Nome do Paciente:</strong> {{$solicitacao->nome_paciente}}</p>
+                <p><strong>Responsável pelo Orçamento:</strong>
+                @php
+                                    $responsavel = $solicitacao->responsavel ? $solicitacao->responsavel->usuario : 'Sem responsável';
+                                @endphp
+
+                                {{ $responsavel }}</p>
             </div>
 
             <div class="col-md-4">

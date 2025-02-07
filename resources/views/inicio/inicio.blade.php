@@ -17,7 +17,6 @@
     <i class="fas fa-user"></i> Paciente ou Representante
 </button>
 
-<a href="admin/login">Painel</a>
 </main>
 
 @endsection

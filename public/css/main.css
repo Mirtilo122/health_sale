@@ -295,7 +295,7 @@ table {
 .container_cards {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 0rem;
     width: 95rem;
     min-height: 40rem;
     margin: 2rem auto;
@@ -336,4 +336,8 @@ button.alterar-btn:active {
 .select_alterar{
     display: flex;
     gap: 1rem;
+}
+
+.card_info{
+    margin-top: 1rem;
 }
