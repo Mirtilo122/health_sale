@@ -6,14 +6,22 @@
     box-sizing: border-box;
 }
 
-body {
+body{
+   width: 100vw;
+   height: 100vh;
+   overflow: hidden;
+}
+
+.conteudo_login {
     font-family: "Poppins", serif;
-    background: linear-gradient(to bottom, #6a11cb, #2575fc);
+    background: linear-gradient(to bottom, #04ec61, #2d7b4b);
     color: #ffffff;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 93vh;
+    gap: 15px;
 }
 
 .bloco {
@@ -28,8 +36,10 @@ body {
 }
 
 .bloco h1 {
-    font-size: 1.8rem;
-    color: #6a11cb;
+    font-family: "Poppins", serif;
+    font-weight: 600;
+    font-style: normal;
+    color: #2d7b4b;
     margin-bottom: 20px;
 }
 
@@ -43,11 +53,17 @@ body {
 .login h2 {
     font-size: 1.5rem;
     margin-bottom: 20px;
+    font-family: "Poppins", serif;
+    font-weight: 600;
+    font-style: normal;
 }
 
 form p {
     margin-bottom: 15px;
     text-align: left;
+    font-family: "Poppins", serif;
+    font-weight: 200;
+    font-style: normal;
 }
 
 form label {
@@ -55,6 +71,9 @@ form label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #666666;
+    font-family: "Poppins", serif;
+    font-weight: 600;
+    font-style: normal;
 }
 
 form input {
@@ -68,13 +87,13 @@ form input {
 }
 
 form input:focus {
-    border-color: #6a11cb;
+    border-color: #6ac98a;
 }
 
 button {
     width: 100%;
     padding: 10px;
-    background: #6a11cb;
+    background: #1f5a36;
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -100,4 +119,41 @@ button:hover {
     form label {
         font-size: 0.9rem;
     }
+}
+
+footer {
+    background-color: #266e41; /* Verde escuro */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 7vh;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.footer-links li a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-links li a:hover {
+    text-decoration: underline;
 }

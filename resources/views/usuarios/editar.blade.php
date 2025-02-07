@@ -26,7 +26,6 @@
 
         <form method="POST" action="{{ route('usuarios.update', $usuario->id) }}">
             @csrf
-            @method('PUT')
 
             <div class="mb-3">
                 <label for="usuario" class="form-label">Usuário</label>
@@ -52,7 +51,7 @@
                     <option value="Administrador" {{ $usuario->acesso == 'Administrador' ? 'selected' : '' }}>Administrador</option>
                 </select>
             </div>
- 
+
             <div class="mb-3">
                 <label for="funcao" class="form-label">Possui Função Específica?</label>
                 <select class="form-select" name="funcao" id="funcao">

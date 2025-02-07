@@ -37,7 +37,7 @@ header {
   align-items: center;
   position: fixed;
   z-index: 3;
-  background-color: #646464;
+  background-color: #2d7b4b;
 }
 
 
@@ -51,8 +51,11 @@ background-color: #ffffff;
 
 
 .logotipo{
-width: 10vh;
-height: 10vh;
+width: 9vh;
+height: 9vh;
+background-color: #ffffff;
+margin: 0.5vh;
+border-radius: 5px;
 }
 
 .logotipo a{
@@ -63,10 +66,9 @@ align-items: center;
 justify-content: center;
 }
 
-.logotipo svg{
-width: 50%;
-height: 50%;
-color: rgb(255, 255, 255);
+.logotipo img{
+    width: 9vh;
+    height: auto;
 }
 
 
