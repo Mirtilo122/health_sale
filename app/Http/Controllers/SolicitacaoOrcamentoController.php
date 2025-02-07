@@ -60,7 +60,7 @@ namespace App\Http\Controllers;
         foreach ($tiposAnestesia as $tipo) {
             $campo = "anestesia_{$tipo}";
             $solicitacao->$campo = in_array($tipo, $anestesiasSelecionadas) ? 1 : 0;
-        } 
+        }
     }
 
     $solicitacao->anestesia_outros = $request->input('anestesiaOutros');
@@ -110,7 +110,7 @@ namespace App\Http\Controllers;
         return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado.');
     }
 
-    $usuarios = Usuarios::whereIn('acesso', ['Agente', 'Externo'])->get();
+    $usuarios = Usuarios::whereIn('acesso', ['Agente'])->get();
 
 
     return view('orcamento.atribuir', compact('detalhes', 'usuarios'));
