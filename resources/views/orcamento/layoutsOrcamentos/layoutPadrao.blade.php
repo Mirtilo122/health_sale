@@ -78,6 +78,31 @@ p{
     margin-top: 20px;
 }
 
+.list-group-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.agente-nome{
+    flex: 1;
+}
+
+.agente-switch{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.agente-actions{
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
 @media (max-width: 768px) {
     .col-md-4 {
         width: 100%;
@@ -94,8 +119,9 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 <div class="container_cards mt-4">
 
 @include('orcamento.layoutsOrcamentos.infoOrcamento')
-<form class="formulario-abas needs-validation" id="formRepresent" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate>
+<form class="formulario-abas needs-validation" id="orcamento-form" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate>
 
+@include('orcamento.layoutsOrcamentos.resumoOrcamento')
     <div class="card shadow-sm p-4 card_info">
 
 
@@ -115,7 +141,7 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 
     </div>
 
-    @include('orcamento.layoutsOrcamentos.resumoOrcamento')
+
 
 </form>
 </div>
@@ -158,6 +184,19 @@ function alterar(lista) {
     }
 }
 
+
+
+
+
+const agentesEditar = JSON.parse(document.getElementById('agentesEditarDesignadosLoad').value || '[]');
+const agentesVisualizar = JSON.parse(document.getElementById('agentesVisualizarDesignadosLoad').value || '[]');
+
+const agentesCombinados = [...new Set([...agentesEditar, ...agentesVisualizar])];
+
+contarIdsAgentes()
+
+
+
 document.getElementById("add-agente").addEventListener("click", function() {
     let select = document.getElementById("agente-selecao");
     let selectedOption = select.options[select.selectedIndex];
@@ -172,9 +211,13 @@ document.getElementById("add-agente").addEventListener("click", function() {
     li.className = "list-group-item d-flex justify-content-between align-items-center";
     li.id = "agente-" + agenteId;
 
-    let span = document.createElement("span");
-    span.textContent = agenteNome;
-    span.style.color = "gray";
+    let nomeDiv = document.createElement("div");
+    nomeDiv.className = "agente-nome";
+    nomeDiv.style.color = "gray";
+    nomeDiv.textContent = agenteNome;
+
+    let switchContainerDiv = document.createElement("div");
+    switchContainerDiv.className = "agente-switch";
 
     let switchContainer = document.createElement("div");
     switchContainer.className = "form-check form-switch d-flex align-items-center";
@@ -190,130 +233,217 @@ document.getElementById("add-agente").addEventListener("click", function() {
     label.textContent = "Visualizar";
     label.className = "ms-2";
 
-
     input.addEventListener("change", function() {
         label.textContent = this.checked ? "Editar" : "Visualizar";
     });
 
-    let removeBtn = document.createElement("button");
-    removeBtn.className = "btn btn-danger btn-sm ms-2";
-    removeBtn.textContent = "Remover";
-    removeBtn.addEventListener("click", function() {
-        li.remove();
-        selectedOption.disabled = false;
-        selectedOption.style.color = "black";
-    });
-
     switchContainer.appendChild(input);
     switchContainer.appendChild(label);
-    li.appendChild(span);
-    li.appendChild(switchContainer);
-    li.appendChild(removeBtn);
+    switchContainerDiv.appendChild(switchContainer);
+
+    let actionsDiv = document.createElement("div");
+    actionsDiv.className = "agente-actions";
+
+    let removeBtn = document.createElement("button");
+    removeBtn.className = "btn btn-danger btn-sm ms-2 remove-agente";
+    removeBtn.textContent = "Remover";
+    removeBtn.addEventListener("click", function() {
+    removerAgente(agenteId);
+});
+
+    actionsDiv.appendChild(removeBtn);
+
+    li.appendChild(nomeDiv);
+    li.appendChild(switchContainerDiv);
+    li.appendChild(actionsDiv);
 
     document.getElementById("lista-agentes").appendChild(li);
 
     selectedOption.style.color = "gray";
     selectedOption.disabled = true;
+
+    contarIdsAgentes()
 });
 
-// aaaaaaaaaa
-
-let hiddenInput = document.createElement("input");
-hiddenInput.type = "hidden";
-hiddenInput.name = "agentes[" + agenteId + "]";
-hiddenInput.value = input.checked ? "editar" : "visualizar";
-hiddenInput.classList.add("agente-hidden-" + agenteId);
-
-input.addEventListener("change", function() {
-    hiddenInput.value = this.checked ? "editar" : "visualizar";
-});
-
-li.appendChild(hiddenInput);
 
 
-removeBtn.addEventListener("click", function() {
-    li.remove();
-    selectedOption.disabled = false;
-    selectedOption.style.color = "black";
+function removerAgente(agenteId) {
+    let agenteElement = document.getElementById("agente-" + agenteId);
 
+    if (agenteElement) {
+        agenteElement.remove();
 
-    let hiddenInput = document.querySelector(".agente-hidden-" + agenteId);
-    if (hiddenInput) {
-        hiddenInput.remove();
-    }
-});
+        let select = document.getElementById("agente-selecao");
+        let selectedOption = [...select.options].find(option => option.value == agenteId);
 
-// aaaaaaaaaaaaa
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const listaProcedimentos = document.getElementById("lista-procedimentos");
-    const precosProcedimentosInput = document.getElementById("precosProcedimentosInput");
-
-    // Recupera os procedimentos do input hidden e converte para array, garantindo que seja um JSON válido
-    let precosProcedimentos = [];
-    try {
-        precosProcedimentos = JSON.parse(precosProcedimentosInput.value) || [];
-    } catch (e) {
-        console.error("Erro ao analisar JSON dos procedimentos:", e);
+        if (selectedOption) {
+            selectedOption.disabled = false;
+            selectedOption.style.color = "black";
+        }
+        contarIdsAgentes()
     }
 
-    function atualizarLista() {
-        listaProcedimentos.innerHTML = ""; // Limpa a lista antes de recriá-la
 
-        precosProcedimentos.forEach((procedimento, index) => {
-            const listItem = document.createElement("li");
-            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-            listItem.innerHTML = `
-                <span><strong>${procedimento.nome}</strong> - R$ ${parseFloat(procedimento.valor).toFixed(2)} - TUSS: ${procedimento.tuss}</span>
-                <button class="btn btn-danger btn-sm remover-procedimento" data-index="${index}">Remover</button>
-            `;
-            listaProcedimentos.appendChild(listItem);
+
+}
+
+function contarIdsAgentes() {
+    let lista = document.getElementById("lista-agentes");
+    let itens = lista.getElementsByTagName("li");
+    let ids = [];
+
+    for (let item of itens) {
+        let id = item.id.replace("agente-", "");
+        ids.push(parseInt(id, 10));
+    }
+
+    ids.shift();
+
+    document.getElementById("agentesEnviadosInput").value = JSON.stringify(ids);
+}
+
+
+
+
+
+
+
+
+
+
+document.getElementById("salvarProcedimento").addEventListener("click", function () {
+    const nome = document.getElementById("procedimentoNome").value;
+    const valor = document.getElementById("procedimentoValor").value;
+    const tuss = document.getElementById("procedimentoTuss").value;
+
+    if (nome.trim() === "" || valor.trim() === "") {
+        alert("O nome e o valor do procedimento não podem estar vazios!");
+        return;
+    }
+
+    adicionarProcedimento(nome, valor, tuss);
+
+
+    document.getElementById("procedimentoNome").value = "";
+    document.getElementById("procedimentoValor").value = "";
+    document.getElementById("procedimentoTuss").value = "";
+
+
+    bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
+});
+
+function adicionarProcedimento(nome, valor, tuss) {
+    const tabela = document.getElementById("tabela-procedimentos");
+
+    const tr = document.createElement("tr");
+
+    const tdNome = document.createElement("td");
+    const inputNome = document.createElement("input");
+    inputNome.type = "text";
+    inputNome.className = "form-control procedimento-nome";
+    inputNome.value = nome;
+    tdNome.appendChild(inputNome);
+
+    const tdTuss = document.createElement("td");
+    const inputTuss = document.createElement("input");
+    inputTuss.type = "number";
+    inputTuss.className = "form-control procedimento-tuss";
+    inputTuss.value = tuss;
+    tdTuss.appendChild(inputTuss);
+
+    const tdValor = document.createElement("td");
+    const inputValor = document.createElement("input");
+    inputValor.type = "number";
+    inputValor.className = "form-control valor-procedimento";
+    inputValor.value = valor;
+    inputValor.step = "0.01";
+    tdValor.appendChild(inputValor);
+
+    const tdAcoes = document.createElement("td");
+    const btnRemover = document.createElement("button");
+    btnRemover.className = "btn btn-danger btn-sm";
+    btnRemover.textContent = "Remover";
+    btnRemover.onclick = function () {
+        tabela.removeChild(tr);
+        atualizarTotal();
+        atualizarInputHidden();
+    };
+
+    tdAcoes.appendChild(btnRemover);
+
+    tr.appendChild(tdNome);
+    tr.appendChild(tdTuss);
+    tr.appendChild(tdValor);
+    tr.appendChild(tdAcoes);
+
+    tabela.appendChild(tr);
+
+    atualizarTotal();
+    atualizarInputHidden();
+
+    inputNome.addEventListener("input", atualizarInputHidden);
+    inputTuss.addEventListener("input", atualizarInputHidden);
+    inputValor.addEventListener("input", () => {
+        atualizarTotal();
+        atualizarInputHidden();
+    });
+}
+
+function atualizarTotal() {
+    let total = 0;
+    document.querySelectorAll(".valor-procedimento").forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+    document.getElementById("totalValor").textContent = total.toFixed(2);
+}
+
+function atualizarInputHidden() {
+    const procedimentos = [];
+
+    document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
+        const nome = tr.querySelector(".procedimento-nome").value;
+        const tuss = tr.querySelector(".procedimento-tuss").value;
+        const valor = tr.querySelector(".valor-procedimento").value;
+
+        procedimentos.push({ nome, tuss, valor });
+    });
+
+    document.getElementById("precosProcedimentosInput").value = JSON.stringify(procedimentos);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const precosProcedimentosLoad = JSON.parse(document.getElementById("precosProcedimentosLoad").value);
+
+
+    if (precosProcedimentosLoad.length > 0) {
+        precosProcedimentosLoad.forEach(procedimento => {
+            adicionarProcedimento(procedimento.nome, procedimento.valor, procedimento.tuss);
         });
-
-        // Atualiza o input hidden com os dados
-        precosProcedimentosInput.value = JSON.stringify(precosProcedimentos);
     }
-
-    atualizarLista(); // Carrega a lista ao iniciar a página
-
-    // Adiciona novo procedimento ao clicar no botão "Prosseguir"
-    document.getElementById("salvarProcedimento").addEventListener("click", function () {
-        const nome = document.getElementById("procedimentoNome").value.trim();
-        const valor = document.getElementById("procedimentoValor").value.trim();
-        const tuss = document.getElementById("procedimentoTuss").value.trim();
-
-        if (nome && valor && tuss) {
-            precosProcedimentos.push({ nome, valor, tuss });
-            atualizarLista();
-
-            // Limpa os campos do modal
-            document.getElementById("procedimentoNome").value = "";
-            document.getElementById("procedimentoValor").value = "";
-            document.getElementById("procedimentoTuss").value = "";
-
-            // Fecha o modal usando Bootstrap 5 corretamente
-            const modal = bootstrap.Modal.getInstance(document.getElementById("procedimentoModal"));
-            if (modal) modal.hide();
-        } else {
-            alert("Preencha todos os campos!");
-        }
-    });
-
-    // Remove um procedimento da lista ao clicar no botão "Remover"
-    listaProcedimentos.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remover-procedimento")) {
-            const index = event.target.getAttribute("data-index");
-            precosProcedimentos.splice(index, 1);
-            atualizarLista();
-        }
-    });
 });
 
+
+
+
+document.getElementById("prosseguir").addEventListener("click", function (event) {
+        let cirurgiao = document.getElementById("id_usuarios_cirurgioes").value;
+        let anestesista = document.getElementById("id_usuarios_anestesistas").value;
+
+        if (cirurgiao === "") {
+            alert("Selecione um cirurgião.");
+            event.preventDefault(); // Impede o envio do formulário
+            return;
+        }
+
+        if (anestesista === "") {
+            alert("Selecione um anestesista.");
+            event.preventDefault(); // Impede o envio do formulário
+            return;
+        }
+
+
+        document.getElementById("status").value = "cirurgiao";
+    });
 
 
 

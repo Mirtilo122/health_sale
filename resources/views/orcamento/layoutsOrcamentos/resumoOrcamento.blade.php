@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-end gap-2 mt-3">
         <a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
         <button type="submit" class="btn btn-primary" id="salvarSair">Salvar e Sair</button>
-        <button type="submit" class="btn btn-success" id="salvarEnviar">Salvar e Enviar</button>
+        <button type="submit" class="btn btn-success" id="prosseguir">Prosseguir</button>
     </div>
 </div>
 </div>

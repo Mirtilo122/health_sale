@@ -37,12 +37,15 @@ class OrcamentoController extends Controller
 
     public function salvarOrcamento(Request $request)
     {
+
+
+
         $request->validate([
             'nome_cirurgiao' => 'nullable|string',
             'telefone_cirurgiao' => 'nullable|string',
             'email_cirurgiao' => 'nullable|email',
             'crm_cirurgiao' => 'nullable|string',
-            'precos_procedimentos' => 'nullable|json', // Adiciona validação para JSON
+            'precos_procedimentos' => 'nullable|json',
         ]);
 
         $dados = $request->except('_token');
@@ -63,26 +66,41 @@ class OrcamentoController extends Controller
 
         // Processar permissões de edição e visualização
         $agentesEditar = $request->input('agentes', []);
-        $agentesVisualizar = $request->input('agentesVisualizar', []);
+        $agentesenviados = $request->input('agentesEnviados', []);
 
         $idsEditar = array_keys($agentesEditar);
-        $idsVisualizar = array_keys($agentesVisualizar);
+        $idsVisualizar = json_decode($agentesenviados);
+
+
+
 
         $dados['id_usuarios_editar'] = json_encode($idsEditar ?: []);
         $dados['id_usuarios_visualizar'] = json_encode(array_values(array_diff($idsVisualizar, $idsEditar)) ?: []);
 
-        // Armazenar preços dos procedimentos em JSON
+
+
         $dados['precos_procedimentos'] = $request->input('precos_procedimentos', '[]');
 
         $orcamento = Orcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
 
+        $solicitacao = SolicitacaoOrcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
+
+        if ($solicitacao) {
+            $solicitacao->status = $dados['status'];
+            $solicitacao->save(); // Salva a alteração no banco
+        }
+
+
         if ($orcamento) {
             $dados['id_usuarios_cirurgioes'] = isset($dados['id_usuarios_cirurgioes']) ? (int) $dados['id_usuarios_cirurgioes'] : null;
             $dados['id_usuarios_anestesistas'] = isset($dados['id_usuarios_anestesistas']) ? (int) $dados['id_usuarios_anestesistas'] : null;
+
             $orcamento->update($dados);
+
             return redirect()->route('dashboard')->with('mensagem', 'Orçamento atualizado com sucesso!');
         } else {
             Orcamento::create($dados);
+
             return redirect()->route('dashboard')->with('mensagem', 'Orçamento criado com sucesso!');
         }
     }

@@ -10,8 +10,12 @@
 </head>
 <body>
     @include('componentes.header')
-    <div class="espaco"></div>
-    @yield('conteudo')
+    
+    <main>
+        <div class="espaco"></div>
+        @yield('conteudo')
+    </main>
+
 
     @include('componentes.footer')
 

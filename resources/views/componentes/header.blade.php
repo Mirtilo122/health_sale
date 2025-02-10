@@ -5,9 +5,14 @@
             </a>
         </div>
 
+        @php
+            $usuario = session('nome');
+        @endphp
+
 
         <div class="nome_pagina">
                 <h1 class="titulo">@yield('nome_pagina')</h1>
+                <h1 class="titulo">Bem Vindo, {{$usuario}}</h1>
         </div>
 
         <div class="acesso">

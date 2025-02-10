@@ -1,7 +1,15 @@
 <h4>Informações da Equipe</h4><br>
 <div class="row mt-1 d-flex">
 
-    <input type="hidden" id="id_usuario_responsavel" name="id_usuario_responsavel" value="{{$solicitacao->id_usuario}}">
+
+
+    <input type="hidden" id="agentesEditarDesignadosLoad"
+       value='{{ old("agentesEnviados", $orcamento->id_usuarios_editar ?? "[]") }}'>
+
+    <input type="hidden" id="agentesVisualizarDesignadosLoad"
+       value='{{ old("agentesEnviados", $orcamento->id_usuarios_visualizar ?? "[]") }}'>
+
+    <input type="hidden" name="agentesEnviados" id="agentesEnviadosInput">
 
     <!-- Cirurgião -->
     <div class="col-md-4 border-end border-grey">
@@ -53,22 +61,35 @@
             </select>
         </div>
 
+
+
         <ul id="lista-agentes" class="list-group mt-3">
-            <!-- Lista de agentes carregados do banco de dados -->
+            <li class="list-group-item d-flex justify-content-between align-items-center" id="agente-{{$solicitacao->id_usuario}}">
+                <div class="agente-nome" style="color: gray;">{{ $solicitacao->responsavel->usuario }}</div>
+                <div class="agente-switch">
+                    <span>Responsável</span>
+                </div>
+                <div class="agente-actions">
+                </div>
+                <input type="hidden" id="id_usuario_responsavel" name="id_usuario_responsavel" value="{{$solicitacao->id_usuario}}">
+            </li>
+
             @foreach($agentes as $agente)
                 @if(in_array($agente->id, $idsVisualizar) || in_array($agente->id, $idsEditar))
                     <li class="list-group-item d-flex justify-content-between align-items-center" id="agente-{{ $agente->id }}">
-                        <span style="color: gray;">{{ $agente->usuario }}</span>
-                        <div class="form-check form-switch d-flex align-items-center">
-
-                            <input class="form-check-input" type="checkbox"
-                                name="agentes[{{ $agente->id }}]"
-                                data-agente-id="{{ $agente->id }}"
-                                {{ in_array($agente->id, $idsEditar) ? 'checked' : '' }}>
-                            <label class="ms-2">{{ in_array($agente->id, $idsEditar) ? 'Editar' : 'Visualizar' }}</label>
+                        <div class="agente-nome" style="color: gray;">{{ $agente->usuario }}</div>
+                        <div class="agente-switch">
+                            <div class="form-check form-switch d-flex align-items-center">
+                                <input class="form-check-input" type="checkbox"
+                                    name="agentes[{{ $agente->id }}]"
+                                    data-agente-id="{{ $agente->id }}"
+                                    {{ in_array($agente->id, $idsEditar) ? 'checked' : '' }}>
+                                <label class="ms-2">{{ in_array($agente->id, $idsEditar) ? 'Editar' : 'Visualizar' }}</label>
+                            </div>
                         </div>
-                        <input type="hidden" name="agentesVisualizar[{{ $agente->id }}]" value="1">
-                        <button type="button" class="btn btn-danger btn-sm ms-2 remove-agente">Remover</button>
+                        <div class="agente-actions">
+                            <button type="button" class="btn btn-danger btn-sm ms-2 remove-agente" onclick="removerAgente({{$agente->id}})">Remover</button>
+                        </div>
                     </li>
                 @endif
             @endforeach

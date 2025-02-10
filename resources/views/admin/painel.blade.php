@@ -24,7 +24,7 @@
             </li>
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane" type="button" role="tab" aria-controls="atribuido-tab-pane" aria-selected="false">Atribuídas ({{ $solicitacoes->where('status', 'anestesista')->count() }}) </button>
+                <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane" type="button" role="tab" aria-controls="atribuido-tab-pane" aria-selected="false">Atribuídas ({{ $solicitacoes->where('status', 'atribuido')->count() }}) </button>
             </li>
 
             <li class="nav-item" role="presentation">
@@ -62,9 +62,11 @@
 
             <div class="tab-pane  fade show active align-top text-start" id="novos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
+            <div class="tituloTabelas">
                 <h4>Novas Solicitações</h4>
-
                 @include('admin.filtro')
+            </div>
+            <br>
 
                 @include('tabelasPainel.novos')
 
@@ -73,10 +75,12 @@
             <!-- Atribuídos -->
 
             <div class="tab-pane fade show" id="atribuido-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Solicitações Atribuídas</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.atribuidos')
 
@@ -85,10 +89,12 @@
             <!-- Aguardando Cirurgiao -->
 
             <div class="tab-pane fade show" id="cirurgiao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Aguardando Edição do Cirurgiao</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.cirurgiao')
 
@@ -97,10 +103,12 @@
             <!-- Aguardando Anestesista -->
 
             <div class="tab-pane fade show" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Aguardando Edição do Anestesista</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.anestesista')
 
@@ -109,10 +117,12 @@
             <!-- Aguardando Vendedor -->
 
             <div class="tab-pane fade show" id="orcamento-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Aguardando Edição do Responsável</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.criacao')
 
@@ -121,10 +131,12 @@
             <!-- Liberação -->
 
             <div class="tab-pane fade show" id="liberacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Aguardando Liberação</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.liberacao')
 
@@ -133,10 +145,12 @@
             <!-- Negociação -->
 
             <div class="tab-pane fade show" id="negociacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Orçamentos em Negociação</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.negociacao')
 
@@ -145,10 +159,12 @@
             <!-- Concluídos -->
 
             <div class="tab-pane fade show" id="concluidos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Orçamentos Finalizados</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.concluidos')
 
@@ -157,10 +173,12 @@
             <!-- Favoritos -->
 
             <div class="tab-pane fade show" id="favoritos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tituloTabelas">
 
                 <h4>Marcados como Favorito</h4>
 
                 @include('admin.filtro')
+                </div>
 
                 @include('tabelasPainel.favoritos')
 

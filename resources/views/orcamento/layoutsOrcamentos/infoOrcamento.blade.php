@@ -33,7 +33,7 @@
                 <p><strong>Responsável pelo Orçamento:</strong>
                 @php
                                     $responsavel = $solicitacao->responsavel ? $solicitacao->responsavel->usuario : 'Sem responsável';
-                                @endphp
+                @endphp
 
                                 {{ $responsavel }}</p>
             </div>
