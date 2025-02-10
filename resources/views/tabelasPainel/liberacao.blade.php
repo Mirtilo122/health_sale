@@ -102,7 +102,7 @@
                             <td scope="row" class="align-middle text-center">R$100,00</td>
                             <td scope="row" class="align-middle text-center
                                 @php
-                                    $diferencaMinutos = \Carbon\Carbon::parse($solicitacao->data_atribuido)->diffInMinutes(now());
+                                    $diferencaMinutos = \Carbon\Carbon::parse($solicitacao->data_liberacao)->diffInMinutes(now());
                                     $classeTexto = '';
 
                                     if ($diferencaMinutos > 30 && $diferencaMinutos <= 40) {
@@ -112,10 +112,10 @@
                                     }
                                 @endphp
                                 {{ $classeTexto }}"                            >
-                                {{ \Carbon\Carbon::parse($solicitacao->data_atribuido)->diffForHumans() }}
+                                {{ \Carbon\Carbon::parse($solicitacao->data_liberacao)->diffForHumans() }}
                             </td>
                             <td scope="row" class="align-middle text-center">
-                            <a href="{{ url('criar_orcamentos', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-primary btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar Orçamento</a>
+                            <a href="{{ route('orcamento.liberacao', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Liberar</a>
                             </td>
                         </tr>
                     @empty

@@ -27,7 +27,7 @@
                     <label for="procedimentoTuss" class="form-label">Código Tuss</label>
                     <input type="number" class="form-control" id="procedimentoTuss" placeholder="Digite o código Tuss">
                 </div>
-            </div> 
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-success" id="salvarProcedimento">Prosseguir</button>

@@ -7,10 +7,47 @@
 @section('conteudo')
 
 
+
+
 <main>
         @php
             use Illuminate\Support\Str;
+
             $id_usuario_atual = auth()->id();
+            $idUsuario = auth()->id();
+            $usuario = auth()->user();
+            $nivelAcesso = $usuario->acesso;
+            $funcao = $usuario->funcao;
+
+            $podeAcessarTudo = in_array($nivelAcesso, ['Administrador', 'Gerente']);
+            $ehCirurgiao = $funcao == 'Cirurgião';
+            $ehAnestesista = $funcao == 'Anestesista';
+            $ehAgente = $nivelAcesso == 'Agente';
+
+            if ($ehCirurgiao) {
+                $solicitacoes = $solicitacoes->filter(fn($s) => $s->orcamento && $s->orcamento->id_usuarios_cirurgioes == $id_usuario_atual);
+            } elseif ($ehAnestesista) {
+                $solicitacoes = $solicitacoes->filter(fn($s) => $s->orcamento && $s->orcamento->id_usuarios_anestesistas == $id_usuario_atual);
+            } elseif ($ehAgente) {
+
+                $solicitacoes = $solicitacoes->filter(function ($solicitacao) use ($idUsuario) {
+                    $orcamento = $solicitacao->orcamento;
+
+                    if (!$orcamento) {
+                        return $solicitacao->id_usuario == $idUsuario;
+                    }
+
+                    $idUsuariosEditar = json_decode($orcamento->id_usuarios_editar, true) ?? [];
+                    $idUsuariosVisualizar = json_decode($orcamento->id_usuarios_visualizar, true) ?? [];
+
+                    return
+                        $solicitacao->id_usuario == $idUsuario ||
+                        $orcamento->id_usuario_responsavel == $idUsuario ||
+                        in_array($idUsuario, $idUsuariosEditar) ||
+                        in_array($idUsuario, $idUsuariosVisualizar);
+                });
+
+            }
         @endphp
 
 
@@ -19,48 +56,91 @@
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane" type="button" role="tab" aria-controls="novos-tab-pane" aria-selected="true">Novas ({{ $solicitacoes->where('status', 'novo')->count() }})<span class="badge bg-success text-light badge-animated d-none">Novo</span></button>
+            @if ($podeAcessarTudo)
+                <li class="nav-item">
+                    <button class="nav-link" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane">
+                        Novas ({{ $solicitacoes->where('status', 'novo')->count() }})
+                    </button>
+                </li>
+            @endif
+
+            @if ($podeAcessarTudo || $ehAgente)
+
+                <li class="nav-item">
+                    <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane">
+                        Atribuídas ({{ $solicitacoes->where('status', 'atribuido')->count() }})
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane">
+                        Aguardando Cirurgião ({{ $solicitacoes->where('status', 'cirurgiao')->count() }})
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane">
+                        Aguardando Anestesista ({{ $solicitacoes->where('status', 'anestesista')->count() }})
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane">
+                        Finalizando Orçamento ({{ $solicitacoes->where('status', 'criacao')->count() }})
+                    </button>
+                </li>
+
+                @endif
+                @if ($podeAcessarTudo)
+
+                <li class="nav-item">
+                    <button class="nav-link" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane">
+                        Liberação ({{ $solicitacoes->where('status', 'liberacao')->count() }})
+                    </button>
+                </li>
+
+                @endif
+                @if ($podeAcessarTudo || $ehAgente)
+
+                <li class="nav-item">
+                    <button class="nav-link" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane">
+                        Negociação ({{ $solicitacoes->where('status', 'negociacao')->count() }})
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane">
+                        Concluídas ({{ $solicitacoes->whereIn('status', ['perdido', 'aprovado', 'recusado'])->count() }})
+                    </button>
+                </li>
+            @endif
+
+            @if ($ehCirurgiao)
+                <li class="nav-item">
+                    <button class="nav-link active" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane">
+                        Aguardando Cirurgião ({{ $solicitacoes->where('status', 'cirurgiao')->count() }})
+                    </button>
+                </li>
+            @endif
+
+            @if ($ehAnestesista)
+                <li class="nav-item">
+                    <button class="nav-link active" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane">
+                        Aguardando Anestesista ({{ $solicitacoes->where('status', 'anestesista')->count() }})
+                    </button>
+                </li>
+            @endif
+
+            <li class="nav-item">
+                <button class="nav-link active" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane">
+                    Favoritas ({{ $solicitacoes->filter(fn($s) => Str::contains($s->favoritos, (string) $id_usuario_atual))->count() }})
+                </button>
             </li>
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane" type="button" role="tab" aria-controls="atribuido-tab-pane" aria-selected="false">Atribuídas ({{ $solicitacoes->where('status', 'atribuido')->count() }}) </button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane" type="button" role="tab" aria-controls="cirurgiao-tab-pane" aria-selected="false">Aguardando Cirurgião ({{ $solicitacoes->where('status', 'cirurgiao')->count() }})</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane" type="button" role="tab" aria-controls="anestesista-tab-pane" aria-selected="false">Aguardando Anestesista ({{ $solicitacoes->where('status', 'anestesista')->count() }})</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane" type="button" role="tab" aria-controls="orcamento-tab-pane" aria-selected="false">Finalizando Orçamento ({{ $solicitacoes->where('status', 'criacao')->count() }})</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane" type="button" role="tab" aria-controls="liberacao-tab-pane" aria-selected="false">Liberação ({{ $solicitacoes->where('status', 'liberacao')->count() }})</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane" type="button" role="tab" aria-controls="negociacao-tab-pane" aria-selected="false">Negociação ({{ $solicitacoes->where('status', 'negociacao')->count() }})</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane" type="button" role="tab" aria-controls="concluidos-tab-pane" aria-selected="false">Concluídas ({{ $solicitacoes->whereIn('status', ['perdido', 'aprovado', 'recusado'])->count() }})</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane" type="button" role="tab" aria-controls="favoritos-tab-pane" aria-selected="false">Favoritas ({{ $solicitacoes->filter(fn($solicitacao) => Str::contains($solicitacao->favoritos, (string) $id_usuario_atual))->count() }})</button>
-            </li>
         </ul>
 
         <div class="tab-content" id="myTabContent">
 
+
             <!-- Novos -->
 
-            <div class="tab-pane  fade show active align-top text-start" id="novos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane  fade show align-top text-start" id="novos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
             <div class="tituloTabelas">
                 <h4>Novas Solicitações</h4>
@@ -172,7 +252,7 @@
 
             <!-- Favoritos -->
 
-            <div class="tab-pane fade show" id="favoritos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade active show" id="favoritos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Marcados como Favorito</h4>
@@ -194,8 +274,7 @@
 <script>
 
 function toggleFavorite(event, codigoSolicitacao) {
-    event.preventDefault(); // Evita redirecionamento da página
-
+    event.preventDefault();
     fetch(`/favoritar/${codigoSolicitacao}`, {
         method: 'POST',
         headers: {
@@ -209,14 +288,13 @@ function toggleFavorite(event, codigoSolicitacao) {
             let starElement = document.querySelector(`.star-${codigoSolicitacao}`);
 
             if (data.favorite) {
-                // Substitui pelo SVG preenchido (favoritado)
+
                 starElement.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-star-fill text-warning" viewBox="0 0 16 16">
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>`;
             } else {
-                // Substitui pelo SVG vazio (não favoritado)
                 starElement.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-star" viewBox="0 0 16 16">

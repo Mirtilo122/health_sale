@@ -47,6 +47,8 @@ class Orcamento extends Model
         'observacoes',
         'status',
         'arquivo_pdf',
+        'arquivo_anexo',
+        'arquivo_orcamento',
         'urgencia',
         'cirurgiao',
         'nome_cirurgiao',
@@ -78,5 +80,13 @@ class Orcamento extends Model
     public function responsavel()
     {
         return $this->belongsTo(Usuarios::class, 'id_usuario_responsavel');
+    }
+    public function cirurgiao()
+    {
+        return $this->belongsTo(Usuarios::class, 'id_usuarios_cirurgioes');
+    }
+    public function anestesista()
+    {
+        return $this->belongsTo(Usuarios::class, 'id_usuarios_anestesistas');
     }
 }

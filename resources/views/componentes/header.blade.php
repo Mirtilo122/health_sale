@@ -32,9 +32,7 @@
 
     <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="/dashboard">Painel</a></li>
-        <li><a class="dropdown-item" href="/precos">Tabelas de Preços</a></li>
         <li><a class="dropdown-item" href="/usuarios">Usuários</a></li>
-        <li><a class="dropdown-item" href="/convenios">Convenios</a></li>
         <li><a class="dropdown-item" href="/logout">Sair</a></li>
     </ul>
 </div>

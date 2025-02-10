@@ -25,6 +25,9 @@
                 @endforeach
             </select>
         </div>
+        <div class="mb-3">
+            <h5>Informações do Cirurgião:</h5>
+        </div>
     </div>
 
     <!-- Anestesista -->
@@ -40,6 +43,9 @@
                     </option>
                 @endforeach
             </select>
+        </div>
+        <div class="mb-3">
+            <h5>Informações do Anestesista:</h5>
         </div>
     </div>
 

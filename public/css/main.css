@@ -17,6 +17,7 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: visible;
+    font-size: 12px;
 }
 
 
@@ -227,25 +228,38 @@ h2{
     font-family: "Poppins", serif;
     font-weight: 600;
     font-style: normal;
+    font-size: 30px;
 }
+
 
 p{
     font-family: "Poppins", serif;
     font-weight: 400;
     font-style: normal;
+    font-size: 13px;
 }
 
 label{
     font-family: "Poppins", serif;
     font-weight: 400;
     font-style: normal;
+    font-size: 13px;
 }
 
 h4{
     font-family: "Poppins", serif;
     font-weight: 600;
     font-style: normal;
+    font-size: 20px;
 }
+
+h5{
+    font-family: "Poppins", serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 15px;
+}
+
 
 
 

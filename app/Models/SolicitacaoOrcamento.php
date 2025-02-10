@@ -39,4 +39,9 @@ class SolicitacaoOrcamento extends Model {
     {
         return $this->belongsTo(Usuarios::class, 'id_usuario');
     }
+
+    public function orcamento()
+    {
+        return $this->hasOne(Orcamento::class, 'codigo_solicitacao', 'codigo_solicitacao');
+    }
 }

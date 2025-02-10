@@ -109,19 +109,11 @@
                                     </div>
                                 @endif
                             </td>
-                            <td scope="row" class="align-middle text-center
+                            <td scope="row" class="align-middle text-center">
                                 @php
-                                    $diferencaMinutos = \Carbon\Carbon::parse($solicitacao->data_atribuido)->diffInMinutes(now());
-                                    $classeTexto = '';
-
-                                    if ($diferencaMinutos > 30 && $diferencaMinutos <= 40) {
-                                        $classeTexto = 'text-warning'; // Amarelo
-                                    } elseif ($diferencaMinutos > 40) {
-                                        $classeTexto = 'text-danger'; // Vermelho
-                                    }
+                                    $diferenca = \Carbon\Carbon::parse($solicitacao->data_concluido)->diffForHumans();
                                 @endphp
-                                {{ $classeTexto }}"                            >
-                                {{ \Carbon\Carbon::parse($solicitacao->data_atribuido)->diffForHumans() }}
+                                {{ $diferenca }}
                             </td>
                             <td scope="row" class="align-middle text-center">
                             <a href="{{ url('criar_orcamentos', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-secondary btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Detalhes</a>

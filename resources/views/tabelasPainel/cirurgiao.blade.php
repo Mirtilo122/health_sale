@@ -78,7 +78,11 @@
 
                                 <span class="badge bg-warning text-dark">Retorno Cirurgião</span>
                             </td>
-                            <td scope="row" class="align-middle text-center">Nome Cirurgião</td>
+                            @php
+                            $cirurgiao = $usuarios->firstWhere('id', $solicitacao->orcamento->id_usuarios_cirurgioes);
+
+                            @endphp
+                            <td scope="row" class="align-middle text-center">{{$cirurgiao->usuario}}</td>
                             <td scope="row" class="align-middle text-center">
                                 @if ($solicitacao->urgencia)
                                     <div class="text-danger d-flex align-items-center">
@@ -91,15 +95,22 @@
                                 @endif
                             </td>
 
-                            <td scope="row" class="align-middle text-center">
+                            <td scope="row" class="align-middle text-center
                                 @php
-                                    $diferenca = \Carbon\Carbon::parse($solicitacao->data_solicitacao)->diffForHumans();
+                                    $diferencaMinutos = \Carbon\Carbon::parse($solicitacao->data_cirurgiao)->diffInMinutes(now());
+                                    $classeTexto = '';
+
+                                    if ($diferencaMinutos > 30 && $diferencaMinutos <= 40) {
+                                        $classeTexto = 'text-warning'; // Amarelo
+                                    } elseif ($diferencaMinutos > 40) {
+                                        $classeTexto = 'text-danger'; // Vermelho
+                                    }
                                 @endphp
-                                {{ $diferenca }}
+                                {{ $classeTexto }}"                            >
+                                {{ \Carbon\Carbon::parse($solicitacao->data_cirurgiao)->diffForHumans() }}
                             </td>
                             <td scope="row" class="align-middle text-center">
-                                <a href="{{ route('orcamento.atribuir', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-success btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Editar Orçamento</a>
-
+                                <a href="{{ route('orcamento.cirurgiao', $solicitacao->codigo_solicitacao) }}" class="btn btn-success btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Editar Orçamento</a>
                             </td>
                         </tr>
                     @empty

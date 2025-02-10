@@ -1,6 +1,6 @@
 @extends('orcamento.layoutsOrcamentos.layoutPadrao')
 
-@section('action', '/orcamento/salvar')
+@section('action', '/orcamento/criarSalvar')
 
 
 
@@ -10,7 +10,7 @@
 <div class="d-flex justify-content-end gap-2 mt-3">
 <a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
 <button type="submit" class="btn btn-primary" id="salvarSair">Salvar e Sair</button>
-<button type="submit" class="btn btn-success" id="prosseguir">Prosseguir</button>
+<button type="submit" class="btn btn-success" id="criar">Criar Orçamento</button>
 </div>
 </div>
 </div>
@@ -21,11 +21,8 @@
 
 @section('abas')
 
-    <input type="hidden" name="status" id="status" value="atribuido">
+    <input type="hidden" name="status" id="status" value="criacao">
 
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="paciente-tab" data-bs-toggle="tab" data-bs-target="#paciente-tab-pane" type="button" role="tab" aria-controls="paciente-tab-pane" aria-selected="true">Paciente</button>
-    </li>
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="solicitacao-tab" data-bs-toggle="tab" data-bs-target="#solicitacao-tab-pane" type="button" role="tab" aria-controls="solicitacao-tab-pane" aria-selected="false">Solicitação</button>
@@ -36,30 +33,24 @@
     </li>
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="equipe-tab" data-bs-toggle="tab" data-bs-target="#equipe-tab-pane" type="button" role="tab" aria-controls="equipe-tab-pane" aria-selected="false">Equipe</button>
+        <button class="nav-link" id="equipe-tab" data-bs-toggle="tab" data-bs-target="#equipe-tab-pane" type="button" role="tab" aria-controls="equipe-tab-pane" aria-selected="false">Manutenção de Equipe</button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="criar-tab" data-bs-toggle="tab" data-bs-target="#criar-tab-pane" type="button" role="tab" aria-controls="criar-tab-pane" aria-selected="false">Outras Informações</button>
     </li>
 
 @endsection
 
 @section('conteudoAbas')
 
-            <!-- Paciente -->
 
-            <div class="tab-pane fade show active align-top text-start row mt-1" id="paciente-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show  align-top text-start row mt-1" id="solicitacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-            @include('orcamento.abasOrcamentos.infoPaciente')
-
-            </div>
-
-            <!-- Solicitação -->
-
-            <div class="tab-pane fade show" id="solicitacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-
-            @include('orcamento.abasOrcamentos.infoSolicitacao')
+            @include('orcamento.abasOrcamentos.resumoProcedimento')
 
             </div>
 
-            <!-- Procedimentos -->
 
             <div class="tab-pane fade show" id="procedimentos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
@@ -69,14 +60,24 @@
 
             </div>
 
-            <!-- Equipe -->
-
             <div class="tab-pane fade show" id="equipe-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
                 <h4>Equipe</h4>
 
                 @include('orcamento.abasOrcamentos.montarEquipe')
 
+
+            </div>
+
+
+            <div class="tab-pane fade show active" id="criar-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Condições Gerais</h4>
+
+                <div class="mb-3">
+                            <label for="formFile" class="form-label">Anexo</label>
+                            <input class="form-control" type="file" id="arquivo_condicoes" name="arquivo_condicoes">
+                </div>
 
             </div>
 @endsection
