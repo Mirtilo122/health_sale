@@ -13,7 +13,6 @@
 <button type="submit" class="btn btn-success">Prosseguir</button>
 </div>
 </div>
-</div>
 
 @endsection
 

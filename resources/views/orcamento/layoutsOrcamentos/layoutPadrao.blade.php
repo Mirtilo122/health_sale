@@ -17,6 +17,10 @@ label {
     margin-top: 20px;
 }
 
+.btn-sm{
+    width: 10rem;
+}
+
 input[type="text"],
 input[type="date"],
 input[type="email"],
@@ -118,8 +122,9 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 
 <div class="container_cards mt-4">
 
+<form class="formulario-abas needs-validation" id="orcamento-form" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate></form>
+
 @include('orcamento.layoutsOrcamentos.infoOrcamento')
-<form class="formulario-abas needs-validation" id="orcamento-form" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate>
 
 @yield('resumo')
     <div class="card shadow-sm p-4 card_info">

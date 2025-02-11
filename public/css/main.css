@@ -224,6 +224,13 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+label{
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+}
+
 h2{
     font-family: "Poppins", serif;
     font-weight: 600;
@@ -231,19 +238,11 @@ h2{
     font-size: 30px;
 }
 
-
-p{
+h3{
     font-family: "Poppins", serif;
-    font-weight: 400;
+    font-weight: 600;
     font-style: normal;
-    font-size: 13px;
-}
-
-label{
-    font-family: "Poppins", serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 13px;
+    font-size: 25px;
 }
 
 h4{
@@ -259,6 +258,15 @@ h5{
     font-style: normal;
     font-size: 15px;
 }
+
+p{
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+}
+
+
 
 
 

@@ -7,11 +7,13 @@
 @section('resumo')
 
 @include('orcamento.layoutsOrcamentos.resumoOrcamento')
-<div class="d-flex justify-content-end gap-2 mt-3">
-<a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
-<button type="submit" class="btn btn-primary" id="salvarSair">Salvar e Sair</button>
-<button type="submit" class="btn btn-success" id="prosseguir">Prosseguir</button>
+<div class="d-flex flex-column justify-content-end gap-2 mt-3">
+<a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
+<button type="submit" class="btn btn-success btn-sm" id="prosseguir">Prosseguir</button>
 </div>
+</div>
+<h4>Total: R$ <span id="totalValor">0.00</span></h4>
 </div>
 </div>
 

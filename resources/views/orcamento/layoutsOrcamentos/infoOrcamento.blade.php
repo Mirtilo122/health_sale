@@ -26,15 +26,15 @@
             </div>
         </div>
 
-        <div class="row mt-1">
-            <div class="col-md-3">
+        <div class="row d-flex justify-content-between mt-1">
+            <div class="col-auto flex-fill">
                 <p><strong>Nome do Solicitante:</strong> {{$solicitacao->nome_solicitante}}</p>
                 <p><strong>Nome do Paciente:</strong> {{$solicitacao->nome_paciente}}</p>
                 <p><strong>Data de Nascimento:</strong> {{ \Carbon\Carbon::parse($solicitacao->data_nascimento)->format('d/m/Y') }}</p>
 
             </div>
 
-            <div class="col-md-3">
+            <div class="col-auto flex-fill">
                 @if($solicitacao->canal_contato == "telefone")
                     <p><strong>Canal de Preferência de Contato:</strong> Telefone</p>
                 @else
@@ -45,7 +45,7 @@
                 <p><strong>E-mail:</strong> {{$solicitacao->email}}</p>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-auto flex-fill">
                 <p><strong>Tipo de Orçamento:</strong>
                     @switch($solicitacao->tipo_orcamento)
                         @case('parto') Parto @break
@@ -73,7 +73,7 @@
             </div>
 
 
-            <div class="col-md-3">
+            <div class="col-auto flex-fill">
 
             <p><strong>Responsável pelo Orçamento:</strong>
             @php
@@ -85,10 +85,11 @@
 
                 <p><strong>Origem do Orçamento:</strong> {{$solicitacao->origem_orcamento === 'site' ? 'Site' : $solicitacao->origem_orcamento}}</p>
 
-                <strong>Status:</strong>
+                <p><strong>Status:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
                 @php
                     $status = ucfirst(strtolower($solicitacao->status));
                 @endphp
+
                 @if($status == 'Novo')
                     <span class="badge bg-info text-light">Novo</span>
                 @elseif($status == 'Atribuido')
@@ -111,11 +112,14 @@
                     <span class="badge bg-dark text-light">Recusado</span>
                 @endif
 
+                </p>
+
 
             </div>
 
 
-        </div>
+            <div class="col-auto flex-fill d-flex flex-column">
 
 
-    </div>
+
+
