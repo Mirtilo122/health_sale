@@ -119,7 +119,7 @@ Route::get('/precos', function() {
 
 
 
- 
+
 
 // Rotas de Solicitações de Orçamento
 
@@ -128,22 +128,22 @@ Route::get('/atribuirOrcamento/{codigo_solicitacao}',[SolicitacaoOrcamentoContro
 Route::post('/atualizar_orcamento', [SolicitacaoOrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.atualizar');
 
 Route::get('/orcamento/designar/{id}', [OrcamentoController::class, 'atribuirUsuarios'])->name('orcamento.designar');
-Route::post('/orcamento/salvar', [OrcamentoController::class, 'salvarOrcamento'])->name('orcamento.salvar');
+Route::post('/orcamento/salvar', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.salvar');
 
 Route::get('/orcamento/cirurgiao/{id}', [OrcamentoController::class, 'cirurgiao'])->name('orcamento.cirurgiao');
-Route::post('/orcamento/cirurgiaoSalvar', [OrcamentoController::class, 'salvarAlteracoes'])->name('orcamento.cirurgiaoSalvar');
+Route::post('/orcamento/cirurgiaoSalvar', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.cirurgiaoSalvar');
 
 Route::get('/orcamento/anestesia/{id}', [OrcamentoController::class, 'anestesia'])->name('orcamento.anestesia');
-Route::post('/orcamento/anestesistaSalvar', [OrcamentoController::class, 'salvarAlteracoesAnestesia'])->name('orcamento.anestesistaSalvar');
+Route::post('/orcamento/anestesistaSalvar', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.anestesistaSalvar');
 
 Route::get('/orcamento/criar/{id}', [OrcamentoController::class, 'criacaoOrcamento'])->name('orcamento.criar');
-Route::post('/orcamento/criarSalvar', [OrcamentoController::class, 'criar'])->name('orcamento.criarSalvar');
+Route::post('/orcamento/criarSalvar', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.criarSalvar');
 
 Route::get('/orcamento/liberacao/{id}', [OrcamentoController::class, 'liberacao'])->name('orcamento.liberacao');
-Route::post('/orcamento/liberar', [OrcamentoController::class, 'liberar'])->name('orcamento.liberar');
+Route::post('/orcamento/liberar', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.liberar');
 
 Route::get('/orcamento/negociacao/{id}', [OrcamentoController::class, 'negociacao'])->name('orcamento.negociacao');
-Route::post('/orcamento/concluir', [OrcamentoController::class, 'concluir'])->name('orcamento.concluir');
+Route::post('/orcamento/concluir', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.concluir');
 
 
 

@@ -1,5 +1,5 @@
 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#procedimentoModal">
-    Inserir Novo Procedimento
+    Adicionar Novo
 </button>
 
 <input type="hidden" id="precosProcedimentosLoad"
@@ -20,12 +20,12 @@
                     <input type="text" class="form-control" id="procedimentoNome" placeholder="Digite o nome">
                 </div>
                 <div class="mb-3">
-                    <label for="procedimentoValor" class="form-label">Valor</label>
+                    <label for="procedimentoValor" class="form-label">Valor Unitário</label>
                     <input type="number" class="form-control" id="procedimentoValor" placeholder="Digite o valor">
                 </div>
                 <div class="mb-3">
-                    <label for="procedimentoTuss" class="form-label">Código Tuss</label>
-                    <input type="number" class="form-control" id="procedimentoTuss" placeholder="Digite o código Tuss">
+                    <label for="procedimentoQntd" class="form-label">Quantidade</label>
+                    <input type="number" class="form-control" id="procedimentoQntd" placeholder="Digite a quantidade">
                 </div>
             </div>
             <div class="modal-footer">
@@ -40,9 +40,10 @@
 <table class="table mt-3">
     <thead>
         <tr>
-            <th>Nome do Procedimento</th>
-            <th>Código TUSS</th>
-            <th>Valor</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Valor Total</th>
             <th>Ações</th>
         </tr>
     </thead>

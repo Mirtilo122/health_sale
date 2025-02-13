@@ -1,5 +1,5 @@
 <h4>Informações do Paciente</h4>
-<div class="row mt-1 d-flex">
+<div class="row mt-1 d-flex"> 
     <div class="col-md-4 border-end border-grey">
         <label for="nome_paciente">Nome do Paciente:</label>
         <input type="text" name="nome_paciente" id="nome_paciente" value="{{$solicitacao->nome_paciente}}">

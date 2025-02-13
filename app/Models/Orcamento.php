@@ -60,7 +60,10 @@ class Orcamento extends Model
         'id_usuarios_editar',
         'id_usuarios_anestesistas',
         'id_usuarios_cirurgioes',
-        'precos_procedimentos'
+        'precos_procedimentos',
+        'procedimento_principal',
+        'cod_tuss_principal',
+        'procedimentos_secundarios'
     ];
 
     protected $casts = [

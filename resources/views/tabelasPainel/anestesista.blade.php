@@ -81,7 +81,7 @@
                             $anestesista = $usuarios->firstWhere('id', $solicitacao->orcamento->id_usuarios_anestesistas);
 
                             @endphp
-                            <td scope="row" class="align-middle text-center">{{$anestesista->usuario}}</td>
+                            <td scope="row" class="align-middle text-center">Nome</td>
                             <td scope="row" class="align-middle text-center">
                                 @if ($solicitacao->urgencia)
                                     <div class="text-danger d-flex align-items-center">

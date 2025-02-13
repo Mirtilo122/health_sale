@@ -6,11 +6,8 @@
 
 @section('resumo')
 
-@include('orcamento.layoutsOrcamentos.resumoOrcamento')
-
-<div class="d-flex justify-content-end gap-2 mt-3">
-<a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
-<button type="submit" class="btn btn-success">Prosseguir</button>
+<a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+<button type="submit" class="btn btn-success btn-sm" onclick="prepararEnvio('cirurgiao')">Prosseguir</button>
 </div>
 </div>
 </div>
@@ -35,7 +32,8 @@ color: black;
 
 </style>
 
-    <input type="hidden" name="status" id="status" value="atribuido">
+    <input type="hidden" name="status" id="status" value="cirurgiao">
+    <input type="hidden" name="tipo_data" id="tipo_data" value="data_anestesista">
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="solicitacao-tab" data-bs-toggle="tab" data-bs-target="#solicitacao-tab-pane" type="button" role="tab" aria-controls="solicitacao-tab-pane" aria-selected="true">Procedimento</button>
@@ -45,12 +43,17 @@ color: black;
         <button class="nav-link active" id="procedimentos-tab" data-bs-toggle="tab" data-bs-target="#procedimentos-tab-pane" type="button" role="tab" aria-controls="procedimentos-tab-pane" aria-selected="false">Cirurgião</button>
     </li>
 
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane" type="button" role="tab" aria-controls="anestesista-tab-pane" aria-selected="false">Anestesista</button>
+    </li>
+
+
 @endsection
 
 @section('conteudoAbas')
 
 
-            <div class="tab-pane fade show align-top text-start row mt-1 disabled" id="solicitacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show align-top text-start mt-1 disabled" id="solicitacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
             @include('orcamento.abasOrcamentos.resumoProcedimento')
 
@@ -60,11 +63,15 @@ color: black;
 
             <div class="tab-pane fade show active" id="procedimentos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-                <h4>Área do Cirurgião</h4>
-
                 @include('orcamento.abasOrcamentos.abaCirurgiao')
 
-                @include('orcamento.abasOrcamentos.procedimento')
+            </div>
+
+            <div class="tab-pane fade show disabled" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                <h4>Área do Anestesista</h4>
+
+                @include('orcamento.abasOrcamentos.abaAnestesia')
 
             </div>
 

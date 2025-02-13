@@ -6,11 +6,9 @@
 
 @section('resumo')
 
-@include('orcamento.layoutsOrcamentos.resumoOrcamento')
-
-<div class="d-flex justify-content-end gap-2 mt-3">
-<a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
-<button type="submit" class="btn btn-success">Prosseguir</button>
+<a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+<button type="submit" class="btn btn-success btn-sm" onclick="prepararEnvio('anestesista')">Prosseguir</button>
+</div>
 </div>
 </div>
 
@@ -40,7 +38,8 @@ border: black;
 
 </style>
 
-    <input type="hidden" name="status" id="status" value="atribuido">
+    <input type="hidden" name="status" id="status" value="anestesista">
+    <input type="hidden" name="tipo_data" id="tipo_data" value="data_criacao">
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="solicitacao-tab" data-bs-toggle="tab" data-bs-target="#solicitacao-tab-pane" type="button" role="tab" aria-controls="solicitacao-tab-pane" aria-selected="true">Procedimento</button>
@@ -73,16 +72,13 @@ border: black;
 
                 @include('orcamento.abasOrcamentos.abaCirurgiao')
 
-                @include('orcamento.abasOrcamentos.procedimento')
-
             </div>
 
             <div class="tab-pane fade show active" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-                <h4>Área do Cirurgião</h4>
+                <h4>Área do Anestesista</h4>
 
-
-                @include('orcamento.abasOrcamentos.procedimentoAnestesista')
+                @include('orcamento.abasOrcamentos.abaAnestesia')
 
             </div>
 

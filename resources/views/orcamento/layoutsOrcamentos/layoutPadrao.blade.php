@@ -14,21 +14,25 @@ label {
     color: #333;
     display: block;
     margin-bottom: 5px;
-    margin-top: 20px;
+    margin-top: 9px;
 }
 
 .btn-sm{
-    width: 10rem;
+    width: 9rem;
+    height: 1.5rem;
+    padding: 0.1rem;
 }
 
 input[type="text"],
 input[type="date"],
 input[type="email"],
+input[type="number"],
 select,
 textarea {
     width: 100%;
-    padding: 10px;
-    font-size: 14px;
+    height: 2rem;
+    padding: 7px;
+    font-size: 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
     transition: all 0.3s ease-in-out;
@@ -73,13 +77,33 @@ button.alterar-btn:active {
     transform: scale(0.95);
 }
 
+.remover-btn{
+    background-color:rgb(255, 23, 23);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+}
+
+button.remover-btn:hover {
+    background-color:rgb(199, 26, 26);
+}
+
+button.remover-btn:active {
+    transform: scale(0.95);
+}
+
 textarea {
     resize: none;
     height: 100px;
 }
 
 p{
-    margin-top: 20px;
+    margin-top: 9px;
+    margin-bottom: 6px;
 }
 
 .list-group-item{
@@ -107,6 +131,23 @@ p{
     justify-content: flex-end;
 }
 
+.info_superior{
+    height: 3rem;
+    padding: 0px;
+}
+
+.info_superior h2,h5{
+    margin: 0px;
+}
+
+.span_stts{
+    font-size: 11px;
+}
+
+.nav-item{
+    height: 3rem;
+}
+
 @media (max-width: 768px) {
     .col-md-4 {
         width: 100%;
@@ -120,17 +161,19 @@ p{
 session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 @endphp
 
-<div class="container_cards mt-4">
+<div class="container_cards mt-2 mb-2">
 
-<form class="formulario-abas needs-validation" id="orcamento-form" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate></form>
+<form class="formulario-abas needs-validation" id="orcamento-form" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate>
+@csrf
 
 @include('orcamento.layoutsOrcamentos.infoOrcamento')
 
 @yield('resumo')
-    <div class="card shadow-sm p-4 card_info">
+
+    <div class="card shadow-sm p-0 card_info mt-2">
 
 
-        @csrf
+
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
 
@@ -138,7 +181,7 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 
             </ul>
 
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content m-0 p-0" id="myTabContent">
 
             @yield('conteudoAbas')
 
@@ -159,7 +202,7 @@ function atualizarHidden(info) {
 
 
 function toggleComorbidades() {
-    const comorbidades = document.getElementById("comorbidadesPaciente").value;
+    const comorbidades = document.getElementById("comorbidades").value;
     const descricaoComorbidade = document.getElementById("comorbidade");
 
     if (comorbidades === "sim") {
@@ -322,26 +365,24 @@ function contarIdsAgentes() {
 
 
 try {
-document.getElementById("salvarProcedimento").addEventListener("click", function () {
-    const nome = document.getElementById("procedimentoNome").value;
-    const valor = document.getElementById("procedimentoValor").value;
-    const tuss = document.getElementById("procedimentoTuss").value;
+    document.getElementById("salvarProcedimento").addEventListener("click", function () {
+        const nome = document.getElementById("procedimentoNome").value;
+        const valor = parseFloat(document.getElementById("procedimentoValor").value) || 0;
+        const qntd = parseInt(document.getElementById("procedimentoQntd").value) || 1;
 
-    if (nome.trim() === "" || valor.trim() === "") {
-        alert("O nome e o valor do procedimento não podem estar vazios!");
-        return;
-    }
+        if (nome.trim() === "" || valor <= 0) {
+            alert("O nome e o valor do procedimento não podem estar vazios ou zerados!");
+            return;
+        }
 
-    adicionarProcedimento(nome, valor, tuss);
+        adicionarProcedimento(nome, valor, qntd);
 
+        document.getElementById("procedimentoNome").value = "";
+        document.getElementById("procedimentoValor").value = "";
+        document.getElementById("procedimentoQntd").value = "";
 
-    document.getElementById("procedimentoNome").value = "";
-    document.getElementById("procedimentoValor").value = "";
-    document.getElementById("procedimentoTuss").value = "";
-
-
-    bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
-});
+        bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
+    });
 } catch (error) {
     console.warn("Elemento não encontrado, não é possível adicionar procedimentos.");
 }
@@ -351,7 +392,7 @@ try {
 document.getElementById("salvarProcedimentoAnestesista").addEventListener("click", function () {
     const nome = document.getElementById("procedimentoNomeAnestesista").value;
     const valor = document.getElementById("procedimentoValorAnestesista").value;
-    const tuss = document.getElementById("procedimentoTussAnestesista").value;
+    const qntd = document.getElementById("procedimentoQntdAnestesista").value;
 
     if (nome.trim() === "" || valor.trim() === "") {
         alert("O nome e o valor do procedimento não podem estar vazios!");
@@ -359,12 +400,12 @@ document.getElementById("salvarProcedimentoAnestesista").addEventListener("click
     }
 
 
-    adicionarProcedimentoAnestesista(nome, valor, tuss);
+    adicionarProcedimentoAnestesista(nome, valor, qntd);
 
 
     document.getElementById("procedimentoNomeAnestesista").value = "";
     document.getElementById("procedimentoValorAnestesista").value = "";
-    document.getElementById("procedimentoTussAnestesista").value = "";
+    document.getElementById("procedimentoQntdAnestesista").value = "";
 
 
     bootstrap.Modal.getInstance(document.getElementById("procedimentoModalAnestesista")).hide();
@@ -375,12 +416,11 @@ document.getElementById("salvarProcedimentoAnestesista").addEventListener("click
 
 
 
-function adicionarProcedimento(nome, valor, tuss) {
-
+function adicionarProcedimento(nome, valor, qntd) {
     const tabela = document.getElementById("tabela-procedimentos");
-
     const tr = document.createElement("tr");
 
+    // Nome do procedimento
     const tdNome = document.createElement("td");
     const inputNome = document.createElement("input");
     inputNome.type = "text";
@@ -388,21 +428,30 @@ function adicionarProcedimento(nome, valor, tuss) {
     inputNome.value = nome;
     tdNome.appendChild(inputNome);
 
-    const tdTuss = document.createElement("td");
-    const inputTuss = document.createElement("input");
-    inputTuss.type = "number";
-    inputTuss.className = "form-control procedimento-tuss";
-    inputTuss.value = tuss;
-    tdTuss.appendChild(inputTuss);
+    // Quantidade
+    const tdQntd = document.createElement("td");
+    const inputQntd = document.createElement("input");
+    inputQntd.type = "number";
+    inputQntd.className = "form-control procedimento-qntd";
+    inputQntd.value = qntd;
+    inputQntd.min = "1";
+    tdQntd.appendChild(inputQntd);
 
+    // Valor Unitário
     const tdValor = document.createElement("td");
     const inputValor = document.createElement("input");
     inputValor.type = "number";
     inputValor.className = "form-control valor-procedimento";
-    inputValor.value = valor;
+    inputValor.value = valor.toFixed(2);
     inputValor.step = "0.01";
     tdValor.appendChild(inputValor);
 
+    // Valor Total (Calculado automaticamente)
+    const tdTotal = document.createElement("td");
+    tdTotal.className = "valor-total";
+    tdTotal.textContent = (valor * qntd).toFixed(2);
+
+    // Ações (Remover)
     const tdAcoes = document.createElement("td");
     const btnRemover = document.createElement("button");
     btnRemover.className = "btn btn-danger btn-sm";
@@ -412,22 +461,30 @@ function adicionarProcedimento(nome, valor, tuss) {
         atualizarTotal();
         atualizarInputHidden();
     };
-
     tdAcoes.appendChild(btnRemover);
 
+    // Adiciona os elementos à linha
     tr.appendChild(tdNome);
-    tr.appendChild(tdTuss);
+    tr.appendChild(tdQntd);
     tr.appendChild(tdValor);
+    tr.appendChild(tdTotal);
     tr.appendChild(tdAcoes);
 
+    // Adiciona a linha à tabela
     tabela.appendChild(tr);
 
     atualizarTotal();
     atualizarInputHidden();
 
-    inputNome.addEventListener("input", atualizarInputHidden);
-    inputTuss.addEventListener("input", atualizarInputHidden);
+    // Eventos para atualizar valor total ao alterar quantidade ou valor unitário
+    inputQntd.addEventListener("input", () => {
+        atualizarValorTotal(tr);
+        atualizarTotal();
+        atualizarInputHidden();
+    });
+
     inputValor.addEventListener("input", () => {
+        atualizarValorTotal(tr);
         atualizarTotal();
         atualizarInputHidden();
     });
@@ -435,7 +492,7 @@ function adicionarProcedimento(nome, valor, tuss) {
 
 
 
-function adicionarProcedimentoAnestesista(nome, valor, tuss) {
+function adicionarProcedimentoAnestesista(nome, valor, qntd) {
     const tabela = document.getElementById("tabela-procedimentosAnestesista");
 
     const tr = document.createElement("tr");
@@ -447,12 +504,12 @@ function adicionarProcedimentoAnestesista(nome, valor, tuss) {
     inputNome.value = nome;
     tdNome.appendChild(inputNome);
 
-    const tdTuss = document.createElement("td");
-    const inputTuss = document.createElement("input");
-    inputTuss.type = "number";
-    inputTuss.className = "form-control procedimento-tuss";
-    inputTuss.value = tuss;
-    tdTuss.appendChild(inputTuss);
+    const tdQntd = document.createElement("td");
+    const inputQntd = document.createElement("input");
+    inputQntd.type = "number";
+    inputQntd.className = "form-control procedimento-qntd";
+    inputQntd.value = qntd;
+    tdQntd.appendChild(inputQntd);
 
     const tdValor = document.createElement("td");
     const inputValor = document.createElement("input");
@@ -475,7 +532,7 @@ function adicionarProcedimentoAnestesista(nome, valor, tuss) {
     tdAcoes.appendChild(btnRemover);
 
     tr.appendChild(tdNome);
-    tr.appendChild(tdTuss);
+    tr.appendChild(tdQntd);
     tr.appendChild(tdValor);
     tr.appendChild(tdAcoes);
 
@@ -486,7 +543,7 @@ function adicionarProcedimentoAnestesista(nome, valor, tuss) {
     atualizarTotal();
 
     inputNome.addEventListener("input", atualizarInputHidden);
-    inputTuss.addEventListener("input", atualizarInputHidden);
+    inputQntd.addEventListener("input", atualizarInputHidden);
     inputValor.addEventListener("input", () => {
         atualizarTotal();
         atualizarInputHidden();
@@ -494,10 +551,17 @@ function adicionarProcedimentoAnestesista(nome, valor, tuss) {
 }
 
 
+function atualizarValorTotal(tr) {
+    const qntd = parseInt(tr.querySelector(".procedimento-qntd").value) || 1;
+    const valor = parseFloat(tr.querySelector(".valor-procedimento").value) || 0;
+    tr.querySelector(".valor-total").textContent = (qntd * valor).toFixed(2);
+}
+
 function atualizarTotal() {
     let total = 0;
-    document.querySelectorAll(".valor-procedimento").forEach(input => {
-        total += parseFloat(input.value) || 0;
+    document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
+        const valorTotal = parseFloat(tr.querySelector(".valor-total").textContent) || 0;
+        total += valorTotal;
     });
     document.getElementById("totalValor").textContent = total.toFixed(2);
 }
@@ -507,11 +571,11 @@ function atualizarInputHidden() {
 
     document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
         const nome = tr.querySelector(".procedimento-nome")?.value || "";
-        const tuss = tr.querySelector(".procedimento-tuss")?.value || "";
+        const qntd = tr.querySelector(".procedimento-qntd")?.value || "";
         const valor = tr.querySelector(".valor-procedimento")?.value || "";
 
         if (nome && valor) {
-            procedimentos.push({ nome, tuss, valor });
+            procedimentos.push({ nome, qntd, valor });
         }
     });
 
@@ -519,11 +583,11 @@ function atualizarInputHidden() {
 
         document.querySelectorAll("#tabela-procedimentosAnestesista tr").forEach(tr => {
                 const nome = tr.querySelector(".procedimento-nome")?.value || "";
-                const tuss = tr.querySelector(".procedimento-tuss")?.value || "";
+                const qntd = tr.querySelector(".procedimento-qntd")?.value || "";
                 const valor = tr.querySelector(".valor-procedimento")?.value || "";
 
                 if (nome && valor) {
-                    procedimentos.push({ nome, tuss, valor });
+                    procedimentos.push({ nome, qntd, valor });
 
                 }
         });
@@ -535,22 +599,19 @@ function atualizarInputHidden() {
     document.getElementById("precosProcedimentosInput").value = JSON.stringify(procedimentos);
 }
 
-
-
-
-
-
 try {
-document.addEventListener("DOMContentLoaded", function() {
-    const precosProcedimentosLoad = JSON.parse(document.getElementById("precosProcedimentosLoad").value);
+    document.addEventListener("DOMContentLoaded", function () {
+        const precosProcedimentosLoad = JSON.parse(document.getElementById("precosProcedimentosLoad").value || "[]");
 
+        if (precosProcedimentosLoad.length > 0) {
+            precosProcedimentosLoad.forEach(procedimento => {
+                let valor_unit_procedimento = parseFloat(procedimento.valor) || 0;
+                let qntd_procedimento = parseFloat(procedimento.qntd) || 0;
 
-    if (precosProcedimentosLoad.length > 0) {
-        precosProcedimentosLoad.forEach(procedimento => {
-            adicionarProcedimento(procedimento.nome, procedimento.valor, procedimento.tuss);
-        });
-    }
-});
+                adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento);
+            });
+        }
+    });
 } catch (error) {
     console.warn("Elemento não encontrado");
 }
@@ -559,9 +620,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
 
 try {
 document.getElementById("prosseguir").addEventListener("click", function (event) {
@@ -579,9 +637,6 @@ document.getElementById("prosseguir").addEventListener("click", function (event)
             event.preventDefault();
             return;
         }
-
-
-        document.getElementById("status").value = "cirurgiao";
     });
 } catch (error) {
     console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
@@ -590,73 +645,156 @@ document.getElementById("prosseguir").addEventListener("click", function (event)
 
 
 
-try {
-document.getElementById("criar").addEventListener("click", function (event) {
 
-        document.getElementById("status").value = "liberacao";
-    });
+try {
+
+document.addEventListener("DOMContentLoaded", function () {
+    const procedimentosSecundarios = @json($orcamento->procedimentos_secundarios ?? []);
+
+    if (procedimentosSecundarios.length > 0) {
+        procedimentosSecundarios.forEach(proc => adicionarSecundario(proc.cod_tuss, proc.procedimento));
+    }
+});
+
 } catch (error) {
-    console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
+    console.warn("Elemento não encontrado, não é possível inserir procedimentos secundários");
 }
 
 
+function adicionarSecundario(codTuss = "", procedimento = "") {
+    const novaDiv = document.createElement("div");
+    novaDiv.classList.add("row", "d-flex", "flex-direction-row", "mb-2");
+
+    novaDiv.innerHTML = `
+        <div class="col-2 flex-fill d-flex">
+            <p>Procedimento Secundário:</p>
+        </div>
+
+        <div class="col-3 flex-fill d-flex">
+            <input type="number" name="cod_tuss_sec" placeholder="Insira o Código TUSS..." value="${codTuss}">
+        </div>
+
+        <div class="col-6 flex-fill d-flex">
+            <input type="text" name="procedimento_sec" placeholder="Insira o Procedimento..." value="${procedimento}">
+        </div>
+
+        <div class="col-1 flex-fill d-flex">
+            <button type="button" class="remover-btn btn btn-danger" onclick="removerProcedimento(this)">Remover</button>
+        </div>
+    `;
+
+    document.getElementById("procedimentos-container").appendChild(novaDiv);
+}
+
+function removerProcedimento(botao) {
+    botao.parentElement.parentElement.remove();
+}
 
 
-try {
-    document.addEventListener("click", function (event) {
-        if (event.target.id === "liberar") {
+function prepararEnvio(funcao) {
+    const procedimentos = [];
+    const codTussInputs = document.querySelectorAll('[name="cod_tuss_sec"]');
+    const procedimentoInputs = document.querySelectorAll('[name="procedimento_sec"]');
+
+    codTussInputs.forEach((input, index) => {
+        if (input.value.trim() !== "" && procedimentoInputs[index].value.trim() !== "") {
+            procedimentos.push({
+                cod_tuss: input.value,
+                procedimento: procedimentoInputs[index].value
+            });
+        }
+    });
+
+    document.getElementById("procedimentos_json").value = JSON.stringify(procedimentos);
+
+    switch (funcao){
+        case "designar":
+            document.getElementById("status").value = "cirurgiao";
+            break;
+
+        case "cirurgiao":
+            document.getElementById("status").value = "anestesista";
+            break;
+
+        case "anestesista":
+            document.getElementById("status").value = "criacao";
+            break;
+
+        case "criar":
+            document.getElementById("status").value = "liberacao";
+            break;
+
+        case "liberar":
             document.getElementById("status").value = "negociacao";
-        }
-    });
-} catch (error) {
-    console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
-}
+            break;
 
-
-
-try {
-    document.addEventListener("click", function (event) {
-        if (event.target.id === "recusar") {
+        case "recusar":
             document.getElementById("status").value = "recusado";
-        }
-    });
-} catch (error) {
-    console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
-}
+            break;
 
-
-
-
-try {
-    document.addEventListener("click", function (event) {
-        if (event.target.id === "ganho") {
+        case "ganho":
             document.getElementById("status").value = "aprovado";
-        }
-    });
-} catch (error) {
-    console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
+            break;
+
+        case "perdido":
+            document.getElementById("status").value = "perdido";
+            break;
+
+
+    }
 }
+
+
 
 
 
 
 
 try {
-    document.addEventListener("click", function (event) {
-        if (event.target.id === "perdido") {
-            document.getElementById("status").value = "perdido";
-        }
-    });
-} catch (error) {
-    console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
-}
-
+document.getElementById('urgente').addEventListener('change', function() {
+    var dataInput = document.getElementById('data_provavel2');
+    if (this.checked) {
+        dataInput.disabled = true;
+    } else {
+        dataInput.disabled = false;
+    }
 });
 
 
+window.onload = function() {
+    var urgenteCheckbox = document.getElementById('urgente');
+    var dataInput = document.getElementById('data_provavel');
+    if (urgenteCheckbox.checked) {
+        dataInput.readonly = true;
+    }
+}
+
+} catch (error) {
+    console.warn("Elemento não encontrado");
+}
 
 
+function calcularTotal() {
+    var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');
+    var total = 0;
 
+    inputs.forEach(function(input) {
+        total += parseFloat(input.value) || 0;
+    });
+
+    document.getElementById('totalCirurgiao').textContent = total.toFixed(2);
+}
+
+function calcularTotal() {
+    var inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
+    var total = 0;
+
+    inputs.forEach(function(input) {
+        total += parseFloat(input.value) || 0;
+    });
+
+    document.getElementById('totalAnestesia').textContent = total.toFixed(2);
+}
 
 
 

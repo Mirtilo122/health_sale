@@ -2,20 +2,16 @@
 
 @section('action', '/orcamento/salvar')
 
-
+ 
 
 @section('resumo')
 
-@include('orcamento.layoutsOrcamentos.resumoOrcamento')
-<div class="d-flex flex-column justify-content-end gap-2 mt-3">
-<a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
-<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
-<button type="submit" class="btn btn-success btn-sm" id="prosseguir">Prosseguir</button>
-</div>
-</div>
-<h4>Total: R$ <span id="totalValor">0.00</span></h4>
-</div>
-</div>
+                <a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+                <button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
+                <button type="submit" class="btn btn-success btn-sm" id="prosseguir" onclick="prepararEnvio('designar')">Prosseguir</button>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -24,6 +20,7 @@
 @section('abas')
 
     <input type="hidden" name="status" id="status" value="atribuido">
+    <input type="hidden" name="tipo_data" id="tipo_data" value="data_cirurgiao">
 
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="paciente-tab" data-bs-toggle="tab" data-bs-target="#paciente-tab-pane" type="button" role="tab" aria-controls="paciente-tab-pane" aria-selected="true">Paciente</button>
@@ -47,7 +44,7 @@
 
             <!-- Paciente -->
 
-            <div class="tab-pane fade show active align-top text-start row mt-1" id="paciente-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show active" id="paciente-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
             @include('orcamento.abasOrcamentos.infoPaciente')
 
@@ -67,7 +64,7 @@
 
                 <h4>Procedimentos</h4>
 
-                @include('orcamento.abasOrcamentos.procedimento')
+                @include('orcamento.abasOrcamentos.procedimentoPrincSec')
 
             </div>
 

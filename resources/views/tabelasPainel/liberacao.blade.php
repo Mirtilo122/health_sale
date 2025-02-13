@@ -115,7 +115,7 @@
                                 {{ \Carbon\Carbon::parse($solicitacao->data_liberacao)->diffForHumans() }}
                             </td>
                             <td scope="row" class="align-middle text-center">
-                            <a href="{{ route('orcamento.liberacao', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Liberar</a>
+                            <a href="{{ route('orcamento.liberacao', $solicitacao->codigo_solicitacao) }}" class="btn btn-primary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Liberar</a>
                             </td>
                         </tr>
                     @empty
