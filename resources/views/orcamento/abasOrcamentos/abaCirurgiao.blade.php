@@ -24,9 +24,11 @@
     </div>
 </div>
 
-<div class="row d-flex flex-direction-row">
+<input type="hidden" name="taxa_cirurgiao" id="taxa_cirurgiao_hidden" value='{{ json_encode($orcamento->taxa_cirurgiao ?? []) }}'>
+
+<div class="tabela_precos_cirurgia row d-flex flex-direction-row">
     <div class="col-6 flex-fill border-end">
-        <h5 class="mt-4 mb-2">Honorários Cirurgião</h5>
+        <h5 class=" mb-2">Honorários Cirurgião</h5>
 
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-light">
@@ -38,19 +40,19 @@
             <tbody>
                 <tr>
                     <td scope="row">Cirurgião Principal</td>
-                    <td><input type="number" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control" oninput="calcularTotal()"></td>
+                    <td><input type="number" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" oninput="atualizarTaxaCirurgiao()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Cirurgião Auxiliar</td>
-                    <td><input type="number" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control" oninput="calcularTotal()"></td>
+                    <td><input type="number" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Instrumentador</td>
-                    <td><input type="number" id="valorCirurgiao" name="instrumentador" class="form-control" oninput="calcularTotal()"></td>
+                    <td><input type="number" id="valorCirurgiao" name="instrumentador" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Outros Custos de Cirurgião</td>
-                    <td><input type="number" id="valorCirurgiao" name="outrosCustos" class="form-control" oninput="calcularTotal()"></td>
+                    <td><input type="number" id="valorCirurgiao" name="outrosCustos" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>
@@ -62,7 +64,7 @@
     </div>
 
     <div class="col-6 flex-fill">
-    <h5 class="mt-4 mb-2">Acomodações</h5>
+    <h5 class="mb-2">Acomodações</h5>
         <div class="row d-flex flex-direction-row mt-2">
             <div class="col-4 flex-fill d-flex gap-4">
                 <p>Enfermaria:</p>

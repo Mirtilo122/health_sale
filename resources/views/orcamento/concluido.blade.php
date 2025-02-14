@@ -1,15 +1,12 @@
 @extends('orcamento.layoutsOrcamentos.layoutPadrao')
 
-@section('action', '/orcamento/concluir')
+@section('action', '/orcamento/salvar')
 
 
 
 @section('resumo')
 
-<button type="submit" class="btn btn-primary" onclick="prepararEnvio('ganho')">Aprovado</button>
-<button type="submit" class="btn btn-warning" onclick="prepararEnvio('perdido')">Perdido</button>
 <a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
-<button type="submit" class="btn btn-success">Salvar e Sair</button>
 </div>
 </div>
 </div>
@@ -20,7 +17,25 @@
 
 @section('abas')
 
-    <input type="hidden" name="tipo_data" id="tipo_data" value="data_concluido">
+<style>
+
+.tab-pane.disabled {
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.tab-pane.disabled .alterar-btn{
+background-color:rgb(224, 224, 224);
+color: black;
+}
+
+.tab-pane.disabled .btn-primary{
+background-color:rgb(224, 224, 224);
+color: black;
+border: black;
+}
+
+</style>
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="procedimento-tab" data-bs-toggle="tab" data-bs-target="#procedimento-tab-pane" type="button" role="tab" aria-controls="procedimento-tab-pane" aria-selected="false">Procedimento</button>
@@ -53,27 +68,27 @@
 @section('conteudoAbas')
 
 
-    <div class="tab-pane fade show align-top text-start mt-1" id="procedimento-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <div class="tab-pane fade show align-top text-start mt-1 disabled" id="procedimento-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
     @include('orcamento.abasOrcamentos.resumoProcedimento')
 
     </div>
 
 
-    <div class="tab-pane fade show" id="cirurgiao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <div class="tab-pane fade show disabled" id="cirurgiao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
         @include('orcamento.abasOrcamentos.abaCirurgiao')
 
     </div>
 
-    <div class="tab-pane fade show" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <div class="tab-pane fade show disabled" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
         @include('orcamento.abasOrcamentos.abaAnestesia')
 
     </div>
 
 
-    <div class="tab-pane fade show  align-top text-start mt-1 active" id="hospital-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <div class="tab-pane fade show  align-top text-start mt-1 active disabled" id="hospital-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
         <h4 class="mb-4">Diárias, Taxas e Visitas Hospital</h4>
 
@@ -82,7 +97,7 @@
     </div>
 
 
-    <div class="tab-pane fade show" id="condicoes-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <div class="tab-pane fade show disabled" id="condicoes-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
         @include('orcamento.abasOrcamentos.condicoesGerais')
 

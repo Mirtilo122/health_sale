@@ -99,7 +99,9 @@
                                     </div>
                                 @endif
                             </td>
-                            <td scope="row" class="align-middle text-center">R$100,00</td>
+                            <td scope="row" class="align-middle text-center">
+                                {{ isset($solicitacao->orcamento->valor_total) ? number_format($solicitacao->orcamento->valor_total, 2, ',', '.') : '00,00' }}
+                            </td>
                             <td scope="row" class="align-middle text-center
                                 @php
                                     $diferencaMinutos = \Carbon\Carbon::parse($solicitacao->data_negociacao)->diffInMinutes(now());

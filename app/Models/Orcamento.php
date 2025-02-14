@@ -63,7 +63,11 @@ class Orcamento extends Model
         'precos_procedimentos',
         'procedimento_principal',
         'cod_tuss_principal',
-        'procedimentos_secundarios'
+        'procedimentos_secundarios',
+        'taxa_anestesista',
+        'taxa_cirurgiao',
+        'valor_total',
+        'condicoes_gerais'
     ];
 
     protected $casts = [
@@ -72,6 +76,9 @@ class Orcamento extends Model
         'id_usuarios_anestesistas' => 'array',
         'id_usuarios_cirurgioes' => 'array',
         'precos_procedimentos' => 'array',
+        'taxa_anestesista' => 'array',
+        'taxa_cirurgiao' => 'array',
+        'valor_total' => 'float',
     ];
 
     public function solicitacao()

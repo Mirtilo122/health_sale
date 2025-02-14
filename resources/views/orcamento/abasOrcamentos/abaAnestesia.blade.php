@@ -79,6 +79,8 @@
     <div class="col-6 flex-fill border-end">
         <h5 class="mt-4 mb-2">Honorários Anestesia</h5>
 
+        <input type="hidden" name="taxa_anestesia" id="taxa_anestesia_hidden" value='{{ json_encode($orcamento->taxa_anestesista ?? []) }}'>
+
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-light">
                 <tr>
@@ -89,11 +91,11 @@
             <tbody>
                 <tr>
                     <td scope="row">Taxa Anestesia</td>
-                    <td><input type="number" id="taxaAnestesia" name="taxaAnestesia" class="form-control" oninput="calcularTotalAnestesia()"></td>
+                    <td><input type="number" id="taxaAnestesia" name="taxaAnestesia" class="form-control money" value="{{ $orcamento->taxa_anestesista['taxaAnestesia'] ?? '' }}" oninput="atualizarTaxaAnestesia()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Outros Custos de Anestesia</td>
-                    <td><input type="number" id="taxaAnestesia" name="outrosCustosAnestesia" class="form-control" oninput="calcularTotalAnestesia()"></td>
+                    <td><input type="number" id="taxaAnestesia" name="outrosCustosAnestesia" class="form-control money"  value="{{ $orcamento->taxa_anestesista['outrosCustosAnestesia'] ?? '' }}" oninput="calcularTotalAnestesia()"></td>
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>

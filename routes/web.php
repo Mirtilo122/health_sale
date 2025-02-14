@@ -8,6 +8,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\ConvenioController;
 use App\Http\Controllers\ProcedimentosController;
 use App\Http\Controllers\OrcamentoController;
+use App\Http\Controllers\ModeloController;
 
 
 // Rotas da página Inicial
@@ -145,6 +146,8 @@ Route::post('/orcamento/liberar', [OrcamentoController::class, 'atualizarOrcamen
 Route::get('/orcamento/negociacao/{id}', [OrcamentoController::class, 'negociacao'])->name('orcamento.negociacao');
 Route::post('/orcamento/concluir', [OrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.concluir');
 
+Route::get('/orcamento/concluido/{id}', [OrcamentoController::class, 'concluido'])->name('orcamento.concluido');
+
 
 
 
@@ -152,3 +155,14 @@ Route::post('/orcamento/concluir', [OrcamentoController::class, 'atualizarOrcame
 // Rotas de Convênios
 
 Route::get('/convenios', [ConvenioController::class, 'index'])->name('convenios.index');
+
+
+
+
+
+
+// Rotas de Modelos
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('modelos', ModeloController::class);
+});

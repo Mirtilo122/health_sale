@@ -148,9 +148,106 @@ p{
     height: 3rem;
 }
 
+.tabela_precos_cirurgia td, th {
+    padding: 5px !important;
+    font-size: 14px;
+}
+
+.tabela_precos_cirurgia input.form-control {
+    height: 30px !important;
+    padding: 2px 5px;
+    font-size: 14px;
+}
+
+.row_controle_responsividade{
+    width: 50%;
+    justify-content: space-around;
+}
+
 @media (max-width: 768px) {
-    .col-md-4 {
+
+    .info_proc {
+        width: 100vw;
+        padding: 1rem;
+    }
+
+    .info_superior {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .row_controle_responsividade{
+    width: 100%;
+    height: 50%;
+    justify-content: space-between;
+    }
+
+    .info_superior h2 {
+        font-size: 13px;
+    }
+
+    .info_superior span{
+        font-size: 10px;
+    }
+
+    .info_superior h5{
+        font-size: 9px;
+    }
+
+    .item_info_sup{
         width: 100%;
+        flex-direction: row;
+    }
+
+    .item_info_sup svg, h5, p{
+        width: 40%;
+    }
+
+    .item_info_sup .btn{
+        width: 100px;
+        height: 20px;
+        font-size: 5px;
+    }
+
+    .text-danger {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .col-10, .col-2 {
+        width: 100%;
+    }
+
+    .col-2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .d-flex.gap-3 {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .btn-sm {
+        width: 100%;
+        height: auto;
+        padding: 0.5rem;
+        font-size: 14px;
+    }
+
+    h4 {
+        font-size: 18px;
+        text-align: center;
     }
 }
 
@@ -232,6 +329,9 @@ function alterar(lista) {
     }
 }
 
+
+
+// Agentes
 
 
 try {
@@ -362,7 +462,7 @@ function contarIdsAgentes() {
 
 
 
-
+// Procedimentos Hospital
 
 try {
     document.getElementById("salvarProcedimento").addEventListener("click", function () {
@@ -375,50 +475,32 @@ try {
             return;
         }
 
+        console.log('Valores recuperados');
+
         adicionarProcedimento(nome, valor, qntd);
+
+        console.log('Procedimento Adicionado');
 
         document.getElementById("procedimentoNome").value = "";
         document.getElementById("procedimentoValor").value = "";
         document.getElementById("procedimentoQntd").value = "";
 
+        console.log('Valores Resetados');
+
         bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
+
+        console.log('Modal Escondido');
     });
 } catch (error) {
     console.warn("Elemento não encontrado, não é possível adicionar procedimentos.");
 }
 
 
-try {
-document.getElementById("salvarProcedimentoAnestesista").addEventListener("click", function () {
-    const nome = document.getElementById("procedimentoNomeAnestesista").value;
-    const valor = document.getElementById("procedimentoValorAnestesista").value;
-    const qntd = document.getElementById("procedimentoQntdAnestesista").value;
-
-    if (nome.trim() === "" || valor.trim() === "") {
-        alert("O nome e o valor do procedimento não podem estar vazios!");
-        return;
-    }
-
-
-    adicionarProcedimentoAnestesista(nome, valor, qntd);
-
-
-    document.getElementById("procedimentoNomeAnestesista").value = "";
-    document.getElementById("procedimentoValorAnestesista").value = "";
-    document.getElementById("procedimentoQntdAnestesista").value = "";
-
-
-    bootstrap.Modal.getInstance(document.getElementById("procedimentoModalAnestesista")).hide();
-});
-} catch (error) {
-    console.warn("Elemento não encontrado, não é possível adicionar procedimentos.");
-}
-
-
-
 function adicionarProcedimento(nome, valor, qntd) {
     const tabela = document.getElementById("tabela-procedimentos");
     const tr = document.createElement("tr");
+
+    console.log('Constantes obtidas');
 
     // Nome do procedimento
     const tdNome = document.createElement("td");
@@ -446,10 +528,16 @@ function adicionarProcedimento(nome, valor, qntd) {
     inputValor.step = "0.01";
     tdValor.appendChild(inputValor);
 
+    console.log('Não calculado');
+
     // Valor Total (Calculado automaticamente)
     const tdTotal = document.createElement("td");
     tdTotal.className = "valor-total";
     tdTotal.textContent = (valor * qntd).toFixed(2);
+
+    console.log('Calculado');
+
+
 
     // Ações (Remover)
     const tdAcoes = document.createElement("td");
@@ -463,6 +551,8 @@ function adicionarProcedimento(nome, valor, qntd) {
     };
     tdAcoes.appendChild(btnRemover);
 
+
+
     // Adiciona os elementos à linha
     tr.appendChild(tdNome);
     tr.appendChild(tdQntd);
@@ -473,8 +563,15 @@ function adicionarProcedimento(nome, valor, qntd) {
     // Adiciona a linha à tabela
     tabela.appendChild(tr);
 
+    console.log('Elementos Adicionados');
+
     atualizarTotal();
+
+    console.log('Atualizar total');
+
     atualizarInputHidden();
+
+    console.log('Atualizar Hidden');
 
     // Eventos para atualizar valor total ao alterar quantidade ou valor unitário
     inputQntd.addEventListener("input", () => {
@@ -488,68 +585,9 @@ function adicionarProcedimento(nome, valor, qntd) {
         atualizarTotal();
         atualizarInputHidden();
     });
+
+    console.log('Eventos de Atualizar total');
 }
-
-
-
-function adicionarProcedimentoAnestesista(nome, valor, qntd) {
-    const tabela = document.getElementById("tabela-procedimentosAnestesista");
-
-    const tr = document.createElement("tr");
-
-    const tdNome = document.createElement("td");
-    const inputNome = document.createElement("input");
-    inputNome.type = "text";
-    inputNome.className = "form-control procedimento-nome";
-    inputNome.value = nome;
-    tdNome.appendChild(inputNome);
-
-    const tdQntd = document.createElement("td");
-    const inputQntd = document.createElement("input");
-    inputQntd.type = "number";
-    inputQntd.className = "form-control procedimento-qntd";
-    inputQntd.value = qntd;
-    tdQntd.appendChild(inputQntd);
-
-    const tdValor = document.createElement("td");
-    const inputValor = document.createElement("input");
-    inputValor.type = "number";
-    inputValor.className = "form-control valor-procedimento";
-    inputValor.value = valor;
-    inputValor.step = "0.01";
-    tdValor.appendChild(inputValor);
-
-    const tdAcoes = document.createElement("td");
-    const btnRemover = document.createElement("button");
-    btnRemover.className = "btn btn-danger btn-sm";
-    btnRemover.textContent = "Remover";
-    btnRemover.onclick = function () {
-        tabela.removeChild(tr);
-        atualizarTotal();
-        atualizarInputHidden();
-    };
-
-    tdAcoes.appendChild(btnRemover);
-
-    tr.appendChild(tdNome);
-    tr.appendChild(tdQntd);
-    tr.appendChild(tdValor);
-    tr.appendChild(tdAcoes);
-
-    tabela.appendChild(tr);
-
-    atualizarInputHidden();
-
-    atualizarTotal();
-
-    inputNome.addEventListener("input", atualizarInputHidden);
-    inputQntd.addEventListener("input", atualizarInputHidden);
-    inputValor.addEventListener("input", () => {
-        atualizarTotal();
-        atualizarInputHidden();
-    });
-}
-
 
 function atualizarValorTotal(tr) {
     const qntd = parseInt(tr.querySelector(".procedimento-qntd").value) || 1;
@@ -559,11 +597,25 @@ function atualizarValorTotal(tr) {
 
 function atualizarTotal() {
     let total = 0;
+
+    total += parseFloat(document.getElementById("totalAnestesia").textContent) || 0;
+    console.log('Valor anestesia Obtido');
+
+    total += parseFloat(document.getElementById("totalCirurgiao").textContent) || 0;
+    console.log('Valor Cirurgia Obtido');
+
     document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
         const valorTotal = parseFloat(tr.querySelector(".valor-total").textContent) || 0;
         total += valorTotal;
     });
+
+    console.log('Soma total');
+
+
     document.getElementById("totalValor").textContent = total.toFixed(2);
+    document.getElementById("valor_total").value = total.toFixed(2);
+
+    console.log('elementos total alterados');
 }
 
 function atualizarInputHidden() {
@@ -578,23 +630,6 @@ function atualizarInputHidden() {
             procedimentos.push({ nome, qntd, valor });
         }
     });
-
-    try{
-
-        document.querySelectorAll("#tabela-procedimentosAnestesista tr").forEach(tr => {
-                const nome = tr.querySelector(".procedimento-nome")?.value || "";
-                const qntd = tr.querySelector(".procedimento-qntd")?.value || "";
-                const valor = tr.querySelector(".valor-procedimento")?.value || "";
-
-                if (nome && valor) {
-                    procedimentos.push({ nome, qntd, valor });
-
-                }
-        });
-    } catch (error) {
-        console.warn("Sem Tabela de Procedimentos Anestesista");
-    }
-
 
     document.getElementById("precosProcedimentosInput").value = JSON.stringify(procedimentos);
 }
@@ -615,6 +650,99 @@ try {
 } catch (error) {
     console.warn("Elemento não encontrado");
 }
+
+function calcularTotal() {
+    var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');
+    var total = 0;
+
+    inputs.forEach(function(input) {
+        total += parseFloat(input.value) || 0;
+    });
+
+    document.getElementById('totalCirurgiao').textContent = total.toFixed(2);
+    atualizarTotal();
+}
+
+function atualizarTaxaCirurgiao() {
+    let taxaCirurgiao = {};
+
+    document.querySelectorAll("input[id='valorCirurgiao']").forEach(input => {
+        const nome = input.getAttribute("name");
+        const valor = parseFloat(input.value) || 0;
+
+        taxaCirurgiao[nome] = valor;
+    });
+
+    document.getElementById("taxa_cirurgiao_hidden").value = JSON.stringify(taxaCirurgiao);
+}
+
+try{
+    document.querySelectorAll("input[id='valorCirurgiao']").forEach(input => {
+    input.addEventListener("input", atualizarTaxaCirurgiao);
+});
+} catch (error) {
+    console.warn("Elemento não encontrado");
+}
+
+
+
+
+
+
+function calcularTotalAnestesia() {
+    var inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
+    var total = 0;
+
+    inputs.forEach(function(input) {
+        total += parseFloat(input.value) || 0;
+    });
+
+    document.getElementById('totalAnestesia').textContent = total.toFixed(2);
+    atualizarTotal();
+}
+
+function atualizarTaxaAnestesia() {
+    let taxaAnestesia = {};
+
+    document.querySelectorAll("input[id='taxaAnestesia']").forEach(input => {
+        const nome = input.getAttribute("name");
+        const valor = parseFloat(input.value) || 0;
+
+        taxaAnestesia[nome] = valor;
+    });
+
+    document.getElementById("taxa_anestesia_hidden").value = JSON.stringify(taxaAnestesia);
+}
+
+try{
+document.querySelectorAll("input[id='taxaAnestesia']").forEach(input => {
+    input.addEventListener("input", atualizarTaxaAnestesia);
+});
+} catch (error) {
+    console.warn("Elemento não encontrado");
+}
+
+try {
+    document.addEventListener("DOMContentLoaded", function () {
+        calcularTotal();
+        atualizarTaxaCirurgiao();
+        calcularTotalAnestesia();
+        atualizarTaxaAnestesia();
+});
+} catch (error) {
+    console.warn("Elemento não encontrado");
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -774,27 +902,39 @@ window.onload = function() {
 }
 
 
-function calcularTotal() {
-    var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');
-    var total = 0;
 
-    inputs.forEach(function(input) {
-        total += parseFloat(input.value) || 0;
+
+
+
+
+
+
+
+try {
+    tinymce.init({
+        selector: '#editor',
+        plugins: 'lists link image',
+        toolbar: 'undo redo | bold italic underline | link | numlist bullist',
+        menubar: false,
+        init_instance_callback: function (editor) {
+            // Quando o TinyMCE estiver pronto, carrega o conteúdo inicial
+            var selectedContent = document.getElementById('presetSelect').value;
+            editor.setContent(selectedContent);
+        }
     });
 
-    document.getElementById('totalCirurgiao').textContent = total.toFixed(2);
-}
-
-function calcularTotal() {
-    var inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
-    var total = 0;
-
-    inputs.forEach(function(input) {
-        total += parseFloat(input.value) || 0;
+    document.getElementById('insertPreset').addEventListener('click', function () {
+        var selectedContent = document.getElementById('presetSelect').value;
+        tinymce.get('editor').setContent(selectedContent);
     });
 
-    document.getElementById('totalAnestesia').textContent = total.toFixed(2);
+} catch (error) {
+    console.warn("Rich Text não disponível");
 }
+
+
+
+
 
 
 

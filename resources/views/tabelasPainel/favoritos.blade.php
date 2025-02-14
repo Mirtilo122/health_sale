@@ -131,7 +131,30 @@
                                 {{ $diferenca }}
                             </td>
                             <td scope="row" class="align-middle text-center">
-                                <a href="{{ route('orcamento.atribuir', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Detalhes</a>
+                            @php
+                                    $status = ucfirst(strtolower($solicitacao->status));
+                                @endphp
+                                @if($status == 'Novo')
+                                    <a href="{{ route('orcamento.atribuir', ['codigo_solicitacao' => $solicitacao->codigo_solicitacao]) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Atribuir Responsável</a>
+                                @elseif($status == 'Atribuido')
+                                    <a href="{{ route('orcamento.designar', $solicitacao->codigo_solicitacao) }}" class="btn btn-info btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Iniciar Processo</a>
+                                @elseif($status == 'Cirurgiao')
+                                    <a href="{{ route('orcamento.cirurgiao', $solicitacao->codigo_solicitacao) }}" class="btn btn-success btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Editar Orçamento</a>
+                                @elseif($status == 'Anestesista')
+                                    <a href="{{ route('orcamento.anestesia', $solicitacao->codigo_solicitacao) }}" class="btn btn-success btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Editar Orçamento</a>
+                                @elseif($status == 'Criacao')
+                                    <a href="{{ route('orcamento.criar', $solicitacao->codigo_solicitacao) }}" class="btn btn-success btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Criar Orçamento</a>
+                                @elseif($status == 'Liberacao')
+                                    <a href="{{ route('orcamento.liberacao', $solicitacao->codigo_solicitacao) }}" class="btn btn-primary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Liberar</a>
+                                @elseif($status == 'Negociacao')
+                                    <a href="{{ route('orcamento.negociacao', $solicitacao->codigo_solicitacao) }}" class="btn btn-primary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Editar</a>
+                                @elseif($status == 'Aprovado')
+                                    <a href="{{ route('orcamento.concluido', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar</a>
+                                @elseif($status == 'Perdido')
+                                    <a href="{{ route('orcamento.concluido', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar</a>
+                                @elseif($status == 'Recusado')
+                                    <a href="{{ route('orcamento.concluido', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar</a>
+                                @endif
 
                             </td>
                         </tr>

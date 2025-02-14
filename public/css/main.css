@@ -20,6 +20,11 @@ body {
     font-size: 12px;
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 
 .espaco{
     width: 100vw;
@@ -136,12 +141,13 @@ footer {
     color: white;
     text-align: center;
     padding: 0px;
-    width: 100vw;
     height: 5vh;
+    width: 100vw;
+    min-width: 100%;
 }
 
 .footer-content {
-    width: 100vw;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -417,3 +423,76 @@ button.alterar-btn:active {
     padding-left: 20%;
     width: 55%;
 }
+
+
+
+@media (max-width: 768px) {
+    header {
+        height: auto; /* Altura ajustável */
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between; /* Distribui os elementos */
+        padding: 1vh 2vw;
+    }
+
+    .logotipo {
+        width: 6vh;
+        height: 6vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logotipo img {
+        width: 100%;
+        height: auto;
+    }
+
+    .nome_pagina {
+        flex: 1; /* Ocupa o espaço central */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .titulo {
+        font-size: 120%;
+        margin: 2px 0; /* Espaço mínimo entre os textos */
+    }
+
+    .config {
+        width: 6vh;
+        height: 6vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .config svg {
+        width: 3.5vh;
+        height: 3.5vh;
+    }
+
+    .barra {
+        display: none; /* Oculta a barra vertical */
+    }
+
+    footer{
+        height: 50%;
+    }
+
+    .footer-content {
+        padding: 5px;
+    }
+
+    .footer-content p{
+        font-size: 50%;
+    }
+
+
+}
+
+

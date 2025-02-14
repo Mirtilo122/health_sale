@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SolicitacaoOrcamento;
 use App\Models\Orcamento;
 use App\Models\Usuarios;
+use App\Models\Modelo;
 use Carbon\Carbon;
 
 class OrcamentoController extends Controller
@@ -61,6 +62,7 @@ class OrcamentoController extends Controller
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
+        $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
@@ -77,7 +79,7 @@ class OrcamentoController extends Controller
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
         }
 
-        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento'));
+        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
     }
     public function liberacao($id)
     {
@@ -85,6 +87,7 @@ class OrcamentoController extends Controller
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
+        $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
@@ -100,7 +103,7 @@ class OrcamentoController extends Controller
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
         }
 
-        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento'));
+        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
     }
     public function negociacao($id)
     {
@@ -108,6 +111,7 @@ class OrcamentoController extends Controller
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
+        $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
@@ -123,8 +127,33 @@ class OrcamentoController extends Controller
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
         }
 
-        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento'));
+        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
     }
+    public function concluido($id)
+    {
+        $solicitacao = SolicitacaoOrcamento::findOrFail($id);
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $agentes = Usuarios::where('acesso', 'agente')->get();
+        $modelos = Modelo::where('ativo', true)->get();
+
+        $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
+
+        $idCirurgiaoSelecionado = null;
+        $idAnestesistaSelecionado = null;
+        $idsVisualizar = [];
+        $idsEditar = [];
+
+        if ($orcamento) {
+            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
+            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
+            $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
+            $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+        }
+
+        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
+    }
+
     public function atualizarOrcamento(Request $request)
     {
         $request->validate([
@@ -134,6 +163,8 @@ class OrcamentoController extends Controller
             'crm_cirurgiao' => 'nullable|string',
             'precos_procedimentos' => 'nullable|json',
             'procedimentos_secundarios' => 'nullable|json',
+            'taxa_cirurgiao' => 'required|string',
+            'taxa_anestesia' => 'required|string',
         ]);
 
 
@@ -146,19 +177,29 @@ class OrcamentoController extends Controller
 
         $permitidos = [];
         if ($tipoData === 'data_anestesista') {
-            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia'];
+            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao'];
             $dados = $request->only($permitidos);
+            $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
+            $dados['taxa_cirurgiao'] = $taxaCirurgiao;
         } elseif ($tipoData === 'data_criacao') {
-            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista'];
+            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista'];
             $dados = $request->only($permitidos);
+            $taxaAnestesia = json_decode($request->taxa_anestesia, true);
+            $dados['taxa_anestesista'] = $taxaAnestesia;
         } else {
             $request->merge([
                 'id_usuarios_cirurgioes' => (int) $request->id_usuarios_cirurgioes,
                 'id_usuarios_anestesistas' => (int) $request->id_usuarios_anestesistas
             ]);
 
+            $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
+            $taxaAnestesia = json_decode($request->taxa_anestesia, true);
+
             $dados = $request->except('_token');
             $dados['codigo_tabela_base'] = 1;
+
+            $dados['taxa_cirurgiao'] = $taxaCirurgiao;
+            $dados['taxa_anestesista'] = $taxaAnestesia;
 
             $camposCirurgiao = ['nome_cirurgiao', 'telefone_cirurgiao', 'email_cirurgiao', 'crm_cirurgiao'];
             foreach ($camposCirurgiao as $campo) {

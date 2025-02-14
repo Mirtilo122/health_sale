@@ -20,7 +20,6 @@
 
 @section('abas')
 
-    <input type="hidden" name="status" id="status" value="criacao">
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_liberacao">
 
 
@@ -85,12 +84,7 @@
 
             <div class="tab-pane fade show" id="condicoes-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-                <h4>Condições Gerais</h4>
-
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Anexo</label>
-                    <input class="form-control" type="file" id="arquivo_condicoes" name="arquivo_condicoes">
-                </div>
+                @include('orcamento.abasOrcamentos.condicoesGerais')
 
             </div>
 

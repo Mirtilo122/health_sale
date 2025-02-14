@@ -82,24 +82,8 @@
 
             <div class="tab-pane fade show" id="condicoes-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-                <h4>Condições Gerais</h4>
+            @include('orcamento.abasOrcamentos.condicoesGerais')
 
-                <div class="info  p-2 rounded" style="font-size: 1rem;">
-                <h5><strong>Arquivo:</strong></h5>
-                @if(is_null($solicitacao->arquivo_pdf))
-                    <p class="text-danger">Anexo não foi enviado</p>
-                @else
-                    @php
-                        $caminhoArquivo = asset($solicitacao->arquivo_pdf);
-                    @endphp
-                    <a href="{{ $caminhoArquivo }}" class="btn btn-primary" download>Baixar Arquivo</a>
-                @endif
-                </div>
-
-                <div class="mb-3">
-                            <label for="formFile" class="form-label">Anexar Novo:</label>
-                            <input class="form-control" type="file" id="arquivo_condicoes" name="arquivo_condicoes">
-                </div>
             </div>
 
             <div class="tab-pane fade show align-top text-start mt-1" id="manutencao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">

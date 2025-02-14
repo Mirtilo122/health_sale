@@ -1,28 +1,35 @@
     <div class="info_proc card shadow-sm p-4 pt-0 pb-0">
-        <div class="info_superior d-flex justify-content-between align-items-center border-bottom">
+        <div class="info_superior d-flex align-items-center border-bottom">
+            <div class="d-flex align-items-center row_controle_responsividade">
             <h2 class="text-primary">Solicitação #{{$solicitacao->codigo_solicitacao}}</h2>
             <h5><span class="badge bg-secondary span_stts">Protocolo: {{$solicitacao->protocolo}}</span></h5>
-            @if($solicitacao->urgencia == 1)
-                <div class="text-danger d-flex align-items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="urgent-icon bi bi-exclamation-triangle" viewBox="0 0 16 16">
-                        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
-                        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-                    </svg>
-                    <h5 class="mt-1"><span>Urgente</span></h5>
-                </div>
-            @else
+            </div>
+            <div class="d-flex align-items-center row_controle_responsividade">
+                @if($solicitacao->urgencia == 1)
+                    <div class="text-danger d-flex align-items-center item_info_sup">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="urgent-icon bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+                            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                        </svg>
+                        <h5 class="mt-1"><span>Urgente</span></h5>
+                    </div>
+                @else
+                    <div class="text-danger d-flex align-items-center">
 
-            @endif
-            <div class="d-flex gap-3 align-items-center">
-            <h5><strong>Arquivo:</strong></h5>
-            @if(is_null($solicitacao->arquivo_pdf))
-                <p class="text-danger">Solicitação não foi enviada</p>
-            @else
-                @php
-                    $caminhoArquivo = asset($solicitacao->arquivo_pdf);
-                @endphp
-                <a href="{{ $caminhoArquivo }}" class="btn btn-primary" download>Baixar Arquivo</a>
-            @endif
+                    </div>
+
+                @endif
+                <div class="d-flex gap-3 align-items-center item_info_sup">
+                <h5><strong>Arquivo:</strong></h5>
+                @if(is_null($solicitacao->arquivo_pdf))
+                    <p class="text-danger">Solicitação não foi enviada</p>
+                @else
+                    @php
+                        $caminhoArquivo = asset($solicitacao->arquivo_pdf);
+                    @endphp
+                    <a href="{{ $caminhoArquivo }}" class="btn btn-primary" download>Baixar Arquivo</a>
+                @endif
+                </div>
             </div>
         </div>
         <div class="row d-flex mb-2">
@@ -116,7 +123,10 @@
                         </p>
                     </div>
                 </div>
-                <h4 class="mt-2">Total: R$ <span id="totalValor">0.00</span></h4>
+                <h4 class="mt-2">
+                Total: R$ <span id="totalValor">{{ isset($orcamento) && $orcamento->valor_total ? number_format($orcamento->valor_total, 2, ',', '.') : '00,00' }}</span>
+                </h4>
+                <input type="hidden" name="valor_total" id="valor_total" value="{{ isset($orcamento) && $orcamento->valor_total ? number_format($orcamento->valor_total, 2, '.', '') : '0.00' }}">
             </div>
             <div class="col-2 flex-fill d-flex flex-column gap-2 mt-2 align-items-end">
 
