@@ -1,6 +1,4 @@
 
-
-
 function toggleCirurgiao() {
     const cirurgiaoDefinido = document.getElementById("cirurgiaoDefinido").value;
     const dadosCirurgiao = document.getElementById("dadosCirurgiao");
@@ -69,6 +67,8 @@ function navigateTo(origem, destino) {
     });
 })();
 
+
+try{
 document.getElementById("formRepresent").addEventListener("submit", function (event) {
     const alertError = document.getElementById("alertError");
     if (!this.checkValidity()) {
@@ -98,7 +98,9 @@ document.getElementById("formRepresent").addEventListener("submit", function (ev
     this.classList.add("was-validated");
 });
 
-
+} catch (error) {
+    console.warn("Elemento não encontrado, ignorando erro.");
+}
 
 
 

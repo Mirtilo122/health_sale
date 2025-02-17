@@ -291,6 +291,8 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 </form>
 </div>
 
+
+
 <script>
 
 function atualizarHidden(info) {
@@ -298,7 +300,7 @@ function atualizarHidden(info) {
 }
 
 
-function toggleComorbidades() {
+function toggleComorbidadesAdmin() {
     const comorbidades = document.getElementById("comorbidades").value;
     const descricaoComorbidade = document.getElementById("comorbidade");
 
@@ -309,7 +311,7 @@ function toggleComorbidades() {
     }
 }
 
-function toggleCirurgiao() {
+function toggleCirurgiaoAdmin() {
     const cirurgiaoDefinido = document.getElementById("cirurgiao").value;
     const cirurgiaoInfo = document.getElementById("cirurgiaoInfo");
 
@@ -475,21 +477,13 @@ try {
             return;
         }
 
-        console.log('Valores recuperados');
-
         adicionarProcedimento(nome, valor, qntd);
-
-        console.log('Procedimento Adicionado');
 
         document.getElementById("procedimentoNome").value = "";
         document.getElementById("procedimentoValor").value = "";
         document.getElementById("procedimentoQntd").value = "";
 
-        console.log('Valores Resetados');
-
         bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
-
-        console.log('Modal Escondido');
     });
 } catch (error) {
     console.warn("Elemento não encontrado, não é possível adicionar procedimentos.");
@@ -500,9 +494,6 @@ function adicionarProcedimento(nome, valor, qntd) {
     const tabela = document.getElementById("tabela-procedimentos");
     const tr = document.createElement("tr");
 
-    console.log('Constantes obtidas');
-
-    // Nome do procedimento
     const tdNome = document.createElement("td");
     const inputNome = document.createElement("input");
     inputNome.type = "text";
@@ -510,7 +501,6 @@ function adicionarProcedimento(nome, valor, qntd) {
     inputNome.value = nome;
     tdNome.appendChild(inputNome);
 
-    // Quantidade
     const tdQntd = document.createElement("td");
     const inputQntd = document.createElement("input");
     inputQntd.type = "number";
@@ -519,7 +509,6 @@ function adicionarProcedimento(nome, valor, qntd) {
     inputQntd.min = "1";
     tdQntd.appendChild(inputQntd);
 
-    // Valor Unitário
     const tdValor = document.createElement("td");
     const inputValor = document.createElement("input");
     inputValor.type = "number";
@@ -528,18 +517,10 @@ function adicionarProcedimento(nome, valor, qntd) {
     inputValor.step = "0.01";
     tdValor.appendChild(inputValor);
 
-    console.log('Não calculado');
-
-    // Valor Total (Calculado automaticamente)
     const tdTotal = document.createElement("td");
     tdTotal.className = "valor-total";
     tdTotal.textContent = (valor * qntd).toFixed(2);
 
-    console.log('Calculado');
-
-
-
-    // Ações (Remover)
     const tdAcoes = document.createElement("td");
     const btnRemover = document.createElement("button");
     btnRemover.className = "btn btn-danger btn-sm";
@@ -551,29 +532,16 @@ function adicionarProcedimento(nome, valor, qntd) {
     };
     tdAcoes.appendChild(btnRemover);
 
-
-
-    // Adiciona os elementos à linha
     tr.appendChild(tdNome);
     tr.appendChild(tdQntd);
     tr.appendChild(tdValor);
     tr.appendChild(tdTotal);
     tr.appendChild(tdAcoes);
 
-    // Adiciona a linha à tabela
     tabela.appendChild(tr);
-
-    console.log('Elementos Adicionados');
-
     atualizarTotal();
-
-    console.log('Atualizar total');
-
     atualizarInputHidden();
 
-    console.log('Atualizar Hidden');
-
-    // Eventos para atualizar valor total ao alterar quantidade ou valor unitário
     inputQntd.addEventListener("input", () => {
         atualizarValorTotal(tr);
         atualizarTotal();
@@ -586,7 +554,6 @@ function adicionarProcedimento(nome, valor, qntd) {
         atualizarInputHidden();
     });
 
-    console.log('Eventos de Atualizar total');
 }
 
 function atualizarValorTotal(tr) {
@@ -599,23 +566,16 @@ function atualizarTotal() {
     let total = 0;
 
     total += parseFloat(document.getElementById("totalAnestesia").textContent) || 0;
-    console.log('Valor anestesia Obtido');
 
     total += parseFloat(document.getElementById("totalCirurgiao").textContent) || 0;
-    console.log('Valor Cirurgia Obtido');
 
     document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
         const valorTotal = parseFloat(tr.querySelector(".valor-total").textContent) || 0;
         total += valorTotal;
     });
 
-    console.log('Soma total');
-
-
     document.getElementById("totalValor").textContent = total.toFixed(2);
     document.getElementById("valor_total").value = total.toFixed(2);
-
-    console.log('elementos total alterados');
 }
 
 function atualizarInputHidden() {
@@ -907,28 +867,37 @@ window.onload = function() {
 
 
 
-
-
-
-try {
-    tinymce.init({
-        selector: '#editor',
-        plugins: 'lists link image',
-        toolbar: 'undo redo | bold italic underline | link | numlist bullist',
-        menubar: false,
-        init_instance_callback: function (editor) {
-            // Quando o TinyMCE estiver pronto, carrega o conteúdo inicial
-            var selectedContent = document.getElementById('presetSelect').value;
-            editor.setContent(selectedContent);
+try{
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof CKEDITOR === "undefined") {
+            console.warn("CKEditor não carregado corretamente.");
+            return;
         }
-    });
 
-    document.getElementById('insertPreset').addEventListener('click', function () {
-        var selectedContent = document.getElementById('presetSelect').value;
-        tinymce.get('editor').setContent(selectedContent);
-    });
+        var editorInstance = CKEDITOR.replace('editor', {
+            toolbar: [
+                { name: 'clipboard', items: ['Undo', 'Redo'] },
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                { name: 'links', items: ['Link'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+            ],
+            removePlugins: 'elementspath',
+            resize_enabled: false,
+        });
 
-} catch (error) {
+        editorInstance.on('instanceReady', function () {
+            var selectedOption = document.getElementById('presetSelect').selectedOptions[0];
+            var selectedContent = selectedOption ? selectedOption.value : '';
+            editorInstance.setData(selectedContent);
+        });
+
+        document.getElementById('insertPreset').addEventListener('click', function () {
+            var selectedOption = document.getElementById('presetSelect').selectedOptions[0];
+            var selectedContent = selectedOption ? selectedOption.value : '';
+            CKEDITOR.instances.editor.setData(selectedContent);
+        });
+    });
+}catch{
     console.warn("Rich Text não disponível");
 }
 

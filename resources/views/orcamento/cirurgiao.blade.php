@@ -36,10 +36,6 @@ color: black;
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_anestesista">
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="solicitacao-tab" data-bs-toggle="tab" data-bs-target="#solicitacao-tab-pane" type="button" role="tab" aria-controls="solicitacao-tab-pane" aria-selected="true">Procedimento</button>
-    </li>
-
-    <li class="nav-item" role="presentation">
         <button class="nav-link active" id="procedimentos-tab" data-bs-toggle="tab" data-bs-target="#procedimentos-tab-pane" type="button" role="tab" aria-controls="procedimentos-tab-pane" aria-selected="false">Cirurgião</button>
     </li>
 
@@ -51,15 +47,6 @@ color: black;
 @endsection
 
 @section('conteudoAbas')
-
-
-            <div class="tab-pane fade show align-top text-start mt-1 disabled" id="solicitacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-
-            @include('orcamento.abasOrcamentos.resumoProcedimento')
-
-            </div>
-
-
 
             <div class="tab-pane fade show active" id="procedimentos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 

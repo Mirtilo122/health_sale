@@ -91,7 +91,8 @@
 
             <div class="tab-pane fade show align-top text-start mt-1" id="manutencao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-            @include('orcamento.abasOrcamentos.montarEquipe')
+                @include('orcamento.abasOrcamentos.manutencao')
+                @include('orcamento.abasOrcamentos.montarEquipe')
 
             </div>
 

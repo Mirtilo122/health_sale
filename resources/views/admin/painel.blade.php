@@ -270,7 +270,7 @@
 
     </div>
 </main>
-<script src="/js/script.js"></script>
+
 <script>
 
 function toggleFavorite(event, codigoSolicitacao) {

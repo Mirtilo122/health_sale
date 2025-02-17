@@ -1,5 +1,5 @@
 <h4>Informações do Paciente</h4>
-<div class="row mt-1 d-flex"> 
+<div class="row mt-1 d-flex">
     <div class="col-md-4 border-end border-grey">
         <label for="nome_paciente">Nome do Paciente:</label>
         <input type="text" name="nome_paciente" id="nome_paciente" value="{{$solicitacao->nome_paciente}}">
@@ -15,7 +15,7 @@
         <label for="comorbidades">Paciente tem Comorbidades?</label>
         <div class="select_alterar">
             <input type="hidden" id="comorbidadesHidden" name="comorbidades" value="{{ $solicitacao->comorbidades }}">
-            <select id="comorbidades" name="comorbidadesPaciente" onchange="toggleComorbidades(); atualizarHidden('comorbidades')" disabled>
+            <select id="comorbidades" name="comorbidadesPaciente" onchange="toggleComorbidadesAdmin(); atualizarHidden('comorbidades')" disabled>
                 <option value="nao" @selected($solicitacao->comorbidades === "nao")>Não</option>
                 <option value="sim" @selected($solicitacao->comorbidades === "sim")>Sim</option>
             </select>

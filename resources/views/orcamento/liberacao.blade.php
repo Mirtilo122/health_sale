@@ -88,23 +88,8 @@
 
             <div class="tab-pane fade show align-top text-start mt-1" id="manutencao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
+                @include('orcamento.abasOrcamentos.manutencao')
                 @include('orcamento.abasOrcamentos.montarEquipe')
-
-                <p><strong>Alterar Status:</strong></p>
-
-
-                <select name="status" id="status">
-                    <option value="novo" {{ $solicitacao->status == "novo" ? 'selected' : '' }}>Novo</option>
-                    <option value="atribuido" {{ $solicitacao->status == "atribuido" ? 'selected' : '' }}>Atribuída</option>
-                    <option value="cirurgiao" {{ $solicitacao->status == "cirurgiao" ? 'selected' : '' }}>Retorno Cirurgião</option>
-                    <option value="anestesista" {{ $solicitacao->status == "anestesista" ? 'selected' : '' }}>Retorno Anestesista</option>
-                    <option value="criacao" {{ $solicitacao->status == "criacao"  ? 'selected' : '' }}>Retorno Responsável</option>
-                    <option value="liberacao" {{ $solicitacao->status == "liberacao"  ? 'selected' : '' }}>Em Liberação</option>
-                    <option value="negociacao" {{ $solicitacao->status == "negociacao"  ? "selected" : '' }}>Em Negociação</option>
-                    <option value="aprovado" {{ $solicitacao->status == "aprovado" ? "selected" : '' }}>Aprovado</option>
-                    <option value="perdido" {{ $solicitacao->status =="perdido" ? 'selected' : '' }}>Perdido</option>
-                    <option value="recusado" {{ $solicitacao->status == "recusado" ? 'selected' : '' }}>Recusado</option>
-                </select>
 
             </div>
 @endsection

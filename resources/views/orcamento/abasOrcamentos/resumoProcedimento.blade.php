@@ -22,7 +22,7 @@
         <label for="comorbidades">Paciente tem Comorbidades?</label>
         <div class="select_alterar">
             <input type="hidden" id="comorbidadesHidden" name="comorbidades" value="{{ $solicitacao->comorbidades }}">
-            <select id="comorbidades" name="comorbidadesPaciente" onchange="toggleComorbidades(); atualizarHidden('comorbidade')" disabled>
+            <select id="comorbidades" name="comorbidadesPaciente" onchange="toggleComorbidadesAdmin(); atualizarHidden('comorbidade')" disabled>
                 <option value="nao" @selected($solicitacao->comorbidades === "nao")>Não</option>
                 <option value="sim" @selected($solicitacao->comorbidades === "sim")>Sim</option>
             </select>

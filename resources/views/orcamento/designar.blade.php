@@ -2,7 +2,7 @@
 
 @section('action', '/orcamento/salvar')
 
- 
+
 
 @section('resumo')
 
@@ -75,6 +75,7 @@
                 <h4>Equipe</h4>
 
                 @include('orcamento.abasOrcamentos.montarEquipe')
+
 
 
             </div>

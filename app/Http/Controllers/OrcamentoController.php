@@ -163,8 +163,8 @@ class OrcamentoController extends Controller
             'crm_cirurgiao' => 'nullable|string',
             'precos_procedimentos' => 'nullable|json',
             'procedimentos_secundarios' => 'nullable|json',
-            'taxa_cirurgiao' => 'required|string',
-            'taxa_anestesia' => 'required|string',
+            'taxa_cirurgiao' => 'nullable|string',
+            'taxa_anestesia' => 'nullable|string',
         ]);
 
 

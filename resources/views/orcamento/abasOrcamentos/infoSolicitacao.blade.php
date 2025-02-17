@@ -41,7 +41,7 @@
         <label for="cirurgiao">Tem cirurgião definido?</label>
         <div class="select_alterar">
             <input type="hidden" id="cirurgiaoHidden" name="cirurgiao" value="{{ $solicitacao->cirurgiao}}">
-            <select id="cirurgiao" name="cirurgiaoSelect" onchange="toggleCirurgiao(); atualizarHidden('cirurgiao')" disabled>
+            <select id="cirurgiao" name="cirurgiaoSelect" onchange="toggleCirurgiaoAdmin(); atualizarHidden('cirurgiao')" disabled>
                 <option value="nao" @selected($solicitacao->cirurgiao === "nao")>Não</option>
                 <option value="sim" @selected($solicitacao->cirurgiao === "sim")>Sim</option>
             </select>
