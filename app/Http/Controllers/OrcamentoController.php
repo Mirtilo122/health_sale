@@ -20,14 +20,13 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
-        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
         $idsVisualizar = [];
         $idsEditar = [];
 
         if ($orcamento) {
+            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
@@ -68,15 +67,13 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
-        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
         $idsVisualizar = [];
         $idsEditar = [];
 
         if ($orcamento) {
-            // Recupera os IDs dos usuários salvos no banco de dados
+            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
@@ -95,7 +92,7 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
-        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
+
 
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
@@ -103,6 +100,7 @@ class OrcamentoController extends Controller
         $idsEditar = [];
 
         if ($orcamento) {
+            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
@@ -121,14 +119,13 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
-        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
         $idsVisualizar = [];
         $idsEditar = [];
 
         if ($orcamento) {
+            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
