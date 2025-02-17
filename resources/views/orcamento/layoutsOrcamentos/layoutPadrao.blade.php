@@ -14,6 +14,18 @@
 session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 @endphp
 
+@if(session('erro'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('erro') }}
+    </div>
+@endif
+
+@if(session('mensagem'))
+    <div class="alert alert-success" role="alert">
+        {{ session('mensagem') }}
+    </div>
+@endif
+
 <div class="container_cards mt-2 mb-2">
 
 <form class="formulario-abas needs-validation" id="orcamento-form" method="POST" action="@yield('action')" enctype="multipart/form-data" novalidate>

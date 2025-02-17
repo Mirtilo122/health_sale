@@ -301,31 +301,46 @@ function atualizarInputHidden() {
 
 try {
     document.addEventListener("DOMContentLoaded", function () {
-        const precosProcedimentosLoad = JSON.parse(document.getElementById("precosProcedimentosLoad").value || "[]");
+        var precosProcedimentosElement = document.getElementById("precosProcedimentosLoad");
+        if (precosProcedimentosElement) {
+            const precosProcedimentosLoad = JSON.parse(precosProcedimentosElement.value || "[]");
 
-        if (precosProcedimentosLoad.length > 0) {
-            precosProcedimentosLoad.forEach(procedimento => {
-                let valor_unit_procedimento = parseFloat(procedimento.valor) || 0;
-                let qntd_procedimento = parseFloat(procedimento.qntd) || 0;
+            if (precosProcedimentosLoad.length > 0) {
+                precosProcedimentosLoad.forEach(procedimento => {
+                    let valor_unit_procedimento = parseFloat(procedimento.valor) || 0;
+                    let qntd_procedimento = parseFloat(procedimento.qntd) || 0;
 
-                adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento);
-            });
+                    adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento);
+                });
+            }
+        } else {
+            console.warn("Elemento com id 'precosProcedimentosLoad' não encontrado");
         }
     });
 } catch (error) {
-    console.warn("Elemento não encontrado");
+    console.warn("Erro ao carregar precosProcedimentos:", error);
 }
 
 function calcularTotal() {
     var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');
     var total = 0;
 
-    inputs.forEach(function(input) {
-        total += parseFloat(input.value) || 0;
-    });
+    if (inputs.length > 0) {
+        inputs.forEach(function(input) {
+            total += parseFloat(input.value) || 0;
+        });
 
-    document.getElementById('totalCirurgiao').textContent = total.toFixed(2);
-    atualizarTotal();
+        var totalCirurgiaoElement = document.getElementById('totalCirurgiao');
+        if (totalCirurgiaoElement) {
+            totalCirurgiaoElement.textContent = total.toFixed(2);
+        } else {
+            console.warn("Elemento com id 'totalCirurgiao' não encontrado");
+        }
+
+        atualizarTotal();
+    } else {
+        console.warn("Nenhum input com id 'valorCirurgiao' encontrado");
+    }
 }
 
 function atualizarTaxaCirurgiao() {
@@ -393,9 +408,9 @@ try {
         atualizarTaxaCirurgiao();
         calcularTotalAnestesia();
         atualizarTaxaAnestesia();
-});
+    });
 } catch (error) {
-    console.warn("Elemento não encontrado");
+    console.warn("Erro ao calcular total:", error);
 }
 
 
