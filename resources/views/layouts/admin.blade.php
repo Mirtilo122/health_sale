@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.4/trix.min.js"></script>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 
+    @stack('styles')
+
 </head>
 <body>
     @include('componentes.header')

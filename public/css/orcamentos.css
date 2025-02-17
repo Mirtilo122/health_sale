@@ -1,0 +1,241 @@
+label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 9px;
+}
+
+.btn-sm{
+    width: 9rem;
+    height: 1.5rem;
+    padding: 0.1rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    height: 2rem;
+    padding: 7px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zM2 5l2-2H0z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+}
+
+button.alterar-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+}
+
+button.alterar-btn:hover {
+    background-color: #0056b3;
+}
+
+button.alterar-btn:active {
+    transform: scale(0.95);
+}
+
+.remover-btn{
+    background-color:rgb(255, 23, 23);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+}
+
+button.remover-btn:hover {
+    background-color:rgb(199, 26, 26);
+}
+
+button.remover-btn:active {
+    transform: scale(0.95);
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+p{
+    margin-top: 9px;
+    margin-bottom: 6px;
+}
+
+.list-group-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.agente-nome{
+    flex: 1;
+}
+
+.agente-switch{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.agente-actions{
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.info_superior{
+    height: 3rem;
+    padding: 0px;
+}
+
+.info_superior h2,h5{
+    margin: 0px;
+}
+
+.span_stts{
+    font-size: 11px;
+}
+
+.nav-item{
+    height: 3rem;
+}
+
+.tabela_precos_cirurgia td, th {
+    padding: 5px !important;
+    font-size: 14px;
+}
+
+.tabela_precos_cirurgia input.form-control {
+    height: 30px !important;
+    padding: 2px 5px;
+    font-size: 14px;
+}
+
+.row_controle_responsividade{
+    width: 50%;
+    justify-content: space-around;
+}
+
+@media (max-width: 768px) {
+
+    .info_proc {
+        width: 100vw;
+        padding: 1rem;
+    }
+
+    .info_superior {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .row_controle_responsividade{
+    width: 100%;
+    height: 50%;
+    justify-content: space-between;
+    }
+
+    .info_superior h2 {
+        font-size: 13px;
+    }
+
+    .info_superior span{
+        font-size: 10px;
+    }
+
+    .info_superior h5{
+        font-size: 9px;
+    }
+
+    .item_info_sup{
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .item_info_sup svg, h5, p{
+        width: 40%;
+    }
+
+    .item_info_sup .btn{
+        width: 100px;
+        height: 20px;
+        font-size: 5px;
+    }
+
+    .text-danger {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .col-10, .col-2 {
+        width: 100%;
+    }
+
+    .col-2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .d-flex.gap-3 {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .btn-sm {
+        width: 100%;
+        height: auto;
+        padding: 0.5rem;
+        font-size: 14px;
+    }
+
+    h4 {
+        font-size: 18px;
+        text-align: center;
+    }
+}
