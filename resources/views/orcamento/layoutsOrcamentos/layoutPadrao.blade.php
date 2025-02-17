@@ -64,7 +64,11 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 <script>
 try {
 
-document.addEventListener("DOMContentLoaded", function () {
+    if (!Array.isArray(procedimentosSecundarios)) {
+    procedimentosSecundarios = [];
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
     const procedimentosSecundarios = @json($orcamento->procedimentos_secundarios ?? []);
 
     if (procedimentosSecundarios.length > 0) {
