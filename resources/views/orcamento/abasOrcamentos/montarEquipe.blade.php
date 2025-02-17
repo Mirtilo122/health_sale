@@ -66,15 +66,17 @@
 
 
         <ul id="lista-agentes" class="list-group mt-3">
-            <li class="list-group-item d-flex justify-content-between align-items-center" id="agente-{{$solicitacao->id_usuario}}">
-                <div class="agente-nome" style="color: gray;">{{ $solicitacao->responsavel->usuario }}</div>
-                <div class="agente-switch">
-                    <span>Responsável</span>
-                </div>
-                <div class="agente-actions">
-                </div>
-                <input type="hidden" id="id_usuario_responsavel" name="id_usuario_responsavel" value="{{$solicitacao->id_usuario}}">
-            </li>
+            @if($solicitacao->responsavel)
+                <li class="list-group-item d-flex justify-content-between align-items-center" id="agente-{{$solicitacao->id_usuario}}">
+                    <div class="agente-nome" style="color: gray;">{{ $solicitacao->responsavel->usuario }}</div>
+                    <div class="agente-switch">
+                        <span>Responsável</span>
+                    </div>
+                    <div class="agente-actions">
+                    </div>
+                    <input type="hidden" id="id_usuario_responsavel" name="id_usuario_responsavel" value="{{$solicitacao->id_usuario}}">
+                </li>
+            @endif
 
             @foreach($agentes as $agente)
                 @if(in_array($agente->id, $idsVisualizar) || in_array($agente->id, $idsEditar))
