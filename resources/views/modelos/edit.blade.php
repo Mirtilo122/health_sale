@@ -38,13 +38,18 @@
     </form>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/z60j7ybmsne92rqccjp9unybou8qqjil0ot4mdkamd36zfyz/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    tinymce.init({
-        selector: '#editor',
-        plugins: 'advlist autolink lists link charmap preview anchor',
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist',
-        height: 300
+    CKEDITOR.replace('editor', {
+        height: 300,
+        toolbar: [
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'styles', items: ['Format'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic'] },
+            { name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+            { name: 'list', items: ['Outdent', 'Indent', 'BulletedList', 'NumberedList'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'tools', items: ['Preview'] }
+        ]
     });
 
     const checkbox = document.getElementById("checkbox");

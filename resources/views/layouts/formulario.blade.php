@@ -116,7 +116,9 @@
                     <select id="convenio" name="convenio">
                         <option value="nenhum">Sem Convênio</option>
                         <option value="particular">Particular</option>
-                        <option value="cartaoDesconto">Cartão Desconto</option>
+                        <option value="luzvida">Luz e Vida</option>
+                        <option value="viva">Viva</option>
+                        <option value="sinopaz">Sinopaz/Primavera</option>
                         <option value="judicial">Judicial</option>
                     </select>
 

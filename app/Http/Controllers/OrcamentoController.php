@@ -20,6 +20,8 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
+        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
+
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
         $idsVisualizar = [];
@@ -66,6 +68,8 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
+        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
+
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
         $idsVisualizar = [];
@@ -91,6 +95,8 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
+        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
+
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
         $idsVisualizar = [];
@@ -114,6 +120,8 @@ class OrcamentoController extends Controller
         $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
+
+        $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
 
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
@@ -156,6 +164,9 @@ class OrcamentoController extends Controller
 
     public function atualizarOrcamento(Request $request)
     {
+
+
+
         $request->validate([
             'nome_cirurgiao' => 'nullable|string',
             'telefone_cirurgiao' => 'nullable|string',
@@ -165,38 +176,55 @@ class OrcamentoController extends Controller
             'procedimentos_secundarios' => 'nullable|json',
             'taxa_cirurgiao' => 'nullable|string',
             'taxa_anestesia' => 'nullable|string',
+            'condPagamentoAnestesista' => 'nullable|string',
+            'condPagamentoCirurgiao' => 'nullable|string',
+            'condPagamentoHosp' => 'nullable|string',
+            'validade' => 'nullable|date',
         ]);
+
+        $camposAnestesia = [
+            'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural',
+            'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio',
+            'anestesia_local'
+        ];
 
 
         $codigoSolicitacao = session('codigo_solicitacao');
         if (!$codigoSolicitacao) {
             return redirect()->back()->with('erro', 'Código da solicitação não encontrado.');
         }
-
         $tipoData = $request->input('tipo_data');
 
         $permitidos = [];
         if ($tipoData === 'data_anestesista') {
-            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao'];
+            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoCirurgiao'];
             $dados = $request->only($permitidos);
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $dados['taxa_cirurgiao'] = $taxaCirurgiao;
+            $dados['cond_pagamento_cirurgiao'] = $request->input('condPagamentoCirurgiao');
         } elseif ($tipoData === 'data_criacao') {
-            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista'];
+            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoAnestesista'];
             $dados = $request->only($permitidos);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
             $dados['taxa_anestesista'] = $taxaAnestesia;
+            $dados['cond_pagamento_anestesista'] = $request->input('condPagamentoAnestesista');
         } else {
             $request->merge([
                 'id_usuarios_cirurgioes' => (int) $request->id_usuarios_cirurgioes,
                 'id_usuarios_anestesistas' => (int) $request->id_usuarios_anestesistas
             ]);
 
+
+
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
 
             $dados = $request->except('_token');
             $dados['codigo_tabela_base'] = 1;
+
+            $dados['cond_pagamento_anestesista'] = $request->input('condPagamentoAnestesista');
+            $dados['cond_pagamento_cirurgiao'] = $request->input('condPagamentoCirurgiao');
+            $dados['cond_pagamento_hosp'] = $request->input('condPagamentoHosp');
 
             $dados['taxa_cirurgiao'] = $taxaCirurgiao;
             $dados['taxa_anestesista'] = $taxaAnestesia;
@@ -216,6 +244,7 @@ class OrcamentoController extends Controller
             $dados['id_usuarios_editar'] = json_encode($idsEditar ?: []);
             $dados['id_usuarios_visualizar'] = json_encode(array_values(array_diff($idsVisualizar, $idsEditar)) ?: []);
 
+
             $dados['procedimentos_secundarios'] = $request->input('procedimentos_json', '[]');
 
             if ($request->hasFile('arquivo_condicoes')) {
@@ -228,13 +257,19 @@ class OrcamentoController extends Controller
                     $dados['arquivo_anexo'] = 'storage/' . $caminho;
                 }
             }
+
+
         }
 
-
+        foreach ($camposAnestesia as $campo) {
+            $dados[$campo] = $request->has($campo) ? 1 : 0;
+        }
 
         $dados['status'] = $request->status;
         $dados['codigo_solicitacao'] = $codigoSolicitacao;
         $dados['precos_procedimentos'] = $request->input('precos_procedimentos', '[]');
+
+
 
         $orcamento = Orcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
         $solicitacao = SolicitacaoOrcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
@@ -255,6 +290,13 @@ class OrcamentoController extends Controller
         if ($orcamento) {
             $dados['id_usuarios_cirurgioes'] = isset($dados['id_usuarios_cirurgioes']) ? (int) $dados['id_usuarios_cirurgioes'] : null;
             $dados['id_usuarios_anestesistas'] = isset($dados['id_usuarios_anestesistas']) ? (int) $dados['id_usuarios_anestesistas'] : null;
+
+            $camposAnestesia = [
+                'taxa_anestesista', 'anestesia_raqui', 'anestesia_sma',
+                'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo',
+                'anestesia_bloqueio', 'anestesia_local'
+            ];
+
 
             $orcamento->update($dados);
             $mensagem = 'Orçamento atualizado com sucesso!';

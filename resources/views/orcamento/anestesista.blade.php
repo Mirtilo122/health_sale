@@ -7,6 +7,7 @@
 @section('resumo')
 
 <a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
 <button type="submit" class="btn btn-success btn-sm" onclick="prepararEnvio('anestesista')">Prosseguir</button>
 </div>
 </div>

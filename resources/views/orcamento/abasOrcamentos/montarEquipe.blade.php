@@ -96,7 +96,6 @@
                 @endif
             @endforeach
 
-            <p><strong>Alterar Status:</strong></p>
 
 
 

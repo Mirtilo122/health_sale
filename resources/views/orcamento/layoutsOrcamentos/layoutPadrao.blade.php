@@ -779,21 +779,29 @@ function removerProcedimento(botao) {
 }
 
 
+
+
+
 function prepararEnvio(funcao) {
-    const procedimentos = [];
-    const codTussInputs = document.querySelectorAll('[name="cod_tuss_sec"]');
-    const procedimentoInputs = document.querySelectorAll('[name="procedimento_sec"]');
 
-    codTussInputs.forEach((input, index) => {
-        if (input.value.trim() !== "" && procedimentoInputs[index].value.trim() !== "") {
-            procedimentos.push({
-                cod_tuss: input.value,
-                procedimento: procedimentoInputs[index].value
-            });
-        }
-    });
+    try{
+        const procedimentos = [];
+        const codTussInputs = document.querySelectorAll('[name="cod_tuss_sec"]');
+        const procedimentoInputs = document.querySelectorAll('[name="procedimento_sec"]');
 
-    document.getElementById("procedimentos_json").value = JSON.stringify(procedimentos);
+
+        codTussInputs.forEach((input, index) => {
+            if (input.value.trim() !== "" && procedimentoInputs[index].value.trim() !== "") {
+                procedimentos.push({
+                    cod_tuss: input.value,
+                    procedimento: procedimentoInputs[index].value
+                });
+            }
+        });
+
+        document.getElementById("procedimentos_json").value = JSON.stringify(procedimentos);
+    } catch {
+    }
 
     switch (funcao){
         case "designar":
@@ -865,7 +873,41 @@ window.onload = function() {
 
 
 
+CKEDITOR.replace('condPagamentoAnestesista', {
+        toolbar: [
+                { name: 'clipboard', items: ['Undo', 'Redo'] },
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                { name: 'links', items: ['Link'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+            ],
+            removePlugins: 'elementspath',
+            resize_enabled: false,
+        height: 100
+    });
 
+    CKEDITOR.replace('condPagamentoCirurgiao', {
+        toolbar: [
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+            { name: 'links', items: ['Link'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+        ],
+        removePlugins: 'elementspath',
+        resize_enabled: false,
+        height: 100
+    });
+
+    CKEDITOR.replace('condPagamentoHosp', {
+        toolbar: [
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+            { name: 'links', items: ['Link'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+        ],
+        removePlugins: 'elementspath',
+        resize_enabled: false,
+        height: 100
+    });
 
 try{
     document.addEventListener("DOMContentLoaded", function () {

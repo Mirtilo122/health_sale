@@ -7,6 +7,7 @@
 @section('resumo')
 
 <a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
 <button type="submit" class="btn btn-success btn-sm" onclick="prepararEnvio('cirurgiao')">Prosseguir</button>
 </div>
 </div>
@@ -20,12 +21,12 @@
 
 <style>
 
-.tab-pane.disabled {
+.preco_anestesista.disabled {
     pointer-events: none;
     opacity: 0.8;
 }
 
-.tab-pane.disabled .alterar-btn{
+.preco_anestesista.disabled .alterar-btn{
 background-color:rgb(224, 224, 224);
 color: black;
 }
@@ -54,7 +55,7 @@ color: black;
 
             </div>
 
-            <div class="tab-pane fade show disabled" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
                 <h4>Área do Anestesista</h4>
 

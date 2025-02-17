@@ -67,8 +67,12 @@ class Orcamento extends Model
         'taxa_anestesista',
         'taxa_cirurgiao',
         'valor_total',
-        'condicoes_gerais'
-    ];
+        'condicoes_gerais',
+        'cond_pagamento_anestesista',
+        'cond_pagamento_cirurgiao',
+        'cond_pagamento_hosp',
+        'validade',
+        ];
 
     protected $casts = [
         'id_usuarios_visualizar' => 'array',

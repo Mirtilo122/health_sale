@@ -72,6 +72,7 @@
                                 @case('particular') Particular @break
                                 @case('luzvida') Luz e Vida @break
                                 @case('viva') Viva @break
+                                @case('sinopaz') Sinopaz/Primavera @break
                                 @case('judicial') Judicial @break
                                 @default {{$solicitacao->convenio}}
                             @endswitch

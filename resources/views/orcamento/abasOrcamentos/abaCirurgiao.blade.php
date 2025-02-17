@@ -82,9 +82,12 @@
             </div>
         </div>
 
-        <h5 class="mt-4 mb-2">Condições de Pagamento</h5>
-
-        <textarea name="condPagamentoCirurgiao" id="condPagamentoCirurgiao"></textarea>
+        <div class="mt-4 mb-2">
+            <label for="condPagamentoCirurgiao">Condições de Pagamento</label>
+            <textarea id="condPagamentoCirurgiao" name="condPagamentoCirurgiao">
+                <?= old('condPagamentoCirurgiao', $orcamento->cond_pagamento_cirurgiao ?? '') ?>
+            </textarea>
+        </div>
     </div>
 </div>
 

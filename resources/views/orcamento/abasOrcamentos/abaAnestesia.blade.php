@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<div class="row d-flex flex-direction-row">
+<div class="preco_anestesista row d-flex flex-direction-row disabled">
     <div class="col-6 flex-fill border-end">
         <h5 class="mt-4 mb-2">Honorários Anestesia</h5>
 
@@ -107,7 +107,11 @@
     </div>
 
     <div class="col-6 flex-fill">
-        <h5 class="mt-4 mb-2">Condições de Pagamento</h5>
-        <textarea name="condPagamentoCirurgiao" id="condPagamentoCirurgiao"></textarea>
+    <div class="mt-4 mb-2">
+        <label for="condPagamentoAnestesista">Condições de Pagamento</label>
+        <textarea id="condPagamentoAnestesista" name="condPagamentoAnestesista">
+            <?= old('condPagamentoAnestesista', $orcamento->cond_pagamento_anestesista ?? '') ?>
+        </textarea>
+    </div>
     </div>
 </div>

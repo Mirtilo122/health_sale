@@ -31,8 +31,8 @@
     <div class="col-auto flex-fill">
         <label for="status">Status:</label>
         <div class="select_alterar">
-            <input type="hidden" id="statusCntrolador" name="status" value="{{ $solicitacao->status}}">
-            <select name="statusCntrolador" id="status" onchange="atualizarHidden('statusCntrolador')" disabled>
+            <input type="hidden" id="statusHidden" name="status" value="{{ $solicitacao->status}}">
+            <select name="statusSelect" id="status" onchange="atualizarHidden('status')" disabled>
                 <option value="novo" {{ $solicitacao->status == "novo" ? 'selected' : '' }}>Novo</option>
                 <option value="atribuido" {{ $solicitacao->status == "atribuido" ? 'selected' : '' }}>Atribuída</option>
                 <option value="cirurgiao" {{ $solicitacao->status == "cirurgiao" ? 'selected' : '' }}>Retorno Cirurgião</option>
