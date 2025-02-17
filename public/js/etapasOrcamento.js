@@ -553,35 +553,35 @@ function prepararEnvio(funcao) {
 
     switch (funcao){
         case "designar":
-            document.getElementById("status").value = "cirurgiao";
+            document.getElementById("statusHidden").value = "cirurgiao";
             break;
 
         case "cirurgiao":
-            document.getElementById("status").value = "anestesista";
+            document.getElementById("statusHidden").value = "anestesista";
             break;
 
         case "anestesista":
-            document.getElementById("status").value = "criacao";
+            document.getElementById("statusHidden").value = "criacao";
             break;
 
         case "criar":
-            document.getElementById("status").value = "liberacao";
+            document.getElementById("statusHidden").value = "liberacao";
             break;
 
         case "liberar":
-            document.getElementById("status").value = "negociacao";
+            document.getElementById("statusHidden").value = "negociacao";
             break;
 
         case "recusar":
-            document.getElementById("status").value = "recusado";
+            document.getElementById("statusHidden").value = "recusado";
             break;
 
         case "ganho":
-            document.getElementById("status").value = "aprovado";
+            document.getElementById("statusHidden").value = "aprovado";
             break;
 
         case "perdido":
-            document.getElementById("status").value = "perdido";
+            document.getElementById("statusHidden").value = "perdido";
             break;
 
 
