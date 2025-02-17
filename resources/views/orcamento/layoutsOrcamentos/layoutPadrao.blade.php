@@ -872,87 +872,86 @@ window.onload = function() {
 
 
 
-try{
-    CKEDITOR.replace('condPagamentoAnestesista', {
-        toolbar: [
-                { name: 'clipboard', items: ['Undo', 'Redo'] },
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                { name: 'links', items: ['Link'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-            ],
-            removePlugins: 'elementspath',
-            resize_enabled: false,
-        height: 100
-    });
-}catch{
-    console.warn("Condições de Pagamento não disponíveis");
+function inicializarCKEditor(id) {
+    var elemento = document.getElementById(id);
+    if (elemento) {
+        try {
+            CKEDITOR.replace(id, {
+                toolbar: [
+                    { name: 'clipboard', items: ['Undo', 'Redo'] },
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                    { name: 'links', items: ['Link'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+                ],
+                removePlugins: 'elementspath',
+                resize_enabled: false,
+                height: 100
+            });
+        } catch (e) {
+            console.warn(`Erro ao inicializar CKEditor para ${id}:`, e);
+        }
+    } else {
+        console.warn(`Elemento com ID ${id} não encontrado. CKEditor não será inicializado.`);
+    }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    inicializarCKEditor('condPagamentoAnestesista');
+    inicializarCKEditor('condPagamentoCirurgiao');
+    inicializarCKEditor('condPagamentoHosp');
+});
 
-try{
-    CKEDITOR.replace('condPagamentoCirurgiao', {
-        toolbar: [
-            { name: 'clipboard', items: ['Undo', 'Redo'] },
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-            { name: 'links', items: ['Link'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-        ],
-        removePlugins: 'elementspath',
-        resize_enabled: false,
-        height: 100
-    });
-}catch{
-    console.warn("Condições de Pagamento não disponíveis");
-}
 
-try{
-    CKEDITOR.replace('condPagamentoHosp', {
-        toolbar: [
-            { name: 'clipboard', items: ['Undo', 'Redo'] },
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-            { name: 'links', items: ['Link'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-        ],
-        removePlugins: 'elementspath',
-        resize_enabled: false,
-        height: 100
-    });
-}catch{
-    console.warn("Condições de Pagamento não disponíveis");
-}
-
-try{
+try {
     document.addEventListener("DOMContentLoaded", function () {
         if (typeof CKEDITOR === "undefined") {
             console.warn("CKEditor não carregado corretamente.");
             return;
         }
 
-        var editorInstance = CKEDITOR.replace('editor', {
-            toolbar: [
-                { name: 'clipboard', items: ['Undo', 'Redo'] },
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                { name: 'links', items: ['Link'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-            ],
-            removePlugins: 'elementspath',
-            resize_enabled: false,
-        });
+        var editorElement = document.getElementById('editor');
+        if (editorElement) {
+            var editorInstance = CKEDITOR.replace('editor', {
+                toolbar: [
+                    { name: 'clipboard', items: ['Undo', 'Redo'] },
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                    { name: 'links', items: ['Link'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+                ],
+                removePlugins: 'elementspath',
+                resize_enabled: false,
+            });
 
-        editorInstance.on('instanceReady', function () {
-            var selectedOption = document.getElementById('presetSelect').selectedOptions[0];
-            var selectedContent = selectedOption ? selectedOption.value : '';
-            editorInstance.setData(selectedContent);
-        });
+            editorInstance.on('instanceReady', function () {
+                var selectedOption = document.getElementById('presetSelect')?.selectedOptions[0];
+                var selectedContent = selectedOption ? selectedOption.value : '';
+                editorInstance.setData(selectedContent);
+            });
 
-        document.getElementById('insertPreset').addEventListener('click', function () {
-            var selectedOption = document.getElementById('presetSelect').selectedOptions[0];
-            var selectedContent = selectedOption ? selectedOption.value : '';
-            CKEDITOR.instances.editor.setData(selectedContent);
-        });
+            var insertPresetButton = document.getElementById('insertPreset');
+            if (insertPresetButton) {
+                insertPresetButton.addEventListener('click', function () {
+                    var selectedOption = document.getElementById('presetSelect')?.selectedOptions[0];
+                    var selectedContent = selectedOption ? selectedOption.value : '';
+                    CKEDITOR.instances.editor.setData(selectedContent);
+                });
+            }
+        } else {
+            console.warn("Elemento 'editor' não encontrado.");
+        }
+
+        var presetSelect = document.getElementById('presetSelect');
+        if (!presetSelect) {
+            console.warn("Elemento 'presetSelect' não encontrado.");
+        }
+
+        var insertPresetButton = document.getElementById('insertPreset');
+        if (!insertPresetButton) {
+            console.warn("Elemento 'insertPreset' não encontrado.");
+        }
     });
-}catch{
-    console.warn("Rich Text não disponível");
+} catch (error) {
+    console.warn("Rich Text não disponível:", error);
 }
 
 
