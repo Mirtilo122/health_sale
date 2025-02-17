@@ -872,8 +872,8 @@ window.onload = function() {
 
 
 
-
-CKEDITOR.replace('condPagamentoAnestesista', {
+try{
+    CKEDITOR.replace('condPagamentoAnestesista', {
         toolbar: [
                 { name: 'clipboard', items: ['Undo', 'Redo'] },
                 { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
@@ -884,7 +884,12 @@ CKEDITOR.replace('condPagamentoAnestesista', {
             resize_enabled: false,
         height: 100
     });
+}catch{
+    console.warn("Condições de Pagamento não disponíveis");
+}
 
+
+try{
     CKEDITOR.replace('condPagamentoCirurgiao', {
         toolbar: [
             { name: 'clipboard', items: ['Undo', 'Redo'] },
@@ -896,7 +901,11 @@ CKEDITOR.replace('condPagamentoAnestesista', {
         resize_enabled: false,
         height: 100
     });
+}catch{
+    console.warn("Condições de Pagamento não disponíveis");
+}
 
+try{
     CKEDITOR.replace('condPagamentoHosp', {
         toolbar: [
             { name: 'clipboard', items: ['Undo', 'Redo'] },
@@ -908,6 +917,9 @@ CKEDITOR.replace('condPagamentoAnestesista', {
         resize_enabled: false,
         height: 100
     });
+}catch{
+    console.warn("Condições de Pagamento não disponíveis");
+}
 
 try{
     document.addEventListener("DOMContentLoaded", function () {
