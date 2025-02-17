@@ -9,6 +9,8 @@ use App\Http\Controllers\ConvenioController;
 use App\Http\Controllers\ProcedimentosController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\PrestadorController;
+
 
 
 // Rotas da página Inicial
@@ -166,3 +168,20 @@ Route::get('/convenios', [ConvenioController::class, 'index'])->name('convenios.
 Route::middleware(['auth'])->group(function () {
     Route::resource('modelos', ModeloController::class);
 });
+
+
+
+
+
+
+// Rotas de Prestadores
+
+Route::get('/prestadores', [PrestadorController::class, 'index'])->name('prestadores.index');
+Route::get('/prestadores/criar', [PrestadorController::class, 'create'])->name('prestadores.create');
+Route::post('/prestadores', [PrestadorController::class, 'store'])->name('prestadores.store');
+Route::get('/prestadores/editar/{id}', [PrestadorController::class, 'edit'])->name('prestadores.edit');
+Route::put('/prestadores', [PrestadorController::class, 'update'])->name('prestadores.update');
+Route::delete('/prestadores/{id}', [PrestadorController::class, 'destroy'])->name('prestadores.destroy');
+
+
+

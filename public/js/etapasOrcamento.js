@@ -1,4 +1,4 @@
-
+// Funções simples os selects de informações
 
 function atualizarHidden(info) {
     document.getElementById(info + "Hidden").value = document.getElementById(info).value;
@@ -38,8 +38,9 @@ function alterar(lista) {
 
 
 
-// Agentes
 
+
+// Funções de Adição de Agentes
 
 try {
 
@@ -321,6 +322,9 @@ try {
     console.warn("Erro ao carregar precosProcedimentos:", error);
 }
 
+
+//Valores Cirurgião e Anestesista
+
 function calcularTotal() {
     var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');
     var total = 0;
@@ -381,21 +385,15 @@ try {
 
 
 
-
-
-
 function calcularTotalAnestesia() {
-    // Verifica se existem inputs com id 'taxaAnestesia'
     const inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
     if (inputs.length > 0) {
         var total = 0;
 
-        // Soma os valores de todos os inputs encontrados
         inputs.forEach(function(input) {
             total += parseFloat(input.value) || 0;
         });
 
-        // Verifica se o elemento 'totalAnestesia' existe antes de atualizar seu conteúdo
         const totalAnestesia = document.getElementById('totalAnestesia');
         if (totalAnestesia) {
             totalAnestesia.textContent = total.toFixed(2);
@@ -412,10 +410,8 @@ function calcularTotalAnestesia() {
 function atualizarTaxaAnestesia() {
     let taxaAnestesia = {};
 
-    // Verifica se existem inputs com id 'taxaAnestesia'
     const inputs = document.querySelectorAll("input[id='taxaAnestesia']");
     if (inputs.length > 0) {
-        // Processa cada input encontrado
         inputs.forEach(input => {
             const nome = input.getAttribute("name");
             const valor = parseFloat(input.value) || 0;
@@ -423,7 +419,6 @@ function atualizarTaxaAnestesia() {
             taxaAnestesia[nome] = valor;
         });
 
-        // Verifica se o elemento com id 'taxa_anestesia_hidden' existe antes de atualizar seu valor
         const taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden");
         if (taxaAnestesiaHidden) {
             taxaAnestesiaHidden.value = JSON.stringify(taxaAnestesia);
@@ -468,7 +463,7 @@ try {
 
 
 
-
+//Verifica se foi selecionado um cirurgião e um anestesista na tela Designar
 
 try {
 document.getElementById("prosseguir").addEventListener("click", function (event) {
@@ -496,6 +491,8 @@ document.getElementById("prosseguir").addEventListener("click", function (event)
 
 
 
+
+//Adição de Procedimentos Secundarios
 
 function adicionarSecundario(codTuss = "", procedimento = "") {
     const novaDiv = document.createElement("div");
@@ -529,6 +526,7 @@ function removerProcedimento(botao) {
 
 
 
+// Funções desencadeadas com o click dos botões de Prosseguir
 
 function prepararEnvio(funcao) {
 
@@ -592,7 +590,7 @@ function prepararEnvio(funcao) {
 
 
 
-
+// Desabilita data Provável quando Urgente
 
 try {
 document.getElementById('urgente').addEventListener('change', function() {
@@ -619,6 +617,8 @@ window.onload = function() {
 
 
 
+
+// Funções do Richtext CKEditor
 
 function inicializarCKEditor(id) {
     var elemento = document.getElementById(id);

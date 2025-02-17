@@ -34,6 +34,7 @@
         <li><a class="dropdown-item" href="/dashboard">Painel</a></li>
         <li><a class="dropdown-item" href="/usuarios">Usuários</a></li>
         <li><a class="dropdown-item" href="/modelos">Modelos</a></li>
+        <li><a class="dropdown-item" href="/prestadores">Prestadores</a></li>
         <li><a class="dropdown-item" href="/logout">Sair</a></li>
     </ul>
 </div>

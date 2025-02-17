@@ -12,13 +12,11 @@
     </div>
 @endif
 
-    @php
-
+@php
     $idUsuario = auth()->id();
     $usuario = auth()->user();
     $nivelAcesso = $usuario->acesso;
-
-    @endphp
+@endphp
 
 @if ($nivelAcesso !== "Administrador")
     <div class="text-center">
@@ -28,47 +26,50 @@
     @php exit; @endphp
 @endif
 
-<div class="container" style="display: flex;flex-direction:column; gap:15px;">
-    <h1>Gerenciamento de Usuários</h1>
+<div class="container my-4">
+    <h1 class="text-center mb-4">Gerenciamento de Usuários</h1>
 
-    <a href="{{ route('usuarios.registrar') }}" class="btn btn-success" style="max-width: 200px;">Cadastrar Novo Usuário</a>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ route('usuarios.registrar') }}" class="btn btn-success">Cadastrar Novo Usuário</a>
+    </div>
 
-    <table class="table table-hover">
-        <thead class="table-secondary">
-            <tr>
-                <th scope="col" class="align-middle text-center">
-                    <a href="{{ route('usuarios.usuarios', ['sort' => 'id', 'order' => $orderDirection]) }}">ID</a>
-                </th>
-                <th scope="col" class="align-middle text-center">
-                    <a href="{{ route('usuarios.usuarios', ['sort' => 'usuario', 'order' => $orderDirection]) }}">Nome</a>
-                </th>
-                <th scope="col" class="align-middle text-center">E-mail</th>
-                <th scope="col" class="align-middle text-center">
-                    <a href="{{ route('usuarios.usuarios', ['sort' => 'acesso', 'order' => $orderDirection]) }}">Nível de Acesso</a>
-                </th>
-                <th scope="col" class="align-middle text-center">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if ($usuarios->count() > 0)
-                @foreach ($usuarios as $usuario)
-                    <tr>
-                        <td scope="row" class="align-middle text-center">{{ $usuario->id }}</td>
-                        <td scope="row" class="align-middle text-center">{{ $usuario->usuario }}</td>
-                        <td scope="row" class="align-middle text-center">{{ $usuario->email }}</td>
-                        <td scope="row" class="align-middle text-center">{{ $usuario->acesso }}</td>
-                        <td scope="row" class="align-middle text-center">
-                            <a href="{{ route('usuarios.editar', $usuario->id) }}" class="btn btn-primary">Editar</a>
-                        </td>
-                    </tr>
-                @endforeach
-            @else
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-secondary">
                 <tr>
-                    <td colspan="5">Nenhum usuário encontrado.</td>
+                    <th scope="col" class="text-center">
+                        <a href="{{ route('usuarios.usuarios', ['sort' => 'id', 'order' => $orderDirection]) }}" class="text-decoration-none text-dark">ID</a>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <a href="{{ route('usuarios.usuarios', ['sort' => 'usuario', 'order' => $orderDirection]) }}" class="text-decoration-none text-dark">Nome</a>
+                    </th>
+                    <th scope="col" class="text-center">E-mail</th>
+                    <th scope="col" class="text-center">
+                        <a href="{{ route('usuarios.usuarios', ['sort' => 'acesso', 'order' => $orderDirection]) }}" class="text-decoration-none text-dark">Nível de Acesso</a>
+                    </th>
+                    <th scope="col" class="text-center">Ações</th>
                 </tr>
-            @endif
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @if ($usuarios->count() > 0)
+                    @foreach ($usuarios as $usuario)
+                        <tr>
+                            <td class="text-center">{{ $usuario->id }}</td>
+                            <td class="text-center">{{ $usuario->usuario }}</td>
+                            <td class="text-center">{{ $usuario->email }}</td>
+                            <td class="text-center">{{ $usuario->acesso }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('usuarios.editar', $usuario->id) }}" class="btn btn-warning">Editar</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
 </div>
-
 @endsection

@@ -5,24 +5,24 @@
 @section('nome_pagina', 'MODELOS')
 
 @section('conteudo')
-
 <div class="container">
-    <h1>Editar Modelo</h1>
+    <h1 class="mb-4">Editar Modelo</h1>
 
     <form action="{{ route('modelos.update', $modelo->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row">
-            <div class="col-6 flex-fill mb-3">
+            <div class="col-md-6 mb-3">
                 <label for="nome" class="form-label">Nome do Modelo</label>
                 <input type="text" class="form-control" id="nome" name="nome" value="{{ old('nome', $modelo->nome) }}" required>
             </div>
 
-            <div class="col-6 flex-fill mb-3 form-check form-switch d-flex align-items-center justify-content-center">
+            <div class="col-md-6 mb-3 form-check form-switch d-flex align-items-center justify-content-center">
                 <input class="form-check-input" type="checkbox" name="ativo" id="checkbox"{{ $modelo->ativo == 1 ? 'checked' : '' }}>
                 <label class="ms-4 mt-1" id="label">Desativo</label>
             </div>
         </div>
+
         <div class="mb-3">
             <label for="descricao" class="form-label">Descrição do Modelo</label>
             <input type="text" class="form-control" id="descricao" name="descricao" value="{{ old('descricao', $modelo->descricao) }}" required>
@@ -60,8 +60,5 @@
     checkbox.addEventListener("change", function () {
         label.textContent = this.checked ? "Ativo" : "Desativo";
     });
-
-
 </script>
-
 @endsection

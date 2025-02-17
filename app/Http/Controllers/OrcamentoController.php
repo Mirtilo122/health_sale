@@ -284,9 +284,17 @@ class OrcamentoController extends Controller
                $solicitacao->$tipoData = Carbon::now();
            }
 
-           $solicitacao->diarias_enfermaria = $dados['diarias_enfermaria'];
-           $solicitacao->diarias_apartamento = $dados['diarias_apartamento'];
-           $solicitacao->diarias_uti = $dados['diarias_uti'];
+           if (isset($dados['diarias_enfermaria'])) {
+                $solicitacao->diarias_enfermaria = $dados['diarias_enfermaria'];
+            }
+
+            if (isset($dados['diarias_apartamento'])) {
+                $solicitacao->diarias_apartamento = $dados['diarias_apartamento'];
+            }
+
+            if (isset($dados['diarias_uti'])) {
+                $solicitacao->diarias_uti = $dados['diarias_uti'];
+            }
 
             $solicitacao->save();
         }

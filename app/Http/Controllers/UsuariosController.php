@@ -18,7 +18,9 @@ class UsuariosController extends Controller
         $orderBy = $request->get('sort', 'id');
         $orderDirection = $request->get('order', 'asc') === 'asc' ? 'desc' : 'asc';
 
-        $usuarios = Usuarios::orderBy($orderBy, $orderDirection)->get();
+        $usuarios = Usuarios::where('acesso', '!=', 'Externo')
+                         ->orderBy($orderBy, $orderDirection)
+                         ->get();
 
         return view('usuarios.usuarios', compact('usuarios', 'orderBy', 'orderDirection'));
     }
@@ -42,7 +44,6 @@ class UsuariosController extends Controller
                 'email' => $request->email,
                 'senha' => Hash::make($request->password),
                 'acesso' => $request->acesso,
-                'funcao' => $request->funcao,
             ]);
 
             return redirect()->route('usuarios.usuarios')->with('success', 'Usuário registrado com sucesso!');
@@ -76,14 +77,12 @@ class UsuariosController extends Controller
             'usuario' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'senha' => ['nullable',],
-            'funcao' => ['required',],
         ]);
 
         try {
             $usuario->usuario = $request->usuario;
             $usuario->email = $request->email;
             $usuario->acesso = $request->acesso;
-            $usuario->funcao = $request->funcao;
 
 
 

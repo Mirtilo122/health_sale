@@ -1,31 +1,23 @@
 @extends('layouts.admin')
 
-@section('titulo', 'Modelos de Condições')
+@section('titulo', 'Cadastrar Prestador')
 
-@section('nome_pagina', 'MODELOS')
+@section('nome_pagina', 'NOVO PRESTADOR')
+
+@push('styles')
+    <link rel="stylesheet" href="/css/cadastros_auxiliares.css">
+@endpush
 
 @section('conteudo')
 
-<style>
-
-.form-check-input {
-    transform: scale(1.5);
-}
-
-label{
-font-size: 15px;
-}
-
-</style>
-
-<div class="container">
+<div class="container mt-2">
     <h1>Cadastrar Novo Modelo</h1>
 
     <form action="{{ route('modelos.store') }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-6 flex-fill mb-3">
-                <label for="nome" class="form-label" value="<?php echo isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : ''; ?>">Nome do Modelo</label>
+                <label for="nome" class="form-label">Nome do Modelo</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
             </div>
 
@@ -35,14 +27,13 @@ font-size: 15px;
             </div>
         </div>
 
-
         <div class="mb-3">
-            <label for="descricao" class="form-label" value="<?php echo isset($_POST['descricao']) ? htmlspecialchars($_POST['descricao']) : ''; ?>">Descrição do Modelo</label>
+            <label for="descricao" class="form-label">Descrição do Modelo</label>
             <input type="text" class="form-control" id="descricao" name="descricao" required>
         </div>
 
         <div class="mb-3">
-            <label for="conteudo" class="form-label" value="<?php echo isset($_POST['conteudo']) ? htmlspecialchars($_POST['conteudo']) : ''; ?>">Conteúdo do Modelo</label>
+            <label for="conteudo" class="form-label">Conteúdo do Modelo</label>
             <textarea id="editor" name="conteudo"></textarea>
         </div>
 
@@ -50,7 +41,6 @@ font-size: 15px;
         <a href="{{ route('modelos.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
-
 
 <script>
     CKEDITOR.replace('editor', {
@@ -65,6 +55,7 @@ font-size: 15px;
             { name: 'tools', items: ['Preview'] }
         ]
     });
+
     const checkbox = document.getElementById("checkbox");
     const label = document.getElementById("label");
 

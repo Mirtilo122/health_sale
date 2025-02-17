@@ -5,8 +5,6 @@
 @section('nome_pagina', 'USUÁRIOS')
 
 @section('conteudo')
-
-
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -19,7 +17,7 @@
     </div>
 @endif
 
-<div class="container-md mt-5" style="width:40%">
+<div class="container-md mt-5" style="max-width: 600px;">
     <div class="card shadow-sm p-4 bg-white rounded">
 
         <h2 class="text-center mb-4">Editar Usuário</h2>
@@ -45,19 +43,9 @@
             <div class="mb-3">
                 <label for="acesso" class="form-label">Nível de Acesso</label>
                 <select class="form-select" name="acesso" id="acesso">
-                    <option value="Externo" {{ $usuario->acesso == 'Externo' ? 'selected' : '' }}>Externo</option>
                     <option value="Agente" {{ $usuario->acesso == 'Agente' ? 'selected' : '' }}>Agente</option>
                     <option value="Gerente" {{ $usuario->acesso == 'Gerente' ? 'selected' : '' }}>Gerente</option>
                     <option value="Administrador" {{ $usuario->acesso == 'Administrador' ? 'selected' : '' }}>Administrador</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="funcao" class="form-label">Possui Função Específica?</label>
-                <select class="form-select" name="funcao" id="funcao">
-                    <option value='Nenhum' {{ $usuario->funcao == '' ? 'selected' : '' }}>Nenhum</option>
-                    <option value="Anestesista" {{ $usuario->funcao == 'Anestesista' ? 'selected' : '' }}>Anestesista</option>
-                    <option value="Cirurgião" {{ $usuario->funcao == 'Cirurgião' ? 'selected' : '' }}>Cirurgião</option>
                 </select>
             </div>
 
@@ -80,7 +68,4 @@
         }
     }
 </script>
-
-
-
 @endsection
