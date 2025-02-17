@@ -61,7 +61,7 @@
             </tbody>
         </table>
 
-    </div>
+    </div> 
 
     <div class="col-6 flex-fill">
     <h5 class="mb-2">Acomodações</h5>

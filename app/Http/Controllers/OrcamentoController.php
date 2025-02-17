@@ -192,13 +192,13 @@ class OrcamentoController extends Controller
 
         $permitidos = [];
         if ($tipoData === 'data_anestesista') {
-            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoCirurgiao'];
+            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoCirurgiao', 'diarias_enfermaria', 'diarias_apartamento', 'diarias_uti'];
             $dados = $request->only($permitidos);
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $dados['taxa_cirurgiao'] = $taxaCirurgiao;
             $dados['cond_pagamento_cirurgiao'] = $request->input('condPagamentoCirurgiao');
         } elseif ($tipoData === 'data_criacao') {
-            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoAnestesista'];
+            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoAnestesista', 'diarias_enfermaria', 'diarias_apartamento', 'diarias_uti'];
             $dados = $request->only($permitidos);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
             $dados['taxa_anestesista'] = $taxaAnestesia;
@@ -245,11 +245,16 @@ class OrcamentoController extends Controller
             if ($request->hasFile('arquivo_condicoes')) {
                 $arquivo = $request->file('arquivo_condicoes');
 
-                if (in_array($arquivo->getClientOriginalExtension(), ['pdf', 'jpg', 'jpeg', 'png'])) {
+                if (!in_array($arquivo->getClientOriginalExtension(), ['pdf', 'jpg', 'jpeg', 'png'])) {
+                    return redirect()->back()->with('erro', 'Formato de arquivo não permitido.');
+                }
+
+                try {
                     $nomeArquivo = time() . '_' . uniqid() . '.' . $arquivo->getClientOriginalExtension();
                     $caminho = $arquivo->storeAs('uploads', $nomeArquivo, 'public');
-
                     $dados['arquivo_anexo'] = 'storage/' . $caminho;
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('erro', 'Erro ao salvar arquivo: ' . $e->getMessage());
                 }
             }
 
@@ -278,6 +283,10 @@ class OrcamentoController extends Controller
             if ($tipoData && in_array($tipoData, $dataCampos) && !$solicitacao->$tipoData) {
                $solicitacao->$tipoData = Carbon::now();
            }
+
+           $solicitacao->diarias_enfermaria = $dados['diarias_enfermaria'];
+           $solicitacao->diarias_apartamento = $dados['diarias_apartamento'];
+           $solicitacao->diarias_uti = $dados['diarias_uti'];
 
             $solicitacao->save();
         }
