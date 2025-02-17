@@ -553,15 +553,15 @@ function prepararEnvio(funcao) {
 
     switch (funcao){
         case "designar":
-            document.getElementById("statusHidden").value = "cirurgiao";
+            document.getElementById("status").value = "cirurgiao";
             break;
 
         case "cirurgiao":
-            document.getElementById("statusHidden").value = "anestesista";
+            document.getElementById("status").value = "anestesista";
             break;
 
         case "anestesista":
-            document.getElementById("statusHidden").value = "criacao";
+            document.getElementById("status").value = "criacao";
             break;
 
         case "criar":
