@@ -162,8 +162,6 @@ class OrcamentoController extends Controller
     public function atualizarOrcamento(Request $request)
     {
 
-        dd($request->all());
-
         $request->validate([
             'nome_cirurgiao' => 'nullable|string',
             'telefone_cirurgiao' => 'nullable|string',
