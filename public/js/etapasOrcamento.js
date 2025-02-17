@@ -347,6 +347,72 @@ function calcularTotalAnestesia() {
 }
 
 
+function atualizarTaxaCirurgiao() {
+    let taxaCirurgiao = {};
+
+    const inputs = document.querySelectorAll("input[id='valorCirurgiao']");
+    if (inputs.length > 0) {
+        inputs.forEach(input => {
+            const nome = input.getAttribute("name");
+            const valor = parseFloat(input.value) || 0;
+
+            taxaCirurgiao[nome] = valor;
+        });
+
+        const taxaCirurgiaoHidden = document.getElementById("taxa_cirurgiao_hidden");
+        if (taxaCirurgiaoHidden) {
+            taxaCirurgiaoHidden.value = JSON.stringify(taxaCirurgiao);
+        } else {
+            console.warn("Elemento com id 'taxa_cirurgiao_hidden' não encontrado");
+        }
+    } else {
+        console.warn("Nenhum input com id 'valorCirurgiao' encontrado");
+    }
+}
+
+try {
+    const inputs = document.querySelectorAll("input[id='valorCirurgiao']");
+    if (inputs.length > 0) {
+        inputs.forEach(input => {
+            input.addEventListener("input", atualizarTaxaCirurgiao);
+        });
+    } else {
+        console.warn("Nenhum input com id 'valorCirurgiao' encontrado para adicionar evento");
+    }
+} catch (error) {
+    console.warn("Erro ao adicionar evento de 'input':", error);
+}
+
+
+
+
+
+
+function calcularTotalAnestesia() {
+    // Verifica se existem inputs com id 'taxaAnestesia'
+    const inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
+    if (inputs.length > 0) {
+        var total = 0;
+
+        // Soma os valores de todos os inputs encontrados
+        inputs.forEach(function(input) {
+            total += parseFloat(input.value) || 0;
+        });
+
+        // Verifica se o elemento 'totalAnestesia' existe antes de atualizar seu conteúdo
+        const totalAnestesia = document.getElementById('totalAnestesia');
+        if (totalAnestesia) {
+            totalAnestesia.textContent = total.toFixed(2);
+        } else {
+            console.warn("Elemento com id 'totalAnestesia' não encontrado");
+        }
+
+        atualizarTotal();
+    } else {
+        console.warn("Nenhum input com id 'taxaAnestesia' encontrado");
+    }
+}
+
 function atualizarTaxaAnestesia() {
     let taxaAnestesia = {};
 
@@ -371,49 +437,6 @@ function atualizarTaxaAnestesia() {
     } else {
         console.warn("Nenhum input com id 'taxaAnestesia' encontrado");
     }
-}
-
-try {
-    const inputs = document.querySelectorAll("input[id='valorCirurgiao']");
-    if (inputs.length > 0) {
-        inputs.forEach(input => {
-            input.addEventListener("input", atualizarTaxaCirurgiao);
-        });
-    } else {
-        console.warn("Nenhum input com id 'valorCirurgiao' encontrado para adicionar evento");
-    }
-} catch (error) {
-    console.warn("Erro ao adicionar evento de 'input':", error);
-}
-
-
-
-
-
-
-function calcularTotalAnestesia() {
-    var inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
-    var total = 0;
-
-    inputs.forEach(function(input) {
-        total += parseFloat(input.value) || 0;
-    });
-
-    document.getElementById('totalAnestesia').textContent = total.toFixed(2);
-    atualizarTotal();
-}
-
-function atualizarTaxaAnestesia() {
-    let taxaAnestesia = {};
-
-    document.querySelectorAll("input[id='taxaAnestesia']").forEach(input => {
-        const nome = input.getAttribute("name");
-        const valor = parseFloat(input.value) || 0;
-
-        taxaAnestesia[nome] = valor;
-    });
-
-    document.getElementById("taxa_anestesia_hidden").value = JSON.stringify(taxaAnestesia);
 }
 
 try{
