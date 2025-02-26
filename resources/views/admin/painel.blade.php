@@ -45,6 +45,8 @@
                 });
 
             }
+
+
         @endphp
 
 
@@ -224,7 +226,7 @@
 
             <!-- Negociação -->
 
-            <div class="tab-pane fade show {{ $abaAtiva == 'liberacao-tab' ? 'active' : '' }}" id="negociacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'negociacao-tab' ? 'active' : '' }}" id="negociacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Orçamentos em Negociação</h4>

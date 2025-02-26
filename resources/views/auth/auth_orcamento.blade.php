@@ -1,17 +1,17 @@
 @php
 
-    $status = ucfirst(strtolower($orcamento->status));
+    $status = $solicitacao->status;
 
     $paginaAtual = Route::currentRouteName();
 
     $paginasPermitidas = [
-        'Novo' => ['orcamento.atribuir'],
-        'Atribuido' => ['orcamento.designar'],
-        'Cirurgiao' => ['orcamento.cirurgiao'],
-        'Anestesista' => ['orcamento.anestesia'],
-        'Criacao' => ['orcamento.criar'],
-        'Liberacao' => ['orcamento.liberacao'],
-        'Negociacao' => ['orcamento.negociacao'],
+        'novo' => ['orcamento.atribuir'],
+        'atribuido' => ['orcamento.designar'],
+        'cirurgiao' => ['orcamento.cirurgiao'],
+        'anestesista' => ['orcamento.anestesia'],
+        'criacao' => ['orcamento.criar'],
+        'liberacao' => ['orcamento.liberacao'],
+        'negociacao' => ['orcamento.negociacao'],
     ];
 
 
