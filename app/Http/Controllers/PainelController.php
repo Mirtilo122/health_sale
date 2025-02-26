@@ -23,7 +23,7 @@ class PainelController extends Controller
         ]);
 
     }
-
+ 
     public function filtrar(Request $request)
     {
         $selected_status = $request->input('status');

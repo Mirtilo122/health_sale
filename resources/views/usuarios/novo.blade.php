@@ -10,21 +10,7 @@
 
 @section('conteudo')
 
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@include('auth.autenticacaoAdmin')
 
 <div class="container-md mt-4">
     <div class="card shadow-sm p-4 bg-white rounded">

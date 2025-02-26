@@ -1,4 +1,3 @@
-
 function toggleCirurgiao() {
     const cirurgiaoDefinido = document.getElementById("cirurgiaoDefinido").value;
     const dadosCirurgiao = document.getElementById("dadosCirurgiao");
@@ -103,4 +102,94 @@ document.getElementById("formRepresent").addEventListener("submit", function (ev
 }
 
 
+function openDatePicker() {
+    const hiddenDateInput = document.getElementById("hiddenDateInput");
+    hiddenDateInput.style.display = "block"; // Torna visível para funcionar
+    hiddenDateInput.focus(); // Abre o seletor de data
+    hiddenDateInput.style.display = "none"; // Esconde novamente após a escolha
+}
 
+try{
+    document.getElementById("hiddenDateInput").addEventListener("change", function () {
+        const dateInput = document.getElementById("dateInput");
+        const date = new Date(this.value);
+        if (!isNaN(date.getTime())) {
+            dateInput.value = date.toLocaleDateString("pt-BR");
+        }
+    });
+} catch {
+    console.log('Data Não Disponível');
+}
+
+
+function formatDate(input) {
+    let value = input.value.replace(/\D/g, "");
+    if (value.length > 8) value = value.slice(0, 8);
+
+    if (value.length >= 4) {
+        value = value.replace(/(\d{2})(\d{2})(\d{0,4})/, "$1/$2/$3");
+    } else if (value.length >= 2) {
+        value = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
+    }
+
+    input.value = value;
+}
+
+
+
+
+
+
+
+
+function openDatePicker(id_data) {
+    const hiddenDateInput = document.getElementById("hidden-" + id_data);
+    const dateInput = document.getElementById(id_data);
+
+    if (hiddenDateInput.style.display === "block") {
+        hiddenDateInput.style.display = "none";
+        dateInput.style.display = "block";
+        dateInput.focus();
+    } else {
+        hiddenDateInput.style.display = "block";
+        dateInput.style.display = "none";
+        hiddenDateInput.focus();
+    }
+}
+
+function formatDate(input) {
+    let value = input.value.replace(/\D/g, "");
+    if (value.length > 8) value = value.slice(0, 8);
+
+    if (value.length >= 4) {
+        value = value.replace(/(\d{2})(\d{2})(\d{0,4})/, "$1/$2/$3");
+    } else if (value.length >= 2) {
+        value = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
+    }
+
+    input.value = value;
+
+    if (value.length === 10) {
+        const [day, month, year] = value.split("/");
+        if (day && month && year) {
+            const formattedDate = `${year}-${month}-${day}`;
+            document.getElementById("hidden-" + input.id).value = formattedDate;
+        }
+    }
+}
+
+try{
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("input[type='date']").forEach(function (dateInput) {
+            dateInput.addEventListener("change", function () {
+                const textInput = document.getElementById(this.id.replace("hidden-", ""));
+                if (this.value) {
+                    const [year, month, day] = this.value.split("-");
+                    textInput.value = `${day}/${month}/${year}`;
+                }
+            });
+        });
+    });
+}catch{
+
+}

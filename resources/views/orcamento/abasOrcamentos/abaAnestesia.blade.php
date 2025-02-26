@@ -91,15 +91,23 @@
             <tbody>
                 <tr>
                     <td scope="row">Taxa Anestesia</td>
-                    <td><input type="number" id="taxaAnestesia" name="taxaAnestesia" class="form-control money" value="{{ $orcamento->taxa_anestesista['taxaAnestesia'] ?? '' }}" oninput="atualizarTaxaAnestesia()"></td>
+                    <td>
+                        <input type="text" id="taxaAnestesia" name="taxaAnestesia" class="form-control money text-end"
+                            value="{{ !empty($orcamento->taxa_anestesista['taxaAnestesia']) ? $orcamento->taxa_anestesista['taxaAnestesia'] : '00,00' }}"
+                            oninput="calcularTotalAnestesia()">
+                    </td>
                 </tr>
                 <tr>
                     <td scope="row">Outros Custos de Anestesia</td>
-                    <td><input type="number" id="taxaAnestesia" name="outrosCustosAnestesia" class="form-control money"  value="{{ $orcamento->taxa_anestesista['outrosCustosAnestesia'] ?? '' }}" oninput="calcularTotalAnestesia()"></td>
+                    <td>
+                        <input type="text" id="taxaAnestesia" name="outrosCustosAnestesia" class="form-control money text-end"
+                            value="{{ !empty($orcamento->taxa_anestesista['outrosCustosAnestesia']) ? $orcamento->taxa_anestesista['outrosCustosAnestesia'] : '00,00' }}"
+                            oninput="calcularTotalAnestesia()">
+                    </td>
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>
-                    <td><strong id="totalAnestesia">0.00</strong></td>
+                    <td class="text-end"><strong id="totalAnestesia" >0,00</strong></td>
                 </tr>
             </tbody>
         </table>

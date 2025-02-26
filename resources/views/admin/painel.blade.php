@@ -6,14 +6,11 @@
 
 @section('conteudo')
 
-
-
-
 <main>
         @php
+
             use Illuminate\Support\Str;
 
-            $id_usuario_atual = auth()->id();
             $idUsuario = auth()->id();
             $usuario = auth()->user();
             $nivelAcesso = $usuario->acesso;
@@ -25,9 +22,9 @@
             $ehAgente = $nivelAcesso == 'Agente';
 
             if ($ehCirurgiao) {
-                $solicitacoes = $solicitacoes->filter(fn($s) => $s->orcamento && $s->orcamento->id_usuarios_cirurgioes == $id_usuario_atual);
+                $solicitacoes = $solicitacoes->filter(fn($s) => $s->orcamento && $s->orcamento->id_usuarios_cirurgioes == $idUsuario);
             } elseif ($ehAnestesista) {
-                $solicitacoes = $solicitacoes->filter(fn($s) => $s->orcamento && $s->orcamento->id_usuarios_anestesistas == $id_usuario_atual);
+                $solicitacoes = $solicitacoes->filter(fn($s) => $s->orcamento && $s->orcamento->id_usuarios_anestesistas == $idUsuario);
             } elseif ($ehAgente) {
 
                 $solicitacoes = $solicitacoes->filter(function ($solicitacao) use ($idUsuario) {
@@ -54,58 +51,65 @@
     <div class="container">
         <h2 class="text-center my-4">Solicitações de Orçamento</h2>
 
+        @php
+            $abaAtiva = session('aba_ativa', 'favoritos-tab');
+        @endphp
+
         <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+            <li class="nav-item">
+                <button class="nav-link {{ $abaAtiva == 'favoritos-tab' ? 'active' : '' }}" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane">
+                    Favoritas ({{ $solicitacoes->filter(fn($s) => Str::contains($s->favoritos, (string) $idUsuario))->count() }})
+                </button>
+            </li>
 
             @if ($podeAcessarTudo)
                 <li class="nav-item">
-                    <button class="nav-link" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'novos-tab' ? 'active' : '' }}" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane">
                         Novas ({{ $solicitacoes->where('status', 'novo')->count() }})
                     </button>
                 </li>
             @endif
 
             @if ($podeAcessarTudo || $ehAgente)
-
                 <li class="nav-item">
-                    <button class="nav-link" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'atribuido-tab' ? 'active' : '' }}" id="atribuido-tab" data-bs-toggle="tab" data-bs-target="#atribuido-tab-pane">
                         Atribuídas ({{ $solicitacoes->where('status', 'atribuido')->count() }})
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'cirurgiao-tab' ? 'active' : '' }}" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane">
                         Aguardando Cirurgião ({{ $solicitacoes->where('status', 'cirurgiao')->count() }})
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'anestesista-tab' ? 'active' : '' }}" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane">
                         Aguardando Anestesista ({{ $solicitacoes->where('status', 'anestesista')->count() }})
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'orcamento-tab' ? 'active' : '' }}" id="orcamento-tab" data-bs-toggle="tab" data-bs-target="#orcamento-tab-pane">
                         Finalizando Orçamento ({{ $solicitacoes->where('status', 'criacao')->count() }})
                     </button>
                 </li>
+            @endif
 
-                @endif
-                @if ($podeAcessarTudo)
-
+            @if ($podeAcessarTudo)
                 <li class="nav-item">
-                    <button class="nav-link" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'liberacao-tab' ? 'active' : '' }}" id="liberacao-tab" data-bs-toggle="tab" data-bs-target="#liberacao-tab-pane">
                         Liberação ({{ $solicitacoes->where('status', 'liberacao')->count() }})
                     </button>
                 </li>
+            @endif
 
-                @endif
-                @if ($podeAcessarTudo || $ehAgente)
-
+            @if ($podeAcessarTudo || $ehAgente)
                 <li class="nav-item">
-                    <button class="nav-link" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'negociacao-tab' ? 'active' : '' }}" id="negociacao-tab" data-bs-toggle="tab" data-bs-target="#negociacao-tab-pane">
                         Negociação ({{ $solicitacoes->where('status', 'negociacao')->count() }})
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'concluidos-tab' ? 'active' : '' }}" id="concluidos-tab" data-bs-toggle="tab" data-bs-target="#concluidos-tab-pane">
                         Concluídas ({{ $solicitacoes->whereIn('status', ['perdido', 'aprovado', 'recusado'])->count() }})
                     </button>
                 </li>
@@ -113,7 +117,7 @@
 
             @if ($ehCirurgiao)
                 <li class="nav-item">
-                    <button class="nav-link active" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'cirurgiao-tab' ? 'active' : '' }}" id="cirurgiao-tab" data-bs-toggle="tab" data-bs-target="#cirurgiao-tab-pane">
                         Aguardando Cirurgião ({{ $solicitacoes->where('status', 'cirurgiao')->count() }})
                     </button>
                 </li>
@@ -121,17 +125,13 @@
 
             @if ($ehAnestesista)
                 <li class="nav-item">
-                    <button class="nav-link active" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane">
+                    <button class="nav-link {{ $abaAtiva == 'anestesista-tab' ? 'active' : '' }}" id="anestesista-tab" data-bs-toggle="tab" data-bs-target="#anestesista-tab-pane">
                         Aguardando Anestesista ({{ $solicitacoes->where('status', 'anestesista')->count() }})
                     </button>
                 </li>
             @endif
 
-            <li class="nav-item">
-                <button class="nav-link active" id="favoritos-tab" data-bs-toggle="tab" data-bs-target="#favoritos-tab-pane">
-                    Favoritas ({{ $solicitacoes->filter(fn($s) => Str::contains($s->favoritos, (string) $id_usuario_atual))->count() }})
-                </button>
-            </li>
+
 
         </ul>
 
@@ -140,7 +140,7 @@
 
             <!-- Novos -->
 
-            <div class="tab-pane  fade show align-top text-start" id="novos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane  fade show align-top text-start {{ $abaAtiva == 'novos-tab' ? 'active' : '' }}" id="novos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
             <div class="tituloTabelas">
                 <h4>Novas Solicitações</h4>
@@ -154,7 +154,7 @@
 
             <!-- Atribuídos -->
 
-            <div class="tab-pane fade show" id="atribuido-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'atribuido-tab' ? 'active' : '' }}" id="atribuido-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Solicitações Atribuídas</h4>
@@ -168,7 +168,7 @@
 
             <!-- Aguardando Cirurgiao -->
 
-            <div class="tab-pane fade show" id="cirurgiao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'cirurgiao-tab' ? 'active' : '' }}" id="cirurgiao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Aguardando Edição do Cirurgiao</h4>
@@ -182,7 +182,7 @@
 
             <!-- Aguardando Anestesista -->
 
-            <div class="tab-pane fade show" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'anestesista-tab' ? 'active' : '' }}" id="anestesista-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Aguardando Edição do Anestesista</h4>
@@ -196,7 +196,7 @@
 
             <!-- Aguardando Vendedor -->
 
-            <div class="tab-pane fade show" id="orcamento-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'orcamento-tab' ? 'active' : '' }}" id="orcamento-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Aguardando Edição do Responsável</h4>
@@ -210,7 +210,7 @@
 
             <!-- Liberação -->
 
-            <div class="tab-pane fade show" id="liberacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'liberacao-tab' ? 'active' : '' }}" id="liberacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Aguardando Liberação</h4>
@@ -224,7 +224,7 @@
 
             <!-- Negociação -->
 
-            <div class="tab-pane fade show" id="negociacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'liberacao-tab' ? 'active' : '' }}" id="negociacao-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Orçamentos em Negociação</h4>
@@ -238,7 +238,7 @@
 
             <!-- Concluídos -->
 
-            <div class="tab-pane fade show" id="concluidos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'concluidos-tab' ? 'active' : '' }}" id="concluidos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Orçamentos Finalizados</h4>
@@ -252,7 +252,7 @@
 
             <!-- Favoritos -->
 
-            <div class="tab-pane fade active show" id="favoritos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade show {{ $abaAtiva == 'favoritos-tab' ? 'active' : '' }}" id="favoritos-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="tituloTabelas">
 
                 <h4>Marcados como Favorito</h4>

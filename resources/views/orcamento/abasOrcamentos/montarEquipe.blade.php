@@ -53,12 +53,11 @@
             <select id="agente-selecao" class="form-control mt-2">
                 <option value="" disabled selected>Escolha um agente</option>
                 @foreach($agentes as $agente)
-                    @if($agente->id !== $solicitacao->id_usuario)
-                        <option value="{{ $agente->id }}"
-                            @if(in_array($agente->id, $idsVisualizar) || in_array($agente->id, $idsEditar)) disabled style="color: gray;" @endif>
-                            {{ $agente->usuario }}
-                        </option>
-                    @endif
+                    <option value="{{ $agente->id }}"
+                        @if($agente->id === $solicitacao->id_usuario || in_array($agente->id, $idsVisualizar) || in_array($agente->id, $idsEditar)) disabled style="color: gray;" @endif>
+                        {{ $agente->usuario }}
+                        @if($agente->id === $solicitacao->id_usuario) (Responsável) @endif
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -71,6 +70,11 @@
                     <div class="agente-nome" style="color: gray;">{{ $solicitacao->responsavel->usuario }}</div>
                     <div class="agente-switch">
                         <span>Responsável</span>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#modalAlterarResponsavel">
+                            Alterar Responsável
+                        </button>
                     </div>
                     <div class="agente-actions">
                     </div>
@@ -97,11 +101,32 @@
                     </li>
                 @endif
             @endforeach
-
-
-
-
         </ul>
+    </div>
+
+    <div class="modal fade" id="modalAlterarResponsavel" tabindex="-1" aria-labelledby="modalAlterarResponsavelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAlterarResponsavelLabel">Alterar Responsável</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="novo-responsavel" class="form-label">Selecione o novo responsável</label>
+                    <select id="novo-responsavel" class="form-control">
+                        @foreach($agentes as $agente)
+                            <option value="{{ $agente->id }}">
+                                {{ $agente->usuario }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmar-novo-responsavel">Confirmar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

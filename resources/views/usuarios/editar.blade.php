@@ -5,17 +5,8 @@
 @section('nome_pagina', 'USUÁRIOS')
 
 @section('conteudo')
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+@include('auth.autenticacaoAdmin')
 
 <div class="container-md mt-5" style="max-width: 600px;">
     <div class="card shadow-sm p-4 bg-white rounded">

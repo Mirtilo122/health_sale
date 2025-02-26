@@ -37,6 +37,8 @@ border: black;
 
 </style>
 
+    <input type="hidden" name="aba_ativa" id="aba_ativa" value="concluidos-tab">
+
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="procedimento-tab" data-bs-toggle="tab" data-bs-target="#procedimento-tab-pane" type="button" role="tab" aria-controls="procedimento-tab-pane" aria-selected="false">Procedimento</button>
     </li>

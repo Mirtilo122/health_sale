@@ -15,18 +15,30 @@
 
 </head>
 <body>
-    @include('componentes.header')
 
+    @include('componentes.header')
     <main>
         <div class="espaco"></div>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('warn'))
+            <div class="alert alert-warning">
+                {{ session('warn') }}
+            </div>
+        @endif
+
         @yield('conteudo')
     </main>
-
-
     @include('componentes.footer')
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="/js/script.js"></script>

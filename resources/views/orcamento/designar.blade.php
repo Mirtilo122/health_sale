@@ -21,6 +21,7 @@
 
     <input type="hidden" name="status" id="status" value="atribuido">
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_cirurgiao">
+    <input type="hidden" name="aba_ativa" id="aba_ativa" value="atribuido-tab">
 
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="paciente-tab" data-bs-toggle="tab" data-bs-target="#paciente-tab-pane" type="button" role="tab" aria-controls="paciente-tab-pane" aria-selected="true">Paciente</button>

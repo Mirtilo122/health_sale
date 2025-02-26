@@ -157,3 +157,17 @@ footer {
 .footer-links li a:hover {
     text-decoration: underline;
 }
+
+
+.calendar-button {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.money{
+    text-align: right;
+}

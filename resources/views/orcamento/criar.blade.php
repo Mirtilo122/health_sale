@@ -21,6 +21,8 @@
 @section('abas')
 
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_liberacao">
+    <input type="hidden" name="aba_ativa" id="aba_ativa" value="orcamento-tab">
+    <input type="hidden" id="orcamento_emitido" name="orcamento_emitido" value='0'>
 
 
     <li class="nav-item" role="presentation">

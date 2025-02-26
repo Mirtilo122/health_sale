@@ -56,8 +56,17 @@
                     <div class="invalid-feedback">Por favor, insira o nome do paciente.</div>
 
                     <label for="dataNasc">Data de Nascimento</label>
-                    <input type="date" id="dataNasc" name="dataNasc" required>
+                    <div class="input-container">
+                        <input type="text" id="dataNasc" placeholder="DD/MM/AAAA" oninput="formatDate(this)">
+                        <input type="date" name="dataNasc" id="hidden-dataNasc" style="display: none;" required>
+                        <button type="button" class="calendar-button mb-3" title="Clique para abrir o calendário" onclick="openDatePicker('dataNasc')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="invalid-feedback">Por favor, insira a data de nascimento.</div>
+
 
                     <label for="cidade">Cidade</label>
                     <input type="text" id="cidade" name="cidade" required>
@@ -180,7 +189,16 @@
                     </select>
 
                     <label for="dataProvavel">Data Provável</label>
-                    <input type="date" id="dataProvavel" name="dataProvavel">
+                    <div class="input-container">
+                        <input type="text" id="dataProvavel" placeholder="DD/MM/AAAA" oninput="formatDate(this)" />
+                        <input type="date" id="hidden-dataProvavel" name="dataProvavel" style="display: none;">
+
+                        <button type="button" class="calendar-button mb-3" title="Clique para abrir o calendário" onclick="openDatePicker('dataProvavel')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                            </svg>
+                        </button>
+                    </div>
 
                     <div class="mb-3">
                             <label for="formFile" class="form-label">Envio da Solicitação</label>

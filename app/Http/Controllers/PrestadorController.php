@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\QueryException;
+use App\Models\Especialidade;
 use Exception;
 
 class PrestadorController extends Controller
@@ -20,7 +21,8 @@ class PrestadorController extends Controller
 
     public function create()
     {
-        return view('prestadores.create');
+        $especialidades = Especialidade::all();
+        return view('prestadores.create', compact('especialidades'));
     }
 
     public function store(Request $request)
@@ -76,8 +78,9 @@ class PrestadorController extends Controller
     {
         $prestador = Prestador::findOrFail($idprestador);
         $usuario = Usuarios::where('id', $prestador->usuario_id)->first();
+        $especialidades = Especialidade::all();
 
-        return view('prestadores.edit', compact('usuario', 'prestador'));
+        return view('prestadores.edit', compact('usuario', 'prestador', 'especialidades'));
     }
 
 
@@ -95,11 +98,20 @@ class PrestadorController extends Controller
             $request->validate([
                 'crm' => 'nullable|string',
                 'funcao' => 'required|in:Anestesista,Cirurgião',
+                'email' => ['required', 'string', 'email', 'max:255'],
                 'especialidade' => 'nullable|string|max:50',
                 'senha' => 'nullable|min:6'
             ]);
 
+            $id = $prestador->usuario_id;
+
             $prestador->update($request->only(['nome', 'crm', 'especialidade', 'funcao']));
+
+            $emailExistente = Usuarios::where('email', $request->email)->where('id', '!=', $id)->exists();
+
+            if ($emailExistente) {
+                return redirect()->back()->with('error', 'O e-mail já está sendo utilizado por outro usuário.');
+            }
 
 
             $usuario = Usuarios::find($prestador->usuario_id);
@@ -127,7 +139,8 @@ class PrestadorController extends Controller
         $prestador = Prestador::findOrFail($idprestador);
         try {
             $usuario = Usuarios::find($prestador->usuario_id);
-            $usuario->delete();
+            $usuario->ativo = 0;
+            $usuario->save();
             $prestador->delete();
 
             return redirect()->route('prestadores.index')->with('success', 'Prestador removido com sucesso!');

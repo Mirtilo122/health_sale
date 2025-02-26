@@ -5,6 +5,9 @@
 @section('nome_pagina', 'EDITAR PRESTADOR')
 
 @section('conteudo')
+
+@include('auth.autenticacaoAdmin')
+
 <div class="container">
     <h1 class="mb-4">Editar Prestador</h1>
 
@@ -16,6 +19,12 @@
             <label for="nome" class="form-label">Nome</label>
             <input type="text" name="nome" id="nome" class="form-control" value="{{ $prestador->nome }}" required>
         </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ $usuario->email }}" required>
+        </div>
+
 
         <div class="mb-3">
             <label for="password" class="form-label">Nova Senha (deixe em branco para não alterar)</label>
@@ -35,9 +44,20 @@
             <input type="text" name="crm" id="crm" class="form-control" value="{{ $prestador->crm }}">
         </div>
 
+       
         <div class="mb-3">
             <label for="especialidade" class="form-label">Especialidade</label>
-            <input type="text" name="especialidade" id="especialidade" class="form-control" value="{{ $prestador->especialidade }}">
+            <select name="especialidade" id="especialidade" class="form-control">
+                <option value="">Selecione uma especialidade</option>
+                @forelse ($especialidades as $especialidade)
+                    <option value="{{ $especialidade->nome }}"
+                        {{ old('especialidade', $prestador->especialidade ?? '') == $especialidade->nome ? 'selected' : '' }}>
+                        {{ $especialidade->nome }}
+                    </option>
+                @empty
+                    <option value="">Nenhuma especialidade encontrada</option>
+                @endforelse
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary w-100">Atualizar</button>

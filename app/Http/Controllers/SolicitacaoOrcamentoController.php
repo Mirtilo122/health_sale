@@ -121,12 +121,13 @@ namespace App\Http\Controllers;
 
     public function atualizarOrcamento(Request $request)
     {
-
+        session(['aba_ativa' => $request->aba_ativa]);
 
         $request->validate([
             'codigo_solicitacao' => 'required|exists:solicitacoes_orcamentos,codigo_solicitacao',
             'id_usuario' => 'nullable|exists:usuarios,id'
         ]);
+
 
 
         $solicitacao = SolicitacaoOrcamento::where('codigo_solicitacao', $request->codigo_solicitacao)->first();

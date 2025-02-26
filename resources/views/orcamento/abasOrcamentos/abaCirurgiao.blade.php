@@ -5,7 +5,22 @@
     </div>
     <div class="col-2 flex-fill">
         <label for="data_provavel">Data Provável:</label>
-        <input type="date" id="data_provavel2" name="data_provavel" value="{{$solicitacao->data_provavel}}">
+        <div class="input-container">
+            <input type="text" id="data_provavel"
+                placeholder="DD/MM/AAAA"
+                value="{{ \Carbon\Carbon::parse($solicitacao->data_provavel)->format('d/m/Y') }}"
+                oninput="formatDate(this)"/>
+            <input type="date" id="hidden-data_provavel"
+                name="data_provavel"
+                value="{{$solicitacao->data_provavel}}"
+                style="display: none;"/>
+            <button type="button" class="calendar-button mb-3" title="Clique para abrir o calendário"
+                    onclick="openDatePicker('data_provavel')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+            </button>
+        </div>
     </div>
     <div class="col-1 flex-fill d-flex align-items-center gap-2 justify-content-center pt-4">
         <input type="checkbox" id="urgente" name="urgente" value="1" {{$solicitacao->urgente ? 'checked' : ''}}>
@@ -40,28 +55,28 @@
             <tbody>
                 <tr>
                     <td scope="row">Cirurgião Principal</td>
-                    <td><input type="number" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" oninput="atualizarTaxaCirurgiao()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Cirurgião Auxiliar</td>
-                    <td><input type="number" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Instrumentador</td>
-                    <td><input type="number" id="valorCirurgiao" name="instrumentador" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="instrumentador" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Outros Custos de Cirurgião</td>
-                    <td><input type="number" id="valorCirurgiao" name="outrosCustos" class="form-control money" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="outrosCustos" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" oninput="calcularTotal()"></td>
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>
-                    <td><strong id="totalCirurgiao">0.00</strong></td>
+                    <td class="text-end"><strong id="totalCirurgiao">0,00</strong></td>
                 </tr>
             </tbody>
         </table>
 
-    </div> 
+    </div>
 
     <div class="col-6 flex-fill">
     <h5 class="mb-2">Acomodações</h5>

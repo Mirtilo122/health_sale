@@ -21,6 +21,7 @@
 @section('abas')
 
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_concluido">
+    <input type="hidden" name="aba_ativa" id="aba_ativa" value="negociacao-tab">
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="procedimento-tab" data-bs-toggle="tab" data-bs-target="#procedimento-tab-pane" type="button" role="tab" aria-controls="procedimento-tab-pane" aria-selected="false">Procedimento</button>

@@ -39,9 +39,21 @@
                 <tbody>
                     @php
                         use Illuminate\Support\Str;
-                        $id_usuario_atual = auth()->id(); // Pega o ID do usuário autenticado
+                        $idUsuario = auth()->id(); // Pega o ID do usuário autenticado
                     @endphp
-                    @forelse ($solicitacoes->filter(fn($solicitacao) => Str::contains($solicitacao->favoritos, (string) $id_usuario_atual)) as $solicitacao)
+                    @forelse ($solicitacoes->filter(fn($solicitacao) => Str::contains($solicitacao->favoritos, (string) $idUsuario)) as $solicitacao)
+                        @php
+                            $orcamento = $solicitacao->orcamento;
+                            $user_visualizar = false;
+
+                            if ($orcamento) {
+                                $idUsuariosVisualizar = json_decode($orcamento->id_usuarios_visualizar, true) ?? [];
+                                if (in_array(auth()->id(), $idUsuariosVisualizar)) {
+                                    $user_visualizar = true;
+                                }
+                            }
+                        @endphp
+
                         <tr>
                         <td scope="row" class="align-middle text-center">
                         <a href="#" onclick="toggleFavorite(event, {{ $solicitacao->codigo_solicitacao }})">
@@ -130,8 +142,13 @@
                                 @endphp
                                 {{ $diferenca }}
                             </td>
+                            @if ($user_visualizar)
+                                <td scope="row" class="align-middle text-center">
+                                <a href="{{ route('orcamento.concluido', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar</a>
+                                </td>
+                            @else
                             <td scope="row" class="align-middle text-center">
-                            @php
+                                @php
                                     $status = ucfirst(strtolower($solicitacao->status));
                                 @endphp
                                 @if($status == 'Novo')
@@ -155,6 +172,7 @@
                                 @elseif($status == 'Recusado')
                                     <a href="{{ route('orcamento.concluido', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar</a>
                                 @endif
+                            @endif
 
                             </td>
                         </tr>

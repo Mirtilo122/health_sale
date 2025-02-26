@@ -12,6 +12,8 @@
     <form action="{{ route('orcamento.atualizar') }}" method="POST">
         @csrf
 
+        <input type="hidden" name="aba_ativa" id="aba_ativa" value="novo-tab">
+
         <div class="card p-4 mb-4">
             <div class="row mb-3">
                 <div class="col-md-6">

@@ -5,6 +5,9 @@
 @section('nome_pagina', 'MODELOS')
 
 @section('conteudo')
+
+@include('auth.autenticacaoGerente')
+
 <div class="container">
     <h1 class="mb-4">Editar Modelo</h1>
 

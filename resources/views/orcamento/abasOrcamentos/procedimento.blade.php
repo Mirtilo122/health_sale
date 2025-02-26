@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#procedimentoModal">
     Adicionar Novo
-</button>
+</button> 
 
 <input type="hidden" id="precosProcedimentosLoad"
        value='{{ old("precos_procedimentos", $orcamento->precos_procedimentos ?? "[]") }}'>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="procedimentoValor" class="form-label">Valor Unitário</label>
-                    <input type="number" class="form-control" id="procedimentoValor" placeholder="Digite o valor">
+                    <input type="text" class="form-control money" id="procedimentoValor" value="0,00">
                 </div>
                 <div class="mb-3">
                     <label for="procedimentoQntd" class="form-label">Quantidade</label>

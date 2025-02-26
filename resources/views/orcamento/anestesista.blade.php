@@ -41,6 +41,7 @@ border: black;
 
     <input type="hidden" name="status" id="status" value="anestesista">
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_criacao">
+    <input type="hidden" name="aba_ativa" id="aba_ativa" value="anestesista-tab">
 
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="procedimentos-tab" data-bs-toggle="tab" data-bs-target="#procedimentos-tab-pane" type="button" role="tab" aria-controls="procedimentos-tab-pane" aria-selected="false">Cirurgião</button>

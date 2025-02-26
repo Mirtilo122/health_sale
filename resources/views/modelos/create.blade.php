@@ -10,6 +10,8 @@
 
 @section('conteudo')
 
+@include('auth.autenticacaoGerente')
+
 <div class="container mt-2">
     <h1>Cadastrar Novo Modelo</h1>
 

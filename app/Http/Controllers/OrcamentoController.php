@@ -7,15 +7,18 @@ use App\Models\SolicitacaoOrcamento;
 use App\Models\Orcamento;
 use App\Models\Usuarios;
 use App\Models\Modelo;
+use App\Models\Tuss;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+
 
 class OrcamentoController extends Controller
 {
     public function atribuirUsuarios($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
@@ -31,6 +34,12 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+        }
+
+        $status = $solicitacao->status;
+
+        if ($status !== 'atribuido') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento'));
@@ -60,8 +69,8 @@ class OrcamentoController extends Controller
     public function criacaoOrcamento($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
         $modelos = Modelo::where('ativo', true)->get();
 
@@ -85,8 +94,8 @@ class OrcamentoController extends Controller
     public function liberacao($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
         $modelos = Modelo::where('ativo', true)->get();
 
@@ -112,8 +121,8 @@ class OrcamentoController extends Controller
     public function negociacao($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
         $modelos = Modelo::where('ativo', true)->get();
 
@@ -137,8 +146,8 @@ class OrcamentoController extends Controller
     public function concluido($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->get();
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
         $agentes = Usuarios::where('acesso', 'agente')->get();
         $modelos = Modelo::where('ativo', true)->get();
 
@@ -162,7 +171,9 @@ class OrcamentoController extends Controller
     public function atualizarOrcamento(Request $request)
     {
 
-        $request->validate([
+        session(['aba_ativa' => $request->aba_ativa]);
+
+        $validator = Validator::make($request->all(), [
             'nome_cirurgiao' => 'nullable|string',
             'telefone_cirurgiao' => 'nullable|string',
             'email_cirurgiao' => 'nullable|email',
@@ -176,6 +187,11 @@ class OrcamentoController extends Controller
             'condPagamentoHosp' => 'nullable|string',
             'validade' => 'nullable|date',
         ]);
+
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with('warn', 'Erro na validação! Prrencha corretamente os campos.');
+        }
 
         $camposAnestesia = [
             'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural',
@@ -320,6 +336,40 @@ class OrcamentoController extends Controller
         return redirect()->route('dashboard')->with('mensagem', $mensagem);
     }
 
+
+
+
+
+
+
+
+
+
+    public function searchTussCodigo(Request $request)
+    {
+        $query = $request->get('query');
+
+        dd($query);
+
+        // Buscar pelos códigos TUSS
+        $results = Tuss::where('codigo', 'LIKE', "%$query%")
+                    ->limit(10)
+                    ->get();
+
+        return response()->json($results);
+    }
+
+    public function searchTussDescricao(Request $request)
+    {
+        $query = $request->get('query');
+
+        // Buscar pelas descrições TUSS
+        $results = Tuss::where('descricao', 'LIKE', "%$query%")
+                    ->limit(10)
+                    ->get();
+
+        return response()->json($results);
+    }
 
 }
 

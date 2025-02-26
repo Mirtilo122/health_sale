@@ -8,7 +8,22 @@
 
     <div class="col-2 flex-fill">
         <label for="dataNascPaciente">Data de Nascimento:</label>
-        <input type="date" id="dataNascPaciente" name="data_nascimento" value="{{$solicitacao->data_nascimento}}" required>
+        <div class="input-container">
+            <input type="text" id="dataNascPaciente"
+                placeholder="DD/MM/AAAA"
+                value="{{ \Carbon\Carbon::parse($solicitacao->data_nascimento)->format('d/m/Y') }}"
+                oninput="formatDate(this)"/>
+            <input type="date" id="hidden-dataNascPaciente"
+                name="data_nascimento"
+                value="{{ $solicitacao->data_nascimento }}"
+                style="display: none;" required/>
+            <button type="button" class="calendar-button" title="Clique para abrir o calendário"
+                    onclick="openDatePicker('dataNascPaciente')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+            </button>
+        </div>
     </div>
 
     <div class="col-2 flex-fill">
@@ -46,7 +61,7 @@
         <input type="text" name="resumoProcedimento" id="resumo_procedimento" value="{{$solicitacao->resumo_procedimento}}"></input>
     </div>
     <div class="col-2 flex-fill">
-        <label for="data_provavel">Tempo Previsto Em Horas:</label>
+        <label for="tempo_cirurgia">Tempo Previsto Em Horas:</label>
         <input type="number" id="tempo_cirurgia" name="tempo_cirurgia" value="{{$solicitacao->tempo_cirurgia}}" step="0.5">
     </div>
 </div>
@@ -58,7 +73,22 @@
     </div>
     <div class="col-2 flex-fill">
         <label for="data_provavel">Data Provável:</label>
-        <input type="date" id="data_provavel" name="data_provavel" value="{{$solicitacao->data_provavel}}">
+        <div class="input-container">
+            <input type="text" id="data_provavel"
+                placeholder="DD/MM/AAAA"
+                value="{{ \Carbon\Carbon::parse($solicitacao->data_provavel)->format('d/m/Y') }}"
+                oninput="formatDate(this)"/>
+            <input type="date" id="hidden-data_provavel"
+                name="data_provavel"
+                value="{{$solicitacao->data_provavel}}"
+                style="display: none;">
+            <button type="button" class="calendar-button" title="Clique para abrir o calendário"
+                    onclick="openDatePicker('data_provavel')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -88,18 +118,20 @@
     </div>
 
     <div class="col-3 flex-fill d-flex">
-        <input type="number" id="cod_tuss_principal" name="cod_tuss_principal" value="{{$orcamento->cod_tuss_principal ?? 0}}" placeholder="Insira o Código TUSS...">
+        <input type="text" id="cod_tuss_principal" name="cod_tuss_principal" value="{{$orcamento->cod_tuss_principal ?? ''}}" placeholder="Insira o Código TUSS..." autocomplete="off" class="form-control">
+        <div id="cod_tuss_suggestions" class="autocomplete-suggestions"></div>
     </div>
 
     <div class="col-6 flex-fill d-flex">
-        <input type="text" id="procedimento_principal" name="procedimento_principal" value="{{$orcamento->procedimento_principal ?? ''}}" placeholder="Insira o Procedimento...">
+        <input type="text" id="procedimento_principal" name="procedimento_principal" value="{{$orcamento->procedimento_principal ?? ''}}" placeholder="Insira a Descrição do Procedimento..." autocomplete="off" class="form-control">
+        <div id="procedimento_suggestions" class="autocomplete-suggestions"></div>
     </div>
 
     <div class="col-1 flex-fill d-flex">
     </div>
 </div>
 
-<input type="hidden" name="procedimentos_json" id="procedimentos_json">
+<input type="text" name="procedimentos_json" id="procedimentos_json">
 
 <br>
 

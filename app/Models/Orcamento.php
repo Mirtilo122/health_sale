@@ -72,6 +72,8 @@ class Orcamento extends Model
         'cond_pagamento_cirurgiao',
         'cond_pagamento_hosp',
         'validade',
+        'orcamento_emitido',
+        'orcamento_valores',
         ];
 
     protected $casts = [
@@ -95,7 +97,7 @@ class Orcamento extends Model
     {
         return $this->belongsTo(Usuarios::class, 'id_usuario_responsavel');
     }
-    public function cirurgiao()
+    public function cirurgiao_responsavel()
     {
         return $this->belongsTo(Usuarios::class, 'id_usuarios_cirurgioes');
     }

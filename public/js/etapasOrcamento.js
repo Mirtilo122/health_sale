@@ -175,10 +175,13 @@ function contarIdsAgentes() {
 try {
     document.getElementById("salvarProcedimento").addEventListener("click", function () {
         const nome = document.getElementById("procedimentoNome").value;
-        const valor = parseFloat(document.getElementById("procedimentoValor").value) || 0;
+        const valorTexto = document.getElementById("procedimentoValor").value;
+
+        // Corrigir formatação do número
+        const valor = parseFloat(valorTexto.replace(/\./g, '').replace(',', '.')) || 0;
         const qntd = parseInt(document.getElementById("procedimentoQntd").value) || 1;
 
-        if (nome.trim() === "" || valor <= 0) {
+        if (nome.trim() === "" || valor === 0) {
             alert("O nome e o valor do procedimento não podem estar vazios ou zerados!");
             return;
         }
@@ -186,15 +189,14 @@ try {
         adicionarProcedimento(nome, valor, qntd);
 
         document.getElementById("procedimentoNome").value = "";
-        document.getElementById("procedimentoValor").value = "";
-        document.getElementById("procedimentoQntd").value = "";
+        document.getElementById("procedimentoValor").value = "0,00";
+        document.getElementById("procedimentoQntd").value = "1";
 
         bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
     });
 } catch (error) {
     console.warn("Elemento não encontrado, não é possível adicionar procedimentos.");
 }
-
 
 function adicionarProcedimento(nome, valor, qntd) {
     const tabela = document.getElementById("tabela-procedimentos");
@@ -210,22 +212,21 @@ function adicionarProcedimento(nome, valor, qntd) {
     const tdQntd = document.createElement("td");
     const inputQntd = document.createElement("input");
     inputQntd.type = "number";
-    inputQntd.className = "form-control procedimento-qntd";
+    inputQntd.className = "form-control procedimento-qntd text-end";
     inputQntd.value = qntd;
     inputQntd.min = "1";
     tdQntd.appendChild(inputQntd);
 
     const tdValor = document.createElement("td");
     const inputValor = document.createElement("input");
-    inputValor.type = "number";
-    inputValor.className = "form-control valor-procedimento";
-    inputValor.value = valor.toFixed(2);
-    inputValor.step = "0.01";
+    inputValor.type = "text";
+    inputValor.className = "form-control valor-procedimento money text-end";
+    inputValor.value = valor.toFixed(2).replace(".", ","); // Mantém 2 casas decimais
     tdValor.appendChild(inputValor);
 
     const tdTotal = document.createElement("td");
-    tdTotal.className = "valor-total";
-    tdTotal.textContent = (valor * qntd).toFixed(2);
+    tdTotal.className = "valor-total money";
+    tdTotal.textContent = (valor * qntd).toFixed(2).replace(".", ",");
 
     const tdAcoes = document.createElement("td");
     const btnRemover = document.createElement("button");
@@ -258,29 +259,35 @@ function adicionarProcedimento(nome, valor, qntd) {
         atualizarValorTotal(tr);
         atualizarTotal();
         atualizarInputHidden();
+        formatarMoeda({ target: inputValor });
     });
 
+    formatarMoeda({ target: inputValor });
 }
 
 function atualizarValorTotal(tr) {
     const qntd = parseInt(tr.querySelector(".procedimento-qntd").value) || 1;
-    const valor = parseFloat(tr.querySelector(".valor-procedimento").value) || 0;
-    tr.querySelector(".valor-total").textContent = (qntd * valor).toFixed(2);
+    const valor = parseFloat(tr.querySelector(".valor-procedimento").value.replace(',', '.')) || 0;
+
+    const total = (qntd * valor).toFixed(2).replace('.', ',');
+    tr.querySelector(".valor-total").textContent = total;
+
+    formatarMoeda({ target: tr });
 }
 
 function atualizarTotal() {
     let total = 0;
 
-    total += parseFloat(document.getElementById("totalAnestesia").textContent) || 0;
-
-    total += parseFloat(document.getElementById("totalCirurgiao").textContent) || 0;
+    total += parseFloat(document.getElementById("totalAnestesia").textContent.replace(',', '.')) || 0;
+    total += parseFloat(document.getElementById("totalCirurgiao").textContent.replace(',', '.')) || 0;
 
     document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
-        const valorTotal = parseFloat(tr.querySelector(".valor-total").textContent) || 0;
+        const valorTotal = parseFloat(tr.querySelector(".valor-total").textContent.replace(',', '.')) || 0;
         total += valorTotal;
     });
 
-    document.getElementById("totalValor").textContent = total.toFixed(2);
+    const totalFormatado = total.toFixed(2).replace('.', ',');
+    document.getElementById("totalValor").textContent = totalFormatado;
     document.getElementById("valor_total").value = total.toFixed(2);
 }
 
@@ -290,10 +297,10 @@ function atualizarInputHidden() {
     document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
         const nome = tr.querySelector(".procedimento-nome")?.value || "";
         const qntd = tr.querySelector(".procedimento-qntd")?.value || "";
-        const valor = tr.querySelector(".valor-procedimento")?.value || "";
+        const valor = tr.querySelector(".valor-procedimento")?.value.replace(',', '.') || "";
 
         if (nome && valor) {
-            procedimentos.push({ nome, qntd, valor });
+            procedimentos.push({ nome, qntd, valor: parseFloat(valor).toFixed(2) });
         }
     });
 
@@ -308,8 +315,8 @@ try {
 
             if (precosProcedimentosLoad.length > 0) {
                 precosProcedimentosLoad.forEach(procedimento => {
-                    let valor_unit_procedimento = parseFloat(procedimento.valor) || 0;
-                    let qntd_procedimento = parseFloat(procedimento.qntd) || 0;
+                    let valor_unit_procedimento = parseFloat(procedimento.valor.toString().replace(',', '.')) || 0;
+                    let qntd_procedimento = parseFloat(procedimento.qntd.toString().replace(',', '.')) || 0;
 
                     adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento);
                 });
@@ -331,12 +338,12 @@ function calcularTotal() {
 
     if (inputs.length > 0) {
         inputs.forEach(function(input) {
-            total += parseFloat(input.value) || 0;
+            total += parseFloat(input.value.replace(',', '.')) || 0;
         });
 
         var totalCirurgiaoElement = document.getElementById('totalCirurgiao');
         if (totalCirurgiaoElement) {
-            totalCirurgiaoElement.textContent = total.toFixed(2);
+            totalCirurgiaoElement.textContent = total.toFixed(2).replace('.', ',');
         } else {
             console.warn("Elemento com id 'totalCirurgiao' não encontrado");
         }
@@ -347,6 +354,7 @@ function calcularTotal() {
     }
 }
 
+
 function atualizarTaxaCirurgiao() {
     let taxaCirurgiao = {};
 
@@ -354,9 +362,9 @@ function atualizarTaxaCirurgiao() {
     if (inputs.length > 0) {
         inputs.forEach(input => {
             const nome = input.getAttribute("name");
-            const valor = parseFloat(input.value) || 0;
+            let valor = parseFloat(input.value.replace(',', '.')) || 0;
 
-            taxaCirurgiao[nome] = valor;
+            taxaCirurgiao[nome] = valor.toFixed(2);
         });
 
         const taxaCirurgiaoHidden = document.getElementById("taxa_cirurgiao_hidden");
@@ -391,12 +399,12 @@ function calcularTotalAnestesia() {
         var total = 0;
 
         inputs.forEach(function(input) {
-            total += parseFloat(input.value) || 0;
+            total += parseFloat(input.value.replace(',', '.')) || 0;
         });
 
         const totalAnestesia = document.getElementById('totalAnestesia');
         if (totalAnestesia) {
-            totalAnestesia.textContent = total.toFixed(2);
+            totalAnestesia.textContent = total.toFixed(2).replace('.', ',');
         } else {
             console.warn("Elemento com id 'totalAnestesia' não encontrado");
         }
@@ -414,9 +422,9 @@ function atualizarTaxaAnestesia() {
     if (inputs.length > 0) {
         inputs.forEach(input => {
             const nome = input.getAttribute("name");
-            const valor = parseFloat(input.value) || 0;
+            let valor = parseFloat(input.value.replace(',', '.')) || 0;
 
-            taxaAnestesia[nome] = valor;
+            taxaAnestesia[nome] = valor.toFixed(2);
         });
 
         const taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden");
@@ -451,9 +459,105 @@ try {
 
 
 
+// Formatar Valores Monetários
+
+
+try{
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".money").forEach(input => {
+            input.addEventListener("input", formatarMoeda);
+            formatarMoeda({ target: input });
+        });
+    });
+
+    function formatarMoeda(event) {
+        let input = event.target;
+        let valor = input.value;
+
+        valor = valor.replace(/[^\d,]/g, "");
+
+        valor = valor.replace(/,+/g, ".");
+
+        let numero = parseFloat(valor);
+
+        if (!isNaN(numero)) {
+            input.value = numero.toFixed(2).replace(".", ",");
+        } else {
+            input.value = "0,00";
+        }
+    }
+} catch (error) {
+    console.warn("Elemento não encontrado, não é possível alterar o agente responsável");
+}
 
 
 
+
+
+
+
+// Alteração de Agente Responsável
+
+
+try {
+document.getElementById("confirmar-novo-responsavel").addEventListener("click", function () {
+    let novoResponsavelId = document.getElementById("novo-responsavel").value;
+    let listaAgentes = document.getElementById("lista-agentes");
+
+    if (!novoResponsavelId) {
+        alert("Selecione um novo responsável.");
+        return;
+    }
+
+    let novoResponsavelNome = document.querySelector(`#novo-responsavel option[value="${novoResponsavelId}"]`).textContent;
+
+    let selectAgentes = document.getElementById("agente-selecao");
+    Array.from(selectAgentes.options).forEach(option => {
+        if (option.value === novoResponsavelId) {
+            option.disabled = true;
+            option.style.color = "gray";
+        } else if (option.value === document.getElementById("id_usuario_responsavel").value) {
+            option.disabled = false;
+            option.style.color = "black";
+        }
+    });
+
+    let agenteDuplicado = document.getElementById("agente-" + novoResponsavelId);
+    if (agenteDuplicado) {
+        agenteDuplicado.remove();
+    }
+
+    let responsavelAtual = document.getElementById("agente-" + document.getElementById("id_usuario_responsavel").value);
+    if (responsavelAtual) {
+        responsavelAtual.remove();
+    }
+
+    let liResponsavel = document.createElement("li");
+    liResponsavel.className = "list-group-item d-flex justify-content-between align-items-center";
+    liResponsavel.id = "agente-" + novoResponsavelId;
+    liResponsavel.innerHTML = `
+        <div class="agente-nome" style="color: gray;">${novoResponsavelNome}</div>
+        <div class="agente-switch">
+            <span>Responsável</span>
+        </div>
+            <div>
+                <button type="button" class="btn btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#modalAlterarResponsavel">
+                    Alterar Responsável
+                </button>
+            </div>
+        <div class="agente-actions"></div>
+        <input type="hidden" id="id_usuario_responsavel" name="id_usuario_responsavel" value="${novoResponsavelId}">
+    `;
+
+
+    listaAgentes.prepend(liResponsavel);
+
+    let modal = bootstrap.Modal.getInstance(document.getElementById("modalAlterarResponsavel"));
+    modal.hide();
+});
+} catch (error) {
+    console.warn("Elemento não encontrado, não é possível alterar o agente responsável");
+}
 
 
 
@@ -500,7 +604,7 @@ function adicionarSecundario(codTuss = "", procedimento = "") {
 
     novaDiv.innerHTML = `
         <div class="col-2 flex-fill d-flex">
-            <p>Procedimento Secundário:</p>
+            <p>Procedimento Secundário:</p> 
         </div>
 
         <div class="col-3 flex-fill d-flex">
@@ -564,6 +668,7 @@ function prepararEnvio(funcao) {
 
         case "criar":
             document.getElementById("statusHidden").value = "liberacao";
+            document.getElementById("orcamento_emitido").value = 1;
             break;
 
         case "liberar":

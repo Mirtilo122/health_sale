@@ -10,6 +10,9 @@ use App\Http\Controllers\ProcedimentosController;
 use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\PrestadorController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\TussController;
+
 
 
 
@@ -127,7 +130,6 @@ Route::get('/precos', function() {
 // Rotas de Solicitações de Orçamento
 
 Route::get('/atribuirOrcamento/{codigo_solicitacao}',[SolicitacaoOrcamentoController::class, 'atribuirOrcamento'])->name('orcamento.atribuir');
-
 Route::post('/atualizar_orcamento', [SolicitacaoOrcamentoController::class, 'atualizarOrcamento'])->name('orcamento.atualizar');
 
 Route::get('/orcamento/designar/{id}', [OrcamentoController::class, 'atribuirUsuarios'])->name('orcamento.designar');
@@ -180,8 +182,34 @@ Route::get('/prestadores', [PrestadorController::class, 'index'])->name('prestad
 Route::get('/prestadores/criar', [PrestadorController::class, 'create'])->name('prestadores.create');
 Route::post('/prestadores', [PrestadorController::class, 'store'])->name('prestadores.store');
 Route::get('/prestadores/editar/{id}', [PrestadorController::class, 'edit'])->name('prestadores.edit');
-Route::put('/prestadores', [PrestadorController::class, 'update'])->name('prestadores.update');
+Route::put('/prestadores/{id}', [PrestadorController::class, 'update'])->name('prestadores.update');
 Route::delete('/prestadores/{id}', [PrestadorController::class, 'destroy'])->name('prestadores.destroy');
 
 
 
+
+
+
+// Rotas Tuss
+
+
+Route::get('/importar-tuss', [TussController::class, 'index'])->name('importar.tuss');
+Route::post('/importar-tuss', [TussController::class, 'import'])->name('importar.tuss.post');
+
+Route::get('/search-tuss-codigo', [OrcamentoController::class, 'searchTussCodigo'])->name('search.tuss.codigo');
+Route::get('/search-tuss-descricao', [OrcamentoController::class, 'searchTussDescricao'])->name('search.tuss.descricao');
+
+
+
+
+
+
+
+
+// Rotas Diversas
+
+Route::get('/orcamento/status_invalid', function() {
+    return view('orcamento.status_invalid');
+})->name('orcamento.status_invalid');
+
+Route::get('/gerar-pdf/{codigo_solicitacao}', [PdfController::class, 'gerarPdf']);

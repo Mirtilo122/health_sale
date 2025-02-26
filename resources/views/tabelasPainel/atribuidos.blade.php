@@ -39,6 +39,19 @@
                 </thead>
                 <tbody>
                     @forelse ($solicitacoes->where('status', 'atribuido') as $solicitacao)
+
+                        @php
+                            $orcamento = $solicitacao->orcamento;
+                            $user_visualizar = false;
+
+                            if ($orcamento) {
+                                $idUsuariosVisualizar = json_decode($orcamento->id_usuarios_visualizar, true) ?? [];
+                                if (in_array(auth()->id(), $idUsuariosVisualizar)) {
+                                    $user_visualizar = true;
+                                }
+                            }
+                        @endphp
+
                         <tr>
                             <td scope="row" class="align-middle text-center">
                                 <a href="#" onclick="toggleFavorite(event, {{ $solicitacao->codigo_solicitacao }})">
@@ -121,9 +134,16 @@
                                 {{ $classeTexto }}"                            >
                                 {{ \Carbon\Carbon::parse($solicitacao->data_atribuido)->diffForHumans() }}
                             </td>
-                            <td scope="row" class="align-middle text-center">
-                            <a href="{{ route('orcamento.designar', $solicitacao->codigo_solicitacao) }}" class="btn btn-info btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Iniciar Processo</a>
-                            </td>
+                            @if ($user_visualizar)
+                                <td scope="row" class="align-middle text-center">
+                                <a href="{{ route('orcamento.concluido', $solicitacao->codigo_solicitacao) }}" class="btn btn-secondary btn-sm" style=" width: 100%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Visualizar</a>
+                                </td>
+                            @else
+                                <td scope="row" class="align-middle text-center">
+                                <a href="{{ route('orcamento.designar', $solicitacao->codigo_solicitacao) }}" class="btn btn-info btn-sm text-light" style="width: 100%;--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Iniciar Processo</a>
+                                </td>
+                            @endif
+
                         </tr>
                     @empty
                         <tr>

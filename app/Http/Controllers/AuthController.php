@@ -12,22 +12,23 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Validação dos dados
+
         $request->validate([
             'email' => 'required|email',
             'senha' => 'required',
         ]);
 
-        // Tenta autenticar o usuário
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->senha])) {
-            // Obtém o usuário autenticado
+
             $usuario = Auth::user();
 
-            // Armazena os dados na sessão
+
             session()->put([
                 'id' => $usuario->id,
                 'nome' => $usuario->usuario,
-                'acesso' => $usuario->acesso
+                'acesso' => $usuario->acesso,
+                'aba_ativa' => 'favoritos-tab'
             ]);
 
             return redirect()->route('dashboard');

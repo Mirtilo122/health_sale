@@ -153,6 +153,43 @@ p{
     justify-content: space-around;
 }
 
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.calendar-button {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.calendar-button:hover {
+    cursor: pointer;
+    background-color: #858585;
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
 @media (max-width: 768px) {
 
     .info_proc {

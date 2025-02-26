@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('prestadores', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 50);
-            $table->string('crm', 20)->unique();
+            $table->string('crm', 20)->nullable();
             $table->string('especialidade', 50)->nullable();
             $table->string('funcao',50 );
             $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');

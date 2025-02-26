@@ -6,25 +6,8 @@
 
 @section('conteudo')
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 
-@php
-    $idUsuario = auth()->id();
-    $usuario = auth()->user();
-    $nivelAcesso = $usuario->acesso;
-@endphp
-
-@if ($nivelAcesso !== "Administrador")
-    <div class="text-center">
-        <img src="{{ asset('images/nao-autorizado.png') }}" alt="Acesso Negado" style="max-width: 300px;">
-        <p class="text-danger">Você não tem permissão para acessar esta página.</p>
-    </div>
-    @php exit; @endphp
-@endif
+@include('auth.autenticacaoAdmin')
 
 <div class="container my-4">
     <h1 class="text-center mb-4">Gerenciamento de Usuários</h1>
@@ -68,8 +51,67 @@
                         <td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
                     </tr>
                 @endif
+                @if (!empty($usuario_externo) && $usuario_externo->count() > 0)
+                    @foreach ($usuario_externo as $usuario)
+                        <tr>
+                            <td class="text-center">{{ $usuario->id }}</td>
+                            <td class="text-center">{{ $usuario->usuario }}</td>
+                            <td class="text-center">{{ $usuario->email }}</td>
+                            <td class="text-center">{{ $usuario->acesso }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('prestadores.index') }}" class="btn btn-secondary">Ver Prestadores</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+        <button id="btn-ver-inativos" class="btn btn-danger">Ver Inativos</button>
+    </div>
+
+    <div class="table-responsive d-none" id="tabela-inativos">
+        <h3 class="text-center mb-3">Usuários Inativos</h3>
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-secondary">
+                <tr>
+                    <th scope="col" class="text-center">ID</th>
+                    <th scope="col" class="text-center">Nome</th>
+                    <th scope="col" class="text-center">E-mail</th>
+                    <th scope="col" class="text-center">Nível de Acesso</th>
+                    <th scope="col" class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ($inativos->count() > 0)
+                    @foreach ($inativos as $usuario)
+                        <tr>
+                            <td class="text-center">{{ $usuario->id }}</td>
+                            <td class="text-center">{{ $usuario->usuario }}</td>
+                            <td class="text-center">{{ $usuario->email }}</td>
+                            <td class="text-center">{{ $usuario->acesso }}</td>
+                            <td class="text-center">
+                                <a href="" class="btn btn-info">Visualizar</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="5" class="text-center">Nenhum usuário inativo encontrado.</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
 </div>
+
+
+<script>
+    document.getElementById('btn-ver-inativos').addEventListener('click', function() {
+        document.getElementById('tabela-inativos').classList.toggle('d-none');
+    });
+</script>
+
 @endsection

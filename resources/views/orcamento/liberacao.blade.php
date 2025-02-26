@@ -21,6 +21,7 @@
 @section('abas')
 
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_negociacao">
+    <input type="hidden" name="aba_ativa" id="aba_ativa" value="liberacao-tab">
 
 
     <li class="nav-item" role="presentation">

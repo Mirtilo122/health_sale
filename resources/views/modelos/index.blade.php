@@ -5,25 +5,8 @@
 @section('nome_pagina', 'MODELOS')
 
 @section('conteudo')
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 
-@php
-    $idUsuario = auth()->id();
-    $usuario = auth()->user();
-    $nivelAcesso = $usuario->acesso;
-@endphp
-
-@if ($nivelAcesso !== "Administrador")
-    <div class="text-center">
-        <img src="{{ asset('images/nao-autorizado.png') }}" alt="Acesso Negado" style="max-width: 300px;">
-        <p class="text-danger">Você não tem permissão para acessar esta página.</p>
-    </div>
-    @php exit; @endphp
-@endif
+@include('auth.autenticacaoGerente')
 
 <div class="container my-4">
     <h1 class="text-center mb-4">Gerenciamento de Modelos</h1>
