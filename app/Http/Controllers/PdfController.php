@@ -15,12 +15,12 @@ class PdfController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($codigo_solicitacao);
         $orcamento = Orcamento::where('codigo_solicitacao', $codigo_solicitacao)->firstOrFail();
 
-        return view('pdf.relatorio', compact('solicitacao', 'orcamento'));
+//        return view('pdf.relatorio', compact('solicitacao', 'orcamento'));
 
-//        $pdf = PDF::loadView('pdf.relatorio', compact('solicitacao','orcamento'));
+        $pdf = PDF::loadView('pdf.relatorio', compact('solicitacao','orcamento'));
 
 
-//        return $pdf->download('orcamento_' . $codigo_solicitacao . '.pdf');
+        return $pdf->download('orcamento_' . $codigo_solicitacao . '.pdf');
     }
 }
 
