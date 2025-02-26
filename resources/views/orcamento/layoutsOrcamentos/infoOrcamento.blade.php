@@ -132,7 +132,7 @@
                         <input type="hidden" name="valor_total" id="valor_total" value="{{ isset($orcamento) && $orcamento->valor_total ? number_format($orcamento->valor_total, 2, '.', '') : '0.00' }}">
                     </div>
                     <div class="col-3 flex-fill">
-                    <?php if ($orcamento->orcamento_emitido == true || $orcamento->orcamento_emitido == 1): ?>
+                    <?php if (!is_null($orcamento->orcamento_emitido) && ($orcamento->orcamento_emitido == true || $orcamento->orcamento_emitido == 1)): ?>
                         <a href="{{ url('/gerar-pdf/' . $solicitacao->codigo_solicitacao) }}" class="btn btn-success font-light">
                             Baixar Orçamento &nbsp;&nbsp;&nbsp;&nbsp;
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
