@@ -129,7 +129,8 @@
                         <h4 class="mt-2">
                         Total: R$ <span id="totalValor">{{ isset($orcamento) && $orcamento->valor_total ? number_format($orcamento->valor_total, 2, ',', '.') : '00,00' }}</span>
                         </h4>
-                        <input type="hidden" name="valor_total" id="valor_total" value="{{ isset($orcamento) && $orcamento->valor_total ? number_format($orcamento->valor_total, 2, '.', '') : '0.00' }}">
+                        <input type="hidden" name="valor_total" id="valor_total"
+                            value="{{ isset($orcamento) && isset($orcamento->valor_total) ? number_format($orcamento->valor_total, 2, '.', '') : '0.00' }}">
                     </div>
                     <div class="col-3 flex-fill">
                     <?php if (!is_null($orcamento->orcamento_emitido) && ($orcamento->orcamento_emitido == true || $orcamento->orcamento_emitido == 1)): ?>
