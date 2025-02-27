@@ -11,7 +11,7 @@
         </svg>
     </button>
     <h6>Precisa de Ajuda?</h6>
-    <button class="btn btn-primary" onclick="window.open('https://wa.me/5566996037253?text=Ol%C3%A1,%20gostaria%20de%20falar%20com%20o%20Setor%20Comercialhttps://seusite.com/atendimento' , '_blank')">
+    <button class="btn btn-primary" onclick="window.open('https://wa.me/5566996037253?text=Ol%C3%A1,%20gostaria%20de%20falar%20com%20o%20Setor%20Comercial' , '_blank')">
         Falar com um Atendente
     </button>
 </div>
