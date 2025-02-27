@@ -193,3 +193,33 @@ try{
 }catch{
 
 }
+
+function moveRight() {
+    document.getElementById("leftArrowBtn").classList.remove("hidden");
+    document.getElementById("leftArrowBtn").classList.add("leftArrowBtn");
+
+    document.getElementById("helpBubbleArea").classList.remove("move-left");
+    document.getElementById("helpBubbleArea").classList.add("move-right");
+
+
+
+
+
+
+}
+
+function moveLeft() {
+    document.getElementById("helpBubbleArea").classList.remove("move-right");
+    document.getElementById("helpBubbleArea").classList.add("move-left");
+
+    document.getElementById("helpBubble").classList.remove("move-right");
+    document.getElementById("helpBubble").classList.add("move-left");
+
+    document.getElementById("leftArrowBtn").classList.add("hidden");
+    document.getElementById("leftArrowBtn").classList.remove("leftArrowBtn");
+
+    document.getElementById("rightArrowBtn").classList.remove("hidden");
+    document.getElementById("rightArrowBtn").classList.add("rightArrowBtn");
+
+}
+

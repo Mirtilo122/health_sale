@@ -2,21 +2,25 @@
 
 @section('titulo', 'Início')
 
+@section('nome_pagina', 'INÍCIO')
+
 @section('conteudo')
 
+<div class="container_inicial">
+    <h1>Formulário de Orçamentos</h1>
 
-<main>
-<h1>Formulário de Orçamentos</h1>
+    <h3>Quem solicita o orçamento?</h3>
 
-<h3>Quem solicita o orçamento?</h3>
+    <button class="btn" onclick="window.location.href='medico';">
+        <i class="fas fa-user-md"></i> Médico ou Cirurgião
+    </button>
+    <button class="btn" onclick="window.location.href='paciente';">
+        <i class="fas fa-user"></i> Paciente ou Representante
+    </button>
+</div>
 
-<button class="btn" onclick="window.location.href='medico';">
-    <i class="fas fa-user-md"></i> Médico ou Cirurgião
-</button>
-<button class="btn" onclick="window.location.href='paciente';">
-    <i class="fas fa-user"></i> Paciente ou Representante
-</button>
 
-</main>
 
 @endsection
+
+
