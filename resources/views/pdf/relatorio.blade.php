@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="/css/modelo_orcamento.css">
 </head>
 <body>
-    <main>
-        <img src="/imagens/logo_modelo.jpg" alt="">
+    <main class="container">
+        <img src="/imagens/logo_modelo.jpg" alt="Logo do Hospital" class="img-fluid mx-auto d-block">
         <h1>PREVISÃO DE CUSTOS</h1>
 
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <div class="col-md-8">
-                <p><strong>PACIENTE:</strong> {{ ucfirst($orcamento->nome_paciente) ?? 'Não informado' }}</p>
-                <p><strong>Cidade/UF:</strong> {{ ucfirst($orcamento->cidade) ?? 'Não informado' }}</p>
-                <p><strong>Convenio:</strong> {{ ucfirst($orcamento->convenio) ?? 'Não informado' }}</p>
-                <p><strong>Cirurgião:</strong> {{ ucfirst($orcamento->cirurgiao_responsavel->usuario) ?? 'Não informado' }}</p>
-                <p><strong>Atendente:</strong> {{ ucfirst($solicitacao->responsavel->usuario) ?? 'Não informado' }}</p>
+                <p><strong>PACIENTE:</strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</p>
+                <p><strong>Cidade/UF:</strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</p>
+                <p><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</p>
+                <p><strong>Cirurgião:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</p>
+                <p><strong>Atendente:</strong> {{ $solicitacao->responsavel?->usuario ? ucfirst($solicitacao->responsavel->usuario) : 'Não informado' }}</p>
             </div>
 
             <div class="col-md-4">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <h4>01 - Procedimento</h4>
             <p><strong>{{$orcamento->cod_tuss_principal ?? 'Não informado' }}</strong> - {{ ucfirst($orcamento->procedimento_principal) ?? 'Não informado' }}</p>
 
@@ -34,17 +34,16 @@
             $procedimentos_secundarios = json_decode($orcamento->procedimentos_secundarios);
             @endphp
             @if (!empty($procedimentos_secundarios))
-                @forelse ($procedimentos_secundarios as $procedimento_secundario)
-                <p><strong>{{$procedimento_secundarios->cod_tuss_principal ?? 'Não informado' }}</strong> - {{ ucfirst($procedimento_secundarios->procedimento_principal) ?? 'Não informado' }}</p>
-                @empty
-                @endforelse
+                @foreach ($procedimentos_secundarios as $procedimento_secundario)
+                <p><strong>{{$procedimento_secundario->cod_tuss_principal ?? 'Não informado' }}</strong> - {{ ucfirst($procedimento_secundario->procedimento_principal) ?? 'Não informado' }}</p>
+                @endforeach
             @endif
         </div>
 
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <h4>02 - Cirurgião</h4>
             <table class="table table-bordered table-striped table-hover">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th scope="col" class="col-10"><h5>Descrição</h5></th>
                         <th scope="col" class="col-2"><h5>Valor</h5></th>
@@ -71,24 +70,21 @@
                     $valor_total_cirurgiao = $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] + $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] + $orcamento->taxa_cirurgiao['instrumentador'] + $orcamento->taxa_cirurgiao['outrosCustos'];
                     @endphp
                     <tr>
-                        <td scope="row"><p><strong>Total</strong></p></td>
-                        <td class="text-end"><p id="totalCirurgiao">{{ number_format((float)$valor_total_cirurgiao, 2, ',', '')}}</p></td>
+                        <td scope="row"><strong>Total</strong></td>
+                        <td class="text-end"><strong>{{ number_format((float)$valor_total_cirurgiao, 2, ',', '')}}</strong></td>
                     </tr>
                 </tbody>
             </table>
             <div class="condicoes mt-4 mb-2">
                 <h4>Condições de Pagamento Cirurgião</h4>
-                <textarea id="condPagamentoCirurgiao" disabled>
-                    {{$orcamento->cond_pagamento_cirurgiao}}
-                </textarea>
+                <textarea id="condPagamentoCirurgiao" disabled>{{ $orcamento->cond_pagamento_cirurgiao }}</textarea>
             </div>
         </div>
 
-
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <h4>03 - Anestesista</h4>
             <table class="table table-bordered table-striped table-hover">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th scope="col" class="col-10"><h5>Descrição</h5></th>
                         <th scope="col" class="col-2"><h5>Valor</h5></th>
@@ -97,42 +93,30 @@
                 <tbody>
                     <tr>
                         <td scope="row"><p>Taxa Anestesia</p></td>
-                        <td>
-                            <p id="taxaAnestesia" class="money text-end">
-                            {{ !empty($orcamento->taxa_anestesista['taxaAnestesia']) ? $orcamento->taxa_anestesista['taxaAnestesia'] : '0,00' }}
-                            </p>
-                        </td>
+                        <td><p class="money text-end">{{ $orcamento->taxa_anestesista['taxaAnestesia'] ?? '0,00' }}</p></td>
                     </tr>
                     <tr>
                         <td scope="row"><p>Outros Custos de Anestesia</p></td>
-                        <td>
-                            <p id="taxaAnestesia" class="money text-end">
-                            {{ !empty($orcamento->taxa_anestesista['outrosCustosAnestesia']) ? $orcamento->taxa_anestesista['outrosCustosAnestesia'] : '00,00' }}
-                            </p>
-                        </td>
+                        <td><p class="money text-end">{{ $orcamento->taxa_anestesista['outrosCustosAnestesia'] ?? '00,00' }}</p></td>
                     </tr>
                     @php
                     $valor_total_anestesista = $orcamento->taxa_anestesista['outrosCustosAnestesia'] + $orcamento->taxa_anestesista['taxaAnestesia'];
                     @endphp
                     <tr>
-                        <td scope="row"><p><strong>Total</strong></p></td>
-                        <td class="text-end"><p id="totalCirurgiao">{{ number_format((float)$valor_total_anestesista, 2, ',', '')}}</p></td>
+                        <td scope="row"><strong>Total</strong></td>
+                        <td class="text-end"><strong>{{ number_format((float)$valor_total_anestesista, 2, ',', '')}}</strong></td>
                     </tr>
                 </tbody>
             </table>
             <div class="condicoes mt-4 mb-2">
-                <h4>Condições de Pagamento Anestesistas</h4>
-                <textarea id="condPagamentoAnestesista" disabled>
-                    {{ $orcamento->cond_pagamento_anestesista }}
-                </textarea>
+                <h4>Condições de Pagamento Anestesista</h4>
+                <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista }}</textarea>
             </div>
         </div>
 
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <h4>04 - Hospitalar Diarias, Taxas e Visitas</h4>
-            <input type="hidden" id="precosProcedimentosLoad"
-            value='{{ old("precos_procedimentos", $orcamento->precos_procedimentos ?? "[]") }}'>
-
+            <input type="hidden" id="precosProcedimentosLoad" value='{{ old("precos_procedimentos", $orcamento->precos_procedimentos ?? "[]") }}'>
             <table class="table mt-3">
                 <thead>
                     <tr>
@@ -143,53 +127,34 @@
                     </tr>
                 </thead>
                 <tbody id="tabela-procedimentos">
-
                 </tbody>
             </table>
             <div class="condicoes mt-4 mb-2">
                 <h4>Condições de Pagamento Hospital</h4>
-                <textarea id="condPagamentoHospital" disabled>
-                    {{ $orcamento->cond_pagamento_hosp }}
-                </textarea>
+                <textarea id="condPagamentoHospital" disabled>{{ $orcamento->cond_pagamento_hosp }}</textarea>
             </div>
         </div>
 
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <h4>05 - Materiais (Ortes, Proteses e Sintese)</h4>
-
             <p>Não Solicitados</p>
-
         </div>
 
-        <div class="row d-flex mt-4">
+        <div class="row mt-4">
             <h4>06 - Condições Gerais</h4>
-
             <div class="condicoes mt-4 mb-2">
                 <h4>Condições de Pagamento Anestesistas</h4>
-                <textarea id="condPagamentoAnestesista" name="condPagamentoAnestesista" disabled>
-                    {{ $orcamento->cond_pagamento_anestesista }}
-                </textarea>
-
+                <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista }}</textarea>
                 <p><strong>Validade Orçamento:</strong> {{ $orcamento->validade }}</p>
             </div>
         </div>
 
         <div class="section">
-        <p>Sinop/MT, {{ \Carbon\Carbon::now()->locale('pt_BR')->translatedFormat('d \d\e F \d\e Y') }}</p>
-        </div>
-
-        <div class="signature">
-            <div class="linha_assinatura"></div>
-            <p>HOSPITAL E MATERNIDADE DOIS PINHEIROS LTDA.</p>
-        </div>
-
-        <div class="contact">
-            <p><strong>CNPJ:</strong> 14.931.414/0001-49</p>
-            <p><strong>Email:</strong> internacao@hospitaldoispinheiros.com.br</p>
-            <p><strong>Fone:</strong> (66) 3517-260</p>
+            <p>Sinop/MT, {{ \Carbon\Carbon::now()->locale('pt_BR')->translatedFormat('d \d\e F \d\e Y') }}</p>
+            <p class="signature">__________________________<br>Assinatura do responsável</p>
         </div>
     </main>
-
 </body>
+</html>
 <script src="/js/modelo_orcamento.js"></script>
 </html>
