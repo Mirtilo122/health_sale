@@ -110,7 +110,9 @@ namespace App\Http\Controllers;
         return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado.');
     }
 
-    $usuarios = Usuarios::whereIn('acesso', ['Agente'])->get();
+    $usuarios = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
+                    ->where('ativo', 1)
+                    ->get();
 
 
     return view('orcamento.atribuir', compact('detalhes', 'usuarios'));
