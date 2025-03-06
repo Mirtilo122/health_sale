@@ -39,7 +39,7 @@ border: black;
 
 </style>
 
-    <input type="hidden" name="status" id="status" value="anestesista">
+    <input type="hidden" name="status" id="statusHidden" value="anestesista">
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_criacao">
     <input type="hidden" name="aba_ativa" id="aba_ativa" value="anestesista-tab">
 

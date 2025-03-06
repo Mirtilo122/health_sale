@@ -140,7 +140,7 @@ namespace App\Http\Controllers;
 
 
         $solicitacao->id_usuario = $request->id_usuario;
-        $solicitacao->status = 'atribuido';
+        $solicitacao->status = $request->status;
         if (!$solicitacao->data_atribuido) {
             $solicitacao->data_atribuido = now();
         }

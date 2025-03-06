@@ -149,7 +149,7 @@
                                 <h4 class="mt-2">Total: R$ <span id="totalValor">00,00</span></h4>
                                 <input type="hidden" name="valor_total" id="valor_total" value="0.00">
                                 <div class="col-3 flex-fill">
-                                
+
                                 </div>
                         @endif
                     </div>
@@ -157,7 +157,7 @@
                 </div>
             </div>
             <div class="col-2 flex-fill d-flex flex-column gap-2 mt-2 align-items-end">
-
+            <button type="submit" class="btn btn-danger btn-sm" id="salvarSair" onclick="prepararEnvio('inativo')">Excluir</button>
 
 
 

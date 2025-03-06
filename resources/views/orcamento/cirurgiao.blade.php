@@ -33,7 +33,7 @@ color: black;
 
 </style>
 
-    <input type="hidden" name="status" id="status" value="cirurgiao">
+    <input type="hidden" name="status" id="statusHidden" value="cirurgiao">
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_anestesista">
     <input type="hidden" name="aba_ativa" id="aba_ativa" value="cirurgiao-tab">
 

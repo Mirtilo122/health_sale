@@ -142,10 +142,13 @@
             </div>
         </div>
 
+        <input type="hidden" name="status" id="statusHidden" value="atribuido">
+
         <div class="buttons d-flex justify-content-between mt-4">
             <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-lg">Cancelar</a>
             <input type="hidden" name="codigo_solicitacao" value="{{ $detalhes->codigo_solicitacao }}">
             <button type="submit" class="btn btn-primary btn-lg">Salvar</button>
+            <button type="submit" class="btn btn-danger btn-lg" onclick="mudarStatus('inativo')">Excluir</button>
         </div>
     </form>
 </div>

@@ -6,6 +6,7 @@
 
 @section('resumo')
 
+
                 <a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
                 <button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
                 <button type="submit" class="btn btn-success btn-sm" id="prosseguir" onclick="prepararEnvio('designar')">Prosseguir</button>
@@ -19,7 +20,7 @@
 
 @section('abas')
 
-    <input type="hidden" name="status" id="status" value="atribuido">
+    <input type="hidden" name="status" id="statusHidden" value="atribuido">
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_cirurgiao">
     <input type="hidden" name="aba_ativa" id="aba_ativa" value="atribuido-tab">
 

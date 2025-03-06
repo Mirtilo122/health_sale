@@ -223,3 +223,46 @@ function moveLeft() {
 
 }
 
+function mudarStatus(funcao) {
+
+    switch (funcao){
+        case "designar":
+            document.getElementById("statusHidden").value = "cirurgiao";
+            break;
+
+        case "cirurgiao":
+            document.getElementById("statusHidden").value = "anestesista";
+            break;
+
+        case "anestesista":
+            document.getElementById("statusHidden").value = "criacao";
+            break;
+
+        case "criar":
+            document.getElementById("statusHidden").value = "liberacao";
+            document.getElementById("orcamento_emitido").value = 1;
+            break;
+
+        case "liberar":
+            document.getElementById("statusHidden").value = "negociacao";
+            break;
+
+        case "recusar":
+            document.getElementById("statusHidden").value = "recusado";
+            break;
+
+        case "ganho":
+            document.getElementById("statusHidden").value = "aprovado";
+            break;
+
+        case "inativo":
+            document.getElementById("statusHidden").value = "inativo";
+            break;
+
+        case "perdido":
+            document.getElementById("statusHidden").value = "perdido";
+            break;
+
+
+    }
+}

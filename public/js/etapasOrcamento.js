@@ -604,7 +604,7 @@ function adicionarSecundario(codTuss = "", procedimento = "") {
 
     novaDiv.innerHTML = `
         <div class="col-2 flex-fill d-flex">
-            <p>Procedimento Secundário:</p> 
+            <p>Procedimento Secundário:</p>
         </div>
 
         <div class="col-3 flex-fill d-flex">
@@ -655,15 +655,15 @@ function prepararEnvio(funcao) {
 
     switch (funcao){
         case "designar":
-            document.getElementById("status").value = "cirurgiao";
+            document.getElementById("statusHidden").value = "cirurgiao";
             break;
 
         case "cirurgiao":
-            document.getElementById("status").value = "anestesista";
+            document.getElementById("statusHidden").value = "anestesista";
             break;
 
         case "anestesista":
-            document.getElementById("status").value = "criacao";
+            document.getElementById("statusHidden").value = "criacao";
             break;
 
         case "criar":
@@ -681,6 +681,10 @@ function prepararEnvio(funcao) {
 
         case "ganho":
             document.getElementById("statusHidden").value = "aprovado";
+            break;
+
+        case "inativo":
+            document.getElementById("statusHidden").value = "inativo";
             break;
 
         case "perdido":
