@@ -19,7 +19,9 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::where('acesso', 'agente')->get();
+        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
+                        ->where('ativo', 1)
+                        ->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
@@ -71,7 +73,10 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::where('acesso', 'agente')->get();
+        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
+                        ->where('ativo', 1)
+                        ->get();
+
         $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
@@ -96,7 +101,10 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::where('acesso', 'agente')->get();
+        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
+                        ->where('ativo', 1)
+                        ->get();
+
         $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
@@ -123,7 +131,10 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::where('acesso', 'agente')->get();
+        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
+                        ->where('ativo', 1)
+                        ->get();
+
         $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
@@ -148,7 +159,10 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::where('acesso', 'agente')->get();
+        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
+                        ->where('ativo', 1)
+                        ->get();
+
         $modelos = Modelo::where('ativo', true)->get();
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
@@ -179,7 +193,7 @@ class OrcamentoController extends Controller
             'email_cirurgiao' => 'nullable|email',
             'crm_cirurgiao' => 'nullable|string',
             'precos_procedimentos' => 'nullable|json',
-            'procedimentos_secundarios' => 'nullable|json',
+            'procedimentos_json' => 'nullable|json',
             'taxa_cirurgiao' => 'nullable|string',
             'taxa_anestesia' => 'nullable|string',
             'condPagamentoAnestesista' => 'nullable|string',

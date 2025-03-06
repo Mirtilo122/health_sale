@@ -119,11 +119,12 @@
                     <label for="convenio">Convênio</label>
                     <select id="convenio" name="convenio">
                         <option value="nenhum">Sem Convênio</option>
-                        <option value="particular">Particular</option>
-                        <option value="luzvida">Luz e Vida</option>
-                        <option value="viva">Viva</option>
-                        <option value="sinopaz">Sinopaz/Primavera</option>
                         <option value="judicial">Judicial</option>
+                        <option value="luzvida">Luz e Vida</option>
+                        <option value="particular">Particular</option>
+                        <option value="particularpacote">Particular Pacote</option>
+                        <option value="sinopaz">Sinopaz/Primavera</option>
+                        <option value="viva">Viva</option>
                     </select>
 
                     <label for="cirurgiaoDefinido">Tem cirurgião definido?</label>

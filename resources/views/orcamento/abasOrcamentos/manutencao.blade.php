@@ -52,12 +52,14 @@
             <input type="hidden" id="convenioHidden" name="convenio" value="{{ $solicitacao->convenio}}">
             <select id="convenio" name="convenioSelect" onchange="atualizarHidden('convenio')" disabled>
                 <option value="nenhum" @selected($solicitacao->convenio === "nenhum")>Nenhum</option>
-                <option value="particular" @selected($solicitacao->convenio === "particular")>Particular</option>
-                <option value="luzvida" @selected($solicitacao->convenio === "luzvida")>Luz e Vida</option>
-                <option value="viva" @selected($solicitacao->convenio === "viva")>Viva</option>
                 <option value="judicial" @selected($solicitacao->convenio === "judicial")>Judicial</option>
+                <option value="luzvida" @selected($solicitacao->convenio === "luzvida")>Luz e Vida</option>
+                <option value="particular" @selected($solicitacao->convenio === "particular")>Particular</option>
+                <option value="particular" @selected($solicitacao->convenio === "particularpacote")>Particular Pacote</option>
+                <option value="particular" @selected($solicitacao->convenio === "sinopaz")>Sinopaz/Primavera</option>
+                <option value="viva" @selected($solicitacao->convenio === "viva")>Viva</option>
             </select>
-            <button type="button" class="alterar-btn" onclick="alterar('convenio')">Alterar</button>
+        <button type="button" class="alterar-btn" onclick="alterar('convenio')">Alterar</button>
         </div>
 
         <label for="observacoesPaciente">Observações:</label>

@@ -70,6 +70,7 @@
                             @switch($solicitacao->convenio)
                                 @case('nenhum') Nenhum @break
                                 @case('particular') Particular @break
+                                @case('particularpacote') Particular Pacote@break
                                 @case('luzvida') Luz e Vida @break
                                 @case('viva') Viva @break
                                 @case('sinopaz') Sinopaz/Primavera @break
