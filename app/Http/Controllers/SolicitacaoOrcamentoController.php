@@ -144,7 +144,6 @@ namespace App\Http\Controllers;
         if (!$solicitacao->data_atribuido) {
             $solicitacao->data_atribuido = now();
         }
-
         $solicitacao->save();
 
         return redirect()->route('dashboard')->with('success', 'Orçamento atualizado com sucesso.');
