@@ -16,10 +16,16 @@
         <h1 class="flex-grow-1 text-center">@yield('nomeForm')</h1>
     </div>
 
+    <div class="div_texto_topo_formulario">
+        <p class="texto_topo_formulario">Preencha o formulário abaixo para realizar a solicitação de orçamento.</p>
+    </div>
+
     <form class="formulario-abas needs-validation" id="formRepresent" method="POST" action="/processarFormulario" enctype="multipart/form-data" novalidate>
     @csrf
     @yield('tipo')
         <input type="hidden" name="anestesia[]" value="">
+
+
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
