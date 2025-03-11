@@ -629,8 +629,14 @@ function removerProcedimento(botao) {
 
 
 
+function excluirOrcamento() {
+    let formulario = document.getElementById('orcamento-form');
 
-// Funções desencadeadas com o click dos botões de Prosseguir
+    let camposObrigatorios = formulario.querySelectorAll('[required]');
+    camposObrigatorios.forEach(campo => campo.removeAttribute('required'));
+
+    document.getElementById("statusHidden").value = "inativo";
+}
 
 function prepararEnvio(funcao) {
 
@@ -694,6 +700,7 @@ function prepararEnvio(funcao) {
 
     }
 }
+
 
 
 
