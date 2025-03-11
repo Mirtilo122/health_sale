@@ -148,8 +148,44 @@
             <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-lg">Cancelar</a>
             <input type="hidden" name="codigo_solicitacao" value="{{ $detalhes->codigo_solicitacao }}">
             <button type="submit" class="btn btn-primary btn-lg">Salvar</button>
-            <button type="submit" class="btn btn-danger btn-lg" onclick="mudarStatus('inativo')">Excluir</button>
+            <?php
+
+                $usuario = auth()->user();
+                $nivelAcesso = $usuario->acesso;
+
+                if ($nivelAcesso === 'Administrador' || $nivelAcesso === 'Gerente') :
+            ?>
+            <button type="button" class="btn btn-danger btn-sm" id="salvarSair" data-bs-toggle="modal" data-bs-target="#confirmacaoModal">
+                Excluir
+            </button>
+
+            <?php endif; ?>
         </div>
+        <?php
+
+            $usuario = auth()->user();
+            $nivelAcesso = $usuario->acesso;
+
+            if ($nivelAcesso === 'Administrador' || $nivelAcesso === 'Gerente') :
+        ?>
+        <div class="modal fade" id="confirmacaoModal" tabindex="-1" aria-labelledby="confirmacaoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmacaoModalLabel">Confirmar Exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza de que deseja excluir este orçamento? Essa ação não pode ser desfeita.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger" onclick="excluirOrcamentoNovo()">Confirmar Exclusão</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
     </form>
 </div>
 @endsection
