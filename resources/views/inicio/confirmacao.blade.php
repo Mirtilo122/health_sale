@@ -25,6 +25,8 @@
             </div>
         </div>
 
+        <p class="texto_informativo text-success">Entraremos em contato em até 5 horas no horário comercial, sujeitas à variações após expediente ou em feriados.</p>
+
         <a href="inicio" class="btn btn-primary">Voltar à Página Inicial</a>
     </div>
 </div>
