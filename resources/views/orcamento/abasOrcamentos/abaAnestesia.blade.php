@@ -79,16 +79,17 @@
     <div class="col-6 flex-fill border-end">
         <h5 class="mt-4 mb-2">Honorários Anestesia</h5>
 
-        <input type="hidden" name="taxa_anestesia" id="taxa_anestesia_hidden" value='{{ json_encode($orcamento->taxa_anestesista ?? []) }}'>
+        <input type="text" name="taxa_anestesia" id="taxa_anestesia_hidden" value='{{ json_encode($orcamento->taxa_anestesista ?? []) }}'>
 
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-light">
                 <tr>
-                    <th scope="col" class="col-10">Descrição</th>
-                    <th scope="col" class="col-2">Valor</th>
+                    <th scope="col" class="col-8">Descrição</th>
+                    <th scope="col" class="col-3">Valor</th>
+                    <th scope="col" class="col-1">Ação</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tabelaAnestesia">
                 <tr>
                     <td scope="row">Taxa Anestesia</td>
                     <td>
@@ -96,25 +97,23 @@
                             value="{{ !empty($orcamento->taxa_anestesista['taxaAnestesia']) ? $orcamento->taxa_anestesista['taxaAnestesia'] : '00,00' }}"
                             oninput="calcularTotalAnestesia()">
                     </td>
-                </tr>
-                <tr>
-                    <td scope="row">Outros Custos de Anestesia</td>
-                    <td>
-                        <input type="text" id="taxaAnestesia" name="outrosCustosAnestesia" class="form-control money text-end"
-                            value="{{ !empty($orcamento->taxa_anestesista['outrosCustosAnestesia']) ? $orcamento->taxa_anestesista['outrosCustosAnestesia'] : '00,00' }}"
-                            oninput="calcularTotalAnestesia()">
-                    </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>
-                    <td class="text-end"><strong id="totalAnestesia" >0,00</strong></td>
+                    <td class="text-end"><strong id="totalAnestesia">0,00</strong></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
 
+        <button type="button" class="btn btn-primary mt-2" onclick="adicionarOutroCusto()">Adicionar Outros Custos de Anestesia</button>
+
+
+
     </div>
 
-    
+
     <div class="col-6 flex-fill">
     <div class="mt-4 mb-2">
         <label for="condPagamentoAnestesista">Condições de Pagamento</label>
