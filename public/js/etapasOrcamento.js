@@ -399,7 +399,9 @@ function calcularTotalAnestesia() {
         var total = 0;
 
         inputs.forEach(function(input) {
-            total += parseFloat(input.value.replace(',', '.')) || 0;
+            if (!isNaN(input)) {
+                total += parseFloat(input.value.replace(',', '.')) || 0;
+            }
         });
 
         const totalAnestesia = document.getElementById('totalAnestesia');
@@ -421,10 +423,10 @@ function atualizarTaxaAnestesia() {
     const inputs = document.querySelectorAll("input[id='taxaAnestesia']");
     if (inputs.length > 0) {
         inputs.forEach(input => {
-            const nome = input.getAttribute("name");
-            let valor = parseFloat(input.value.replace(',', '.')) || 0;
+            let valorTexto = input.value ? input.value.replace(",", ".") : "0";
+            let valor = parseFloat(valorTexto);
 
-            taxaAnestesia[nome] = valor.toFixed(2);
+            taxaAnestesia[nome] = valor.toFixed(0);
         });
 
         const taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden");
@@ -459,6 +461,50 @@ try {
 
 
 
+
+
+// Adicionar preços dnâmicos anestesista
+
+
+function adicionarOutroCusto() {
+    let tabela = document.getElementById("tabelaAnestesia");
+    let novaLinha = document.createElement("tr");
+
+    novaLinha.innerHTML = `
+        <td><input type="text" name="descricaoOutrosCustos[]" class="form-control" placeholder="Nome do custo"></td>
+        <td><input type="text" id='taxaAnestesia' name="outrosCustosAnestesia" class="form-control money text-end" value="00,00" oninput="calcularTotalAnestesia()"></td>
+        <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinha(this)">Excluir</button></td>
+    `;
+
+    let totalRow = tabela.lastElementChild;
+    tabela.insertBefore(novaLinha, totalRow);
+}
+
+function removerLinha(botao) {
+    botao.closest("tr").remove();
+    calcularTotalAnestesia();
+}
+
+function calcularTotalAnestesia() {
+    let total = 0;
+
+    document.querySelectorAll('.money').forEach(input => {
+
+
+        let valorTexto = input.value ? input.value.replace(",", ".") : "0";
+        let valor = parseFloat(valorTexto);
+
+        if (!isNaN(valor)) {
+            total += valor;
+        }
+    });
+
+    document.getElementById("totalAnestesia").innerText = total.toFixed(2).replace(".", ",");
+}
+
+
+
+
 // Formatar Valores Monetários
 
 
@@ -474,9 +520,13 @@ try{
         let input = event.target;
         let valor = input.value;
 
+        if (!isNaN(valor)) {
+
         valor = valor.replace(/[^\d,]/g, "");
 
         valor = valor.replace(/,+/g, ".");
+
+        }
 
         let numero = parseFloat(valor);
 
@@ -762,7 +812,6 @@ function inicializarCKEditor(id) {
 document.addEventListener('DOMContentLoaded', function() {
     inicializarCKEditor('condPagamentoAnestesista');
     inicializarCKEditor('condPagamentoCirurgiao');
-    inicializarCKEditor('condPagamentoHosp');
 });
 
 
@@ -824,3 +873,54 @@ try {
 
 
 
+try {
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof CKEDITOR === "undefined") {
+            console.warn("CKEditor não carregado corretamente.");
+            return;
+        }
+
+        var editorCondPag = document.getElementById('condPagamentoHosp');
+        if (editorCondPag) {
+            var editorInstancePag = CKEDITOR.replace('condPagamentoHosp', {
+                toolbar: [
+                    { name: 'clipboard', items: ['Undo', 'Redo'] },
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                    { name: 'links', items: ['Link'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+                ],
+                removePlugins: 'elementspath',
+                resize_enabled: false,
+            });
+
+            editorInstancePag.on('instanceReady', function () {
+                var selectedOption = document.getElementById('presetSelectPag')?.selectedOptions[0];
+                var selectedContent = selectedOption ? selectedOption.value : '';
+                editorInstancePag.setData(selectedContent);
+            });
+
+            var insertPresetPagButton = document.getElementById('insertPresetPag');
+            if (insertPresetPagButton) {
+                insertPresetPagButton.addEventListener('click', function () {
+                    var selectedOption = document.getElementById('presetSelectPag')?.selectedOptions[0];
+                    var selectedContent = selectedOption ? selectedOption.value : '';
+                    CKEDITOR.instances.condPagamentoHosp.setData(selectedContent);
+                });
+            }
+        } else {
+            console.warn("Elemento 'condPagamentoHosp' não encontrado.");
+        }
+
+        var presetSelectPag = document.getElementById('presetSelectPag');
+        if (!presetSelectPag) {
+            console.warn("Elemento 'presetSelectPag' não encontrado.");
+        }
+
+        var insertPresetPagButton = document.getElementById('insertPresetPag');
+        if (!insertPresetPagButton) {
+            console.warn("Elemento 'insertPresetPag' não encontrado.");
+        }
+    });
+} catch (error) {
+    console.warn("Rich Text não disponível:", error);
+}
