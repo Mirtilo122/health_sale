@@ -1,10 +1,19 @@
+<h4 class="mt-2">Condições de Pagamento</h4>
 
-
-
+<div class="select_alterar mb-4">
+    <select id="presetSelectPag">
+        <option value="" selected>Selecione um Modelo</option>
+        @foreach ($modelos as $modelo)
+            <option value="{{ $modelo['conteudo'] }}" data-nome="{{ $modelo['nome'] }}">
+                {{ $modelo['nome'] }}
+            </option>
+        @endforeach
+    </select>
+    <button type="button" id="insertPresetPag" class="alterar-btn">Adicionar</button>
+</div>
 
 <div class="row">
 <div class="col-10">
-    <label for="condPagamentoHosp">Condições de Pagamento</label>
     <textarea id="condPagamentoHosp" name="condPagamentoHosp">
         <?= old('condPagamentoHosp', $orcamento->cond_pagamento_hosp ?? '') ?>
     </textarea>
