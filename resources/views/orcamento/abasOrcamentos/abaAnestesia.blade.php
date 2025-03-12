@@ -114,6 +114,7 @@
 
     </div>
 
+    
     <div class="col-6 flex-fill">
     <div class="mt-4 mb-2">
         <label for="condPagamentoAnestesista">Condições de Pagamento</label>

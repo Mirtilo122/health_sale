@@ -365,7 +365,7 @@ class OrcamentoController extends Controller
 
         dd($query);
 
-        // Buscar pelos códigos TUSS
+        
         $results = Tuss::where('codigo', 'LIKE', "%$query%")
                     ->limit(10)
                     ->get();
@@ -377,7 +377,7 @@ class OrcamentoController extends Controller
     {
         $query = $request->get('query');
 
-        // Buscar pelas descrições TUSS
+
         $results = Tuss::where('descricao', 'LIKE', "%$query%")
                     ->limit(10)
                     ->get();
