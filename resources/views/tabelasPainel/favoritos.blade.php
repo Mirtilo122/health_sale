@@ -41,7 +41,10 @@
                         use Illuminate\Support\Str;
                         $idUsuario = auth()->id(); // Pega o ID do usuário autenticado
                     @endphp
-                    @forelse ($solicitacoes->filter(fn($solicitacao) => Str::contains($solicitacao->favoritos, (string) $idUsuario)) as $solicitacao)
+                    @forelse ($solicitacoes->filter(fn($solicitacao) =>
+                        Str::contains($solicitacao->favoritos, (string) $idUsuario) &&
+                        $solicitacao->status !== 'inativo'
+                    ) as $solicitacao)
                         @php
                             $orcamento = $solicitacao->orcamento;
                             $user_visualizar = false;

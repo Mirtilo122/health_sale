@@ -146,3 +146,4 @@ try {
 } catch (error) {
     console.warn("Erro ao formatar moeda:", error);
 }
+ 

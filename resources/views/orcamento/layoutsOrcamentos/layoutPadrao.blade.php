@@ -75,7 +75,7 @@ try {
 });
 
 } catch (error) {
-    console.warn("Elemento não encontrado, não é possível inserir procedimentos secundários");
+    
 }
 
 

@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#procedimentoModal">
     Adicionar Novo
-</button> 
+</button>
 
 <input type="hidden" id="precosProcedimentosLoad"
        value='{{ old("precos_procedimentos", $orcamento->precos_procedimentos ?? "[]") }}'>

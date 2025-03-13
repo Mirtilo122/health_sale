@@ -98,7 +98,6 @@ document.getElementById("formRepresent").addEventListener("submit", function (ev
 });
 
 } catch (error) {
-    console.warn("Elemento não encontrado, ignorando erro.");
 }
 
 
@@ -118,7 +117,6 @@ try{
         }
     });
 } catch {
-    console.log('Data Não Disponível');
 }
 
 

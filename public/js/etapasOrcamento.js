@@ -52,7 +52,6 @@ const agentesCombinados = [...new Set([...agentesEditar, ...agentesVisualizar])]
 contarIdsAgentes()
 
 } catch (error) {
-    console.warn("Elemento não encontrado, ignorando erro.");
 }
 
 
@@ -126,7 +125,6 @@ document.getElementById("add-agente").addEventListener("click", function() {
 });
 
 } catch (error) {
-    console.warn("Elemento não encontrado, não é possível adicionar agentes.");
 }
 
 
@@ -195,7 +193,6 @@ try {
         bootstrap.Modal.getInstance(document.getElementById("procedimentoModal")).hide();
     });
 } catch (error) {
-    console.warn("Elemento não encontrado, não é possível adicionar procedimentos.");
 }
 
 function adicionarProcedimento(nome, valor, qntd) {
@@ -221,7 +218,7 @@ function adicionarProcedimento(nome, valor, qntd) {
     const inputValor = document.createElement("input");
     inputValor.type = "text";
     inputValor.className = "form-control valor-procedimento money text-end";
-    inputValor.value = valor.toFixed(2).replace(".", ","); // Mantém 2 casas decimais
+    inputValor.value = valor.toFixed(2).replace(".", ",");
     tdValor.appendChild(inputValor);
 
     const tdTotal = document.createElement("td");
@@ -315,18 +312,16 @@ try {
 
             if (precosProcedimentosLoad.length > 0) {
                 precosProcedimentosLoad.forEach(procedimento => {
-                    let valor_unit_procedimento = parseFloat(procedimento.valor.toString().replace(',', '.')) || 0;
-                    let qntd_procedimento = parseFloat(procedimento.qntd.toString().replace(',', '.')) || 0;
+                    let valor_unit_procedimento = parseFloat(procedimento.valor.toString()) || 0;
+                    let qntd_procedimento = parseFloat(procedimento.qntd.toString()) || 0;
 
                     adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento);
                 });
             }
         } else {
-            console.warn("Elemento com id 'precosProcedimentosLoad' não encontrado");
         }
     });
 } catch (error) {
-    console.warn("Erro ao carregar precosProcedimentos:", error);
 }
 
 
@@ -345,12 +340,10 @@ function calcularTotal() {
         if (totalCirurgiaoElement) {
             totalCirurgiaoElement.textContent = total.toFixed(2).replace('.', ',');
         } else {
-            console.warn("Elemento com id 'totalCirurgiao' não encontrado");
         }
 
         atualizarTotal();
     } else {
-        console.warn("Nenhum input com id 'valorCirurgiao' encontrado");
     }
 }
 
@@ -371,10 +364,8 @@ function atualizarTaxaCirurgiao() {
         if (taxaCirurgiaoHidden) {
             taxaCirurgiaoHidden.value = JSON.stringify(taxaCirurgiao);
         } else {
-            console.warn("Elemento com id 'taxa_cirurgiao_hidden' não encontrado");
         }
     } else {
-        console.warn("Nenhum input com id 'valorCirurgiao' encontrado");
     }
 }
 
@@ -385,10 +376,8 @@ try {
             input.addEventListener("input", atualizarTaxaCirurgiao);
         });
     } else {
-        console.warn("Nenhum input com id 'valorCirurgiao' encontrado para adicionar evento");
     }
 } catch (error) {
-    console.warn("Erro ao adicionar evento de 'input':", error);
 }
 
 
@@ -408,12 +397,10 @@ function calcularTotalAnestesia() {
         if (totalAnestesia) {
             totalAnestesia.textContent = total.toFixed(2).replace('.', ',');
         } else {
-            console.warn("Elemento com id 'totalAnestesia' não encontrado");
         }
 
         atualizarTotal();
     } else {
-        console.warn("Nenhum input com id 'taxaAnestesia' encontrado");
     }
 }
 
@@ -426,17 +413,16 @@ function atualizarTaxaAnestesia() {
             let valorTexto = input.value ? input.value.replace(",", ".") : "0";
             let valor = parseFloat(valorTexto);
 
-            taxaAnestesia[nome] = valor.toFixed(0);
+            let nome = input.getAttribute("name");
+            taxaAnestesia[nome] = valor.toFixed(2);
         });
 
         const taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden");
         if (taxaAnestesiaHidden) {
             taxaAnestesiaHidden.value = JSON.stringify(taxaAnestesia);
         } else {
-            console.warn("Elemento com id 'taxa_anestesia_hidden' não encontrado");
         }
     } else {
-        console.warn("Nenhum input com id 'taxaAnestesia' encontrado");
     }
 }
 
@@ -445,7 +431,6 @@ document.querySelectorAll("input[id='taxaAnestesia']").forEach(input => {
     input.addEventListener("input", atualizarTaxaAnestesia);
 });
 } catch (error) {
-    console.warn("Elemento não encontrado");
 }
 
 try {
@@ -456,7 +441,6 @@ try {
         atualizarTaxaAnestesia();
 });
 } catch (error) {
-    console.warn("Elemento não encontrado");
 }
 
 
@@ -520,24 +504,24 @@ try{
         let input = event.target;
         let valor = input.value;
 
-        if (!isNaN(valor)) {
-
-        valor = valor.replace(/[^\d,]/g, "");
-
-        valor = valor.replace(/,+/g, ".");
-
-        }
-
-        let numero = parseFloat(valor);
-
-        if (!isNaN(numero)) {
-            input.value = numero.toFixed(2).replace(".", ",");
-        } else {
+        if (!valor) {
             input.value = "0,00";
+            return;
         }
+
+        valor = valor.replace(/[^0-9,\.]/g, "");
+
+        let numero = parseFloat(valor.replace(",", "."));
+
+        if (isNaN(numero)) {
+            input.value = "0,00";
+            return;
+        }
+
+        return numero.toFixed(2).replace(".", ",");
     }
 } catch (error) {
-    console.warn("Elemento não encontrado, não é possível alterar o agente responsável");
+    console.error("Erro ao formatar moeda:", error);
 }
 
 
@@ -606,7 +590,6 @@ document.getElementById("confirmar-novo-responsavel").addEventListener("click", 
     modal.hide();
 });
 } catch (error) {
-    console.warn("Elemento não encontrado, não é possível alterar o agente responsável");
 }
 
 
@@ -637,7 +620,6 @@ document.getElementById("prosseguir").addEventListener("click", function (event)
         }
     });
 } catch (error) {
-    console.warn("Elemento não encontrado, formulário enviado sem verificar Cirugião ou Anestesista");
 }
 
 
@@ -778,7 +760,6 @@ window.onload = function() {
 }
 
 } catch (error) {
-    console.warn("Elemento não encontrado");
 }
 
 
@@ -802,10 +783,8 @@ function inicializarCKEditor(id) {
                 height: 100
             });
         } catch (e) {
-            console.warn(`Erro ao inicializar CKEditor para ${id}:`, e);
         }
     } else {
-        console.warn(`Elemento com ID ${id} não encontrado. CKEditor não será inicializado.`);
     }
 }
 
@@ -818,7 +797,6 @@ document.addEventListener('DOMContentLoaded', function() {
 try {
     document.addEventListener("DOMContentLoaded", function () {
         if (typeof CKEDITOR === "undefined") {
-            console.warn("CKEditor não carregado corretamente.");
             return;
         }
 
@@ -850,21 +828,17 @@ try {
                 });
             }
         } else {
-            console.warn("Elemento 'editor' não encontrado.");
         }
 
         var presetSelect = document.getElementById('presetSelect');
         if (!presetSelect) {
-            console.warn("Elemento 'presetSelect' não encontrado.");
         }
 
         var insertPresetButton = document.getElementById('insertPreset');
         if (!insertPresetButton) {
-            console.warn("Elemento 'insertPreset' não encontrado.");
         }
     });
 } catch (error) {
-    console.warn("Rich Text não disponível:", error);
 }
 
 
@@ -876,7 +850,6 @@ try {
 try {
     document.addEventListener("DOMContentLoaded", function () {
         if (typeof CKEDITOR === "undefined") {
-            console.warn("CKEditor não carregado corretamente.");
             return;
         }
 
@@ -908,19 +881,15 @@ try {
                 });
             }
         } else {
-            console.warn("Elemento 'condPagamentoHosp' não encontrado.");
         }
 
         var presetSelectPag = document.getElementById('presetSelectPag');
         if (!presetSelectPag) {
-            console.warn("Elemento 'presetSelectPag' não encontrado.");
         }
 
         var insertPresetPagButton = document.getElementById('insertPresetPag');
         if (!insertPresetPagButton) {
-            console.warn("Elemento 'insertPresetPag' não encontrado.");
         }
     });
 } catch (error) {
-    console.warn("Rich Text não disponível:", error);
 }
