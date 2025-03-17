@@ -11,6 +11,12 @@ function converterFormatoJSONTaxaAnestesia() {
         return;
     }
     if ("taxaAnestesia" in dados && "outrosCustosAnestesia" in dados) {
+        valorTaxaAnestesiaJson = dados.taxaAnestesia;
+        valoroutrosCustosAnestesiaJson = dados.outrosCustosAnestesia;
+
+
+        valorTaxaAnestesiaJson = converterStringToMoney(valorTaxaAnestesiaJson);
+        valoroutrosCustosAnestesiaJson = converterStringToMoney(valoroutrosCustosAnestesiaJson);
         dados = {
             id0: {
                 Nome: "Taxa Anestesista",
@@ -364,7 +370,7 @@ try {
 }
 
 
-//Valores Cirurgião e Anestesista
+//Valores Cirurgião
 
 function calcularTotal() {
     var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');

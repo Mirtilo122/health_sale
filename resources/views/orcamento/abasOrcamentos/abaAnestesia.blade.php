@@ -79,9 +79,9 @@
     <div class="col-6 flex-fill border-end">
         <h5 class="mt-4 mb-2">Honorários Anestesia</h5>
 
-        <input type="text" id="precosAnestesistaLoad" value='{{json_encode($orcamento->taxa_anestesista ?? "[]") }}'>
+        <input type="hidden" id="precosAnestesistaLoad" value='{{json_encode($orcamento->taxa_anestesista ?? "[]") }}'>
 
-        <input type="text" name="taxa_anestesia" id="taxa_anestesia_hidden" value='{{ json_encode($orcamento->taxa_anestesista ?? "[]") }}'>
+        <input type="hidden" name="taxa_anestesia" id="taxa_anestesia_hidden" value='{{ json_encode($orcamento->taxa_anestesista ?? "[]") }}'>
 
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-light">
