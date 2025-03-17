@@ -20,13 +20,13 @@ function converterFormatoJSONTaxaAnestesia() {
         dados = {
             id0: {
                 Nome: "Taxa Anestesista",
-                Prazo: 0,
-                Valor: dados.taxaAnestesia
+                Valor: valorTaxaAnestesiaJson,
+                Prazo: 0
             },
             id2: {
                 Nome: "Outros Custos de Anestesia",
-                Prazo: 0,
-                Valor: dados.outrosCustosAnestesia
+                Valor: valoroutrosCustosAnestesiaJson,
+                Prazo: 0
             }
         };
     }
