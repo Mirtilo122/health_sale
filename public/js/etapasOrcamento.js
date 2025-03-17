@@ -10,13 +10,18 @@ function converterFormatoJSONTaxaAnestesia() {
         console.error("Erro ao converter JSON:", error);
         return;
     }
+
+    let taxaAnestesiaJson = dados;
     if ("taxaAnestesia" in dados && "outrosCustosAnestesia" in dados) {
         valorTaxaAnestesiaJson = dados.taxaAnestesia;
         valoroutrosCustosAnestesiaJson = dados.outrosCustosAnestesia;
 
 
         valorTaxaAnestesiaJson = converterStringToMoney(valorTaxaAnestesiaJson);
+        console.log(valorTaxaAnestesiaJson);
         valoroutrosCustosAnestesiaJson = converterStringToMoney(valoroutrosCustosAnestesiaJson);
+        console.log(valoroutrosCustosAnestesiaJson);
+        
         dados = {
             id0: {
                 Nome: "Taxa Anestesista",
@@ -37,8 +42,8 @@ function converterFormatoJSONTaxaAnestesia() {
 
 try{
     document.addEventListener("DOMContentLoaded", converterFormatoJSONTaxaAnestesia());
-    } catch {
-    }
+} catch {
+}
 
 
 
