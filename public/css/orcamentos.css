@@ -190,6 +190,10 @@ p{
     background-color: #f0f0f0;
 }
 
+.tabelaAnestesia .btn-danger{
+    width: 10px;
+}
+
 @media (max-width: 768px) {
 
     .info_proc {

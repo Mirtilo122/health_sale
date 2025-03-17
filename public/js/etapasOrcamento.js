@@ -1,3 +1,42 @@
+// funções para converter os valores vindo do banco
+
+function converterFormatoJSONTaxaAnestesia() {
+    let taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden").value;
+    let dados;
+
+    try {
+        dados = JSON.parse(taxaAnestesiaHidden);
+    } catch (error) {
+        console.error("Erro ao converter JSON:", error);
+        return;
+    }
+    if ("taxaAnestesia" in dados && "outrosCustosAnestesia" in dados) {
+        dados = {
+            id0: {
+                Nome: "Taxa Anestesista",
+                Prazo: 0,
+                Valor: dados.taxaAnestesia
+            },
+            id2: {
+                Nome: "Outros Custos de Anestesia",
+                Prazo: 0,
+                Valor: dados.outrosCustosAnestesia
+            }
+        };
+    }
+
+    taxaAnestesiaJson = dados;
+}
+
+
+try{
+    document.addEventListener("DOMContentLoaded", converterFormatoJSONTaxaAnestesia());
+    } catch {
+    }
+
+
+
+
 // Funções simples os selects de informações
 
 function atualizarHidden(info) {
@@ -382,52 +421,233 @@ try {
 
 
 
+
+
+
+// Adicionar preços dinâmicos anestesia
+
+
+let id_linha = 0;
+visibilidade_valor_prazo = false;
+
+function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,00") {
+    let tabela = document.getElementById("tabelaAnestesia");
+    let novaLinha = document.createElement("tr");
+
+    if (id === null) {
+        id_linha++;
+        id = id_linha;
+    } else {
+        id_linha = Math.max(id_linha, id);
+    }
+
+    let novaLinhaHTML = `
+        <td><input type="text" name="taxaAnestesiaNome${id}" class="form-control" placeholder="Nome do custo" value="${nome}"></td>
+        <td><input type="text" id="taxaAnestesiaValor${id}" name="taxaAnestesiaValor${id}" class="form-control money taxaAnestesia text-end" value="${valor}" oninput="calcularTotalAnestesia()"></td>
+    `;
+
+    if (visibilidade_valor_prazo) {
+        novaLinhaHTML += `
+            <td class="prazoAnestesia"><input type="text" id="taxaAnestesiaPrazo${id}" name="taxaAnestesiaPrazo${id}" class="form-control prazoAnestesia money text-end" value="${prazo}" onblur="calcularTotalPrazoAnestesia()"></td>
+        `;
+    } else {
+        novaLinhaHTML += `
+            <td class="prazoAnestesia d-none"><input type="text" id="taxaAnestesiaPrazo${id}" name="taxaAnestesiaPrazo${id}" class="form-control prazoAnestesia taxaPrazoAnestesia d-none money text-end" value="${prazo}" onblur="calcularTotalPrazoAnestesia()"></td>
+        `;
+    }
+
+    novaLinhaHTML += `
+        <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinha(this)">Excluir</button></td>
+    `;
+
+    novaLinha.innerHTML = novaLinhaHTML;
+
+    let totalRow = tabela.lastElementChild;
+    tabela.insertBefore(novaLinha, totalRow);
+
+    novaLinha.querySelectorAll(".money").forEach(element => {
+        element.addEventListener("blur", formatarMoeda);
+        formatarMoeda({ target: element });
+    });
+
+    atualizarTaxaAnestesiaJson();
+    calcularTotalAnestesia();
+    calcularTotalPrazoAnestesia();
+}
+
+function carregarTaxasAnestesia() {
+    console.log (taxaAnestesiaJson);
+    let dados = taxaAnestesiaJson;
+
+    if (!dados) return;
+
+    let maiorID = 0;
+    let exibirColunaPrazo = false;
+
+    Object.keys(dados).forEach(id => {
+        if (id === "id0") return;
+
+        let item = dados[id];
+        adicionarOutroCusto(id, item.Nome, item.Valor, item.Prazo);
+        if (item.Prazo > 0) {
+            exibirColunaPrazo = true;
+        }
+
+        id = id.replace(/\D/g, "");
+        maiorID = Math.max(maiorID, parseInt(id));
+    });
+
+    id_linha = maiorID++;
+
+    if (exibirColunaPrazo) {
+        addVisibilidadePrazo();
+    }
+}
+
+try{
+document.addEventListener("DOMContentLoaded", carregarTaxasAnestesia);
+} catch {
+}
+
+function removerLinha(botao) {
+    botao.closest("tr").remove();
+    atualizarTaxaAnestesiaJson();
+    calcularTotalAnestesia();
+    calcularTotalPrazoAnestesia();
+}
+
+
+
+// Funções de atualização de campos anestesia
+
+
+
+
+function addVisibilidadePrazo() {
+    document.querySelectorAll(".prazoAnestesia").forEach(element => {
+        element.classList.remove("d-none");
+    });
+
+    document.querySelector('button[onclick="addVisibilidadePrazo()"]').classList.add("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazo()"]').classList.remove("d-none");
+
+    visibilidade_valor_prazo = true;
+}
+
+function removeVisibilidadePrazo() {
+    document.querySelectorAll(".prazoAnestesia").forEach(element => {
+        element.classList.add("d-none");
+    });
+
+    document.querySelector('button[onclick="addVisibilidadePrazo()"]').classList.remove("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazo()"]').classList.add("d-none");
+
+    document.querySelectorAll(".taxaPrazoAnestesia").forEach(input => {
+        input.value = "0,00";
+    });
+
+
+    visibilidade_valor_prazo = false;
+
+    calcularTotalPrazoAnestesia();
+}
+
+
+
 function calcularTotalAnestesia() {
-    const inputs = document.querySelectorAll('input[id="taxaAnestesia"]');
+    const inputs = document.querySelectorAll('.taxaAnestesia');
     if (inputs.length > 0) {
         var total = 0;
 
         inputs.forEach(function(input) {
-            if (!isNaN(input)) {
-                total += parseFloat(input.value.replace(',', '.')) || 0;
+            valor = input.value.replace(/[^0-9,\.]/g, "");
+
+            numero = converterStringToMoney(valor);
+
+            if (!isNaN(numero)) {
+                total += numero;
             }
         });
 
         const totalAnestesia = document.getElementById('totalAnestesia');
         if (totalAnestesia) {
-            totalAnestesia.textContent = total.toFixed(2).replace('.', ',');
+            totalAnestesia.textContent = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         } else {
+            document.getElementById('totalAnestesia').textContent = "0,00";
         }
 
         atualizarTotal();
+        atualizarTaxaAnestesiaJson();
     } else {
+        document.getElementById('totalAnestesia').textContent = "0,00";
     }
 }
 
-function atualizarTaxaAnestesia() {
-    let taxaAnestesia = {};
-
-    const inputs = document.querySelectorAll("input[id='taxaAnestesia']");
+function calcularTotalPrazoAnestesia() {
+    const inputs = document.querySelectorAll('.taxaPrazoAnestesia');
     if (inputs.length > 0) {
-        inputs.forEach(input => {
-            let valorTexto = input.value ? input.value.replace(",", ".") : "0";
-            let valor = parseFloat(valorTexto);
+        var total = 0;
 
-            let nome = input.getAttribute("name");
-            taxaAnestesia[nome] = valor.toFixed(2);
+        inputs.forEach(function(input) {
+            valor = input.value.replace(/[^0-9,\.]/g, "");
+
+            numero = converterStringToMoney(valor);
+
+            if (!isNaN(numero)) {
+                total += numero;
+            }
         });
 
-        const taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden");
-        if (taxaAnestesiaHidden) {
-            taxaAnestesiaHidden.value = JSON.stringify(taxaAnestesia);
+        const totalAnestesia = document.getElementById('totalPrazoAnestesia');
+        if (totalAnestesia) {
+            totalAnestesia.textContent = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         } else {
+            document.getElementById('totalPrazoAnestesia').textContent = "0,00";
         }
+        atualizarTotal();
+        atualizarTaxaAnestesiaJson();
     } else {
+        document.getElementById('totalPrazoAnestesia').textContent = "0,00";
     }
 }
 
+
+
+function atualizarTaxaAnestesiaJson() {
+    let dados = {};
+    let linhas = document.querySelectorAll('#tabelaAnestesia tr');
+
+    linhas.forEach(function (linha, index) {
+        if (index === linhas.length - 1) {
+            return; // Ignora a última linha
+        }
+
+        let nomeInput = linha.querySelector('input[name^="taxaAnestesiaNome"]');
+        let valorInput = linha.querySelector('input[name^="taxaAnestesiaValor"]');
+        let valorinputPrazo = linha.querySelector('input[name^="taxaAnestesiaPrazo"]');
+
+        let valorVista = valorInput.value;
+        let valorPrazo = valorinputPrazo.value;
+
+        valorVista = converterStringToMoney(valorVista);
+        valorPrazo = converterStringToMoney(valorPrazo);
+
+        let idLinha = nomeInput.name.match(/\d+$/);
+        idLinha = idLinha ? idLinha[0] : index;
+
+        dados['id' + idLinha] = {
+            "Nome": nomeInput.value,
+            "Valor": valorVista,
+            "Prazo": valorPrazo
+        }
+    });
+
+    document.getElementById("taxa_anestesia_hidden").value = JSON.stringify(dados);
+}
+
+
 try{
-document.querySelectorAll("input[id='taxaAnestesia']").forEach(input => {
+document.querySelectorAll('.taxaAnestesia').forEach(input => {
     input.addEventListener("input", atualizarTaxaAnestesia);
 });
 } catch (error) {
@@ -438,7 +658,7 @@ try {
         calcularTotal();
         atualizarTaxaCirurgiao();
         calcularTotalAnestesia();
-        atualizarTaxaAnestesia();
+        atualizarTaxaAnestesiaJson();
 });
 } catch (error) {
 }
@@ -447,78 +667,57 @@ try {
 
 
 
-// Adicionar preços dnâmicos anestesista
-
-
-function adicionarOutroCusto() {
-    let tabela = document.getElementById("tabelaAnestesia");
-    let novaLinha = document.createElement("tr");
-
-    novaLinha.innerHTML = `
-        <td><input type="text" name="descricaoOutrosCustos[]" class="form-control" placeholder="Nome do custo"></td>
-        <td><input type="text" id='taxaAnestesia' name="outrosCustosAnestesia" class="form-control money text-end" value="00,00" oninput="calcularTotalAnestesia()"></td>
-        <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinha(this)">Excluir</button></td>
-    `;
-
-    let totalRow = tabela.lastElementChild;
-    tabela.insertBefore(novaLinha, totalRow);
-}
-
-function removerLinha(botao) {
-    botao.closest("tr").remove();
-    calcularTotalAnestesia();
-}
-
-function calcularTotalAnestesia() {
-    let total = 0;
-
-    document.querySelectorAll('.money').forEach(input => {
-
-
-        let valorTexto = input.value ? input.value.replace(",", ".") : "0";
-        let valor = parseFloat(valorTexto);
-
-        if (!isNaN(valor)) {
-            total += valor;
-        }
-    });
-
-    document.getElementById("totalAnestesia").innerText = total.toFixed(2).replace(".", ",");
-}
-
-
-
-
 // Formatar Valores Monetários
 
+function converterStringToMoney(valor){
+    if (!valor) {
+        valor = "0.00";
+    }
 
-try{
+    valor = valor.replace(/[^0-9,\.]/g, "");
+
+    if (valor.includes('.')) {
+        let partes = valor.split('.');
+        let parteDecimal = partes.pop();
+
+        if (parteDecimal.length <= 2) {
+            // Valor já está no formato 0.00
+        } else {
+            valor = valor.replace(/\./g, "");
+            // primeiro apaga os pontos das casas de milhar
+            valor = valor.replace(",", ".")
+            // então converte a virgula decimal para ponto
+        }
+    } else {
+        valor = valor.replace(",", ".");
+        // Converte vírgula decimal em ponto caso tenha virgula
+    }
+    return numero = parseFloat(valor);
+}
+
+try {
     document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".money").forEach(input => {
-            input.addEventListener("input", formatarMoeda);
-            formatarMoeda({ target: input });
+        document.querySelectorAll(".money").forEach(element => {
+            element.addEventListener("blur", formatarMoeda);
+            formatarMoeda({ target: element });
         });
     });
 
     function formatarMoeda(event) {
-        let input = event.target;
-        let valor = input.value;
+        let element = event.target;
+        let valor = element.value || element.textContent;
 
-        if (!valor) {
-            input.value = "0,00";
-            return;
-        }
-
-        valor = valor.replace(/[^0-9,\.]/g, "");
-
-        let numero = parseFloat(valor.replace(",", "."));
-
+        numero = converterStringToMoney(valor);
         if (isNaN(numero)) {
-            input.value = "0,00";
-            return;
+            numero = 0;
         }
+        let formatado = numero.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-        return numero.toFixed(2).replace(".", ",");
+        if (element.tagName === "INPUT") {
+            element.value = formatado;
+        } else {
+            element.textContent = formatado;
+        }
     }
 } catch (error) {
     console.error("Erro ao formatar moeda:", error);

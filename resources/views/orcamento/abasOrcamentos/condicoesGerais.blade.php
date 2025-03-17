@@ -2,7 +2,8 @@
 
 <div class="select_alterar mb-4">
     <select id="presetSelectPag">
-        <option value="" selected>Selecione um Modelo</option>
+        <option value="{{ $orcamento->cond_pagamento_hosp }}" selected>Salvo para esse orçamento
+        </option>
         @foreach ($modelos as $modelo)
             <option value="{{ $modelo['conteudo'] }}" data-nome="{{ $modelo['nome'] }}">
                 {{ $modelo['nome'] }}

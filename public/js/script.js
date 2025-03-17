@@ -103,9 +103,9 @@ document.getElementById("formRepresent").addEventListener("submit", function (ev
 
 function openDatePicker() {
     const hiddenDateInput = document.getElementById("hiddenDateInput");
-    hiddenDateInput.style.display = "block"; // Torna visível para funcionar
-    hiddenDateInput.focus(); // Abre o seletor de data
-    hiddenDateInput.style.display = "none"; // Esconde novamente após a escolha
+    hiddenDateInput.style.display = "block";
+    hiddenDateInput.focus();
+    hiddenDateInput.style.display = "none";
 }
 
 try{
