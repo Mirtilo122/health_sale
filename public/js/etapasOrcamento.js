@@ -380,10 +380,15 @@ function calcularTotalCirurgiao() {
         inputs.forEach(function(input) {
             valor = input.value.replace(/[^0-9,\.]/g, "");
 
+            console.log(input);
+
             numero = converterStringToMoney(valor);
+
+            console.log(numero);
 
             if (!isNaN(numero)) {
                 total += numero;
+                console.log(total);
             }
         });
 
