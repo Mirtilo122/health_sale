@@ -97,7 +97,11 @@
                     <td><input class="form-control" id="taxaAnestesiaNome0" name="taxaAnestesiaNome0" value="Taxa Anestesista" disabled></input></td>
                     <td>
                         <input type="text" id="taxaAnestesiaValor0" name="taxaAnestesiaValor0" class="form-control taxaAnestesia money text-end"
-                        value="{{ !empty($orcamento->taxa_anestesista['id0']) ? $orcamento->taxa_anestesista['id0']['Valor'] : '00,00' }}" onblur="calcularTotalAnestesia()">
+                        value="{{ !empty($orcamento->taxa_anestesista['id0'])
+                            ? $orcamento->taxa_anestesista['id0']['Valor']
+                            : (!empty($orcamento->taxa_anestesista['taxaAnestesia'])
+                                    ? ($orcamento->taxa_anestesista['taxaAnestesia'])
+                                    : '00,00') }}" onblur="calcularTotalAnestesia()">
                     </td>
                     <td class="prazoAnestesia d-none">
                         <input type="text" id="taxaAnestesiaPrazo0" name="taxaAnestesiaPrazo0" class="form-control d-none prazoAnestesia taxaPrazoAnestesia money text-end"

@@ -1,6 +1,6 @@
 // funções para converter os valores vindo do banco
 
-function converterFormatoJSONTaxaAnestesia() {
+try{
     let taxaAnestesiaHidden = document.getElementById("taxa_anestesia_hidden").value;
     let dados;
 
@@ -8,27 +8,26 @@ function converterFormatoJSONTaxaAnestesia() {
         dados = JSON.parse(taxaAnestesiaHidden);
     } catch (error) {
         console.error("Erro ao converter JSON:", error);
-        return;
     }
 
-    let taxaAnestesiaJson = dados;
+    var taxaAnestesiaJson = dados;
     if ("taxaAnestesia" in dados && "outrosCustosAnestesia" in dados) {
         valorTaxaAnestesiaJson = dados.taxaAnestesia;
         valoroutrosCustosAnestesiaJson = dados.outrosCustosAnestesia;
 
 
-        valorTaxaAnestesiaJson = converterStringToMoney(valorTaxaAnestesiaJson);
-        console.log(valorTaxaAnestesiaJson);
-        valoroutrosCustosAnestesiaJson = converterStringToMoney(valoroutrosCustosAnestesiaJson);
-        console.log(valoroutrosCustosAnestesiaJson);
-        
+        valorTaxaAnestesiaJson = parseFloat(valorTaxaAnestesiaJson.toFixed(2));
+
+
+        valoroutrosCustosAnestesiaJson = parseFloat(valoroutrosCustosAnestesiaJson.toFixed(2));
+
         dados = {
             id0: {
                 Nome: "Taxa Anestesista",
                 Valor: valorTaxaAnestesiaJson,
                 Prazo: 0
             },
-            id2: {
+            id1: {
                 Nome: "Outros Custos de Anestesia",
                 Valor: valoroutrosCustosAnestesiaJson,
                 Prazo: 0
@@ -37,11 +36,6 @@ function converterFormatoJSONTaxaAnestesia() {
     }
 
     taxaAnestesiaJson = dados;
-}
-
-
-try{
-    document.addEventListener("DOMContentLoaded", converterFormatoJSONTaxaAnestesia());
 } catch {
 }
 
@@ -487,7 +481,6 @@ function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,0
 }
 
 function carregarTaxasAnestesia() {
-    console.log (taxaAnestesiaJson);
     let dados = taxaAnestesiaJson;
 
     if (!dados) return;
@@ -630,7 +623,7 @@ function atualizarTaxaAnestesiaJson() {
 
     linhas.forEach(function (linha, index) {
         if (index === linhas.length - 1) {
-            return; // Ignora a última linha
+            return;
         }
 
         let nomeInput = linha.querySelector('input[name^="taxaAnestesiaNome"]');
