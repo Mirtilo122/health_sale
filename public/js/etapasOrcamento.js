@@ -219,7 +219,6 @@ try {
         const nome = document.getElementById("procedimentoNome").value;
         const valorTexto = document.getElementById("procedimentoValor").value;
 
-        // Corrigir formatação do número
         const valor = parseFloat(valorTexto.replace(/\./g, '').replace(',', '.')) || 0;
         const qntd = parseInt(document.getElementById("procedimentoQntd").value) || 1;
 
@@ -371,23 +370,33 @@ try {
 
 //Valores Cirurgião
 
-function calcularTotal() {
-    var inputs = document.querySelectorAll('input[id="valorCirurgiao"]');
-    var total = 0;
 
+
+function calcularTotalCirurgiao() {
+    const inputs = document.querySelectorAll('.taxaCirurgiao');
     if (inputs.length > 0) {
+        var total = 0;
+
         inputs.forEach(function(input) {
-            total += parseFloat(input.value.replace(',', '.')) || 0;
+            valor = input.value.replace(/[^0-9,\.]/g, "");
+
+            numero = converterStringToMoney(valor);
+
+            if (!isNaN(numero)) {
+                total += numero;
+            }
         });
 
-        var totalCirurgiaoElement = document.getElementById('totalCirurgiao');
-        if (totalCirurgiaoElement) {
-            totalCirurgiaoElement.textContent = total.toFixed(2).replace('.', ',');
+        const totalCirurgiao = document.getElementById('totalCirurgiao');
+        if (totalCirurgiao) {
+            totalCirurgiao.textContent = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         } else {
+            document.getElementById('totalCirurgiao').textContent = "0,00";
         }
 
         atualizarTotal();
     } else {
+        document.getElementById('totalAnestesia').textContent = "0,00";
     }
 }
 
@@ -685,16 +694,12 @@ function converterStringToMoney(valor){
         let parteDecimal = partes.pop();
 
         if (parteDecimal.length <= 2) {
-            // Valor já está no formato 0.00
         } else {
             valor = valor.replace(/\./g, "");
-            // primeiro apaga os pontos das casas de milhar
             valor = valor.replace(",", ".")
-            // então converte a virgula decimal para ponto
         }
     } else {
         valor = valor.replace(",", ".");
-        // Converte vírgula decimal em ponto caso tenha virgula
     }
     return numero = parseFloat(valor);
 }

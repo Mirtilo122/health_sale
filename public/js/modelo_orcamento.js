@@ -121,15 +121,15 @@ try {
 
     function formatarMoeda(event) {
         let input = event.target;
-        let valor = input.value || ""; // Garante que 'valor' não seja undefined
+        let valor = input.value || "";
 
-        // Remove caracteres que não sejam números ou vírgula
+
         valor = valor.replace(/[^\d,]/g, "");
 
-        // Substitui múltiplas vírgulas por apenas uma
+
         valor = valor.replace(/,{2,}/g, ",");
 
-        // Garante que apenas a última vírgula seja mantida como separador decimal
+
         let partes = valor.split(",");
         if (partes.length > 2) {
             valor = partes[0] + "," + partes.slice(1).join("");
@@ -140,10 +140,9 @@ try {
         if (!isNaN(numero)) {
             input.value = numero.toFixed(2).replace(".", ",");
         } else {
-            input.value = "0,00"; // Valor padrão se a conversão falhar
+            input.value = "0,00";
         }
     }
 } catch (error) {
     console.warn("Erro ao formatar moeda:", error);
 }
- 

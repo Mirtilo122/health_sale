@@ -55,19 +55,19 @@
             <tbody>
                 <tr>
                     <td scope="row">Cirurgião Principal</td>
-                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" onblur="calcularTotalCirurgiao()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Cirurgião Auxiliar</td>
-                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" onblur="calcularTotalCirurgiao()"></td>
                 </tr>
                 <tr>
                     <td scope="row">Instrumentador</td>
-                    <td><input type="text" id="valorCirurgiao" name="instrumentador" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td><input type="text" id="valorCirurgiao" name="instrumentador" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" onblur="calcularTotalCirurgiao()"></td>
                 </tr>
                 <tr>
-                    <td scope="row">Outros Custos de Cirurgião</td>
-                    <td><input type="text" id="valorCirurgiao" name="outrosCustos" class="form-control money text-end" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" oninput="calcularTotal()"></td>
+                    <td scope="row">Taxa de Video</td>
+                    <td><input type="text" id="valorCirurgiao" name="outrosCustos" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" onblur="calcularTotalCirurgiao()"></td>
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>
