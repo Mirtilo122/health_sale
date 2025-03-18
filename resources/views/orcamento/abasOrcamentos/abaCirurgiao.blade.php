@@ -55,19 +55,19 @@
             <tbody>
                 <tr>
                     <td scope="row">Cirurgião Principal</td>
-                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" onblur="try { calcularTotalCirurgiao(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
                 </tr>
                 <tr>
                     <td scope="row">Cirurgião Auxiliar</td>
-                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" onblur="try { calcularTotalCirurgiao(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
                 </tr>
                 <tr>
                     <td scope="row">Instrumentador</td>
-                    <td><input type="text" id="valorCirurgiao" name="instrumentador" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" onblur="try { calcularTotalCirurgiao(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input type="text" id="valorCirurgiao" name="instrumentador" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
                 </tr>
                 <tr>
                     <td scope="row">Taxa de Video</td>
-                    <td><input type="text" id="valorCirurgiao" name="outrosCustos" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" onblur="try { calcularTotalCirurgiao(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input type="text" id="valorCirurgiao" name="outrosCustos" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
                 </tr>
                 <tr>
                     <td scope="row"><strong>Total</strong></td>

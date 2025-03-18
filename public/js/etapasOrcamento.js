@@ -372,7 +372,7 @@ try {
 
 
 
-function calcularTotalCirurgiao() {
+function calcularTotal() {
     const inputs = document.querySelectorAll('.taxaCirurgiao');
     if (inputs.length > 0) {
         var total = 0;
@@ -673,7 +673,7 @@ document.querySelectorAll('.taxaAnestesia').forEach(input => {
 
 try {
     document.addEventListener("DOMContentLoaded", function () {
-        calcularTotalCirurgiao();
+        calcularTotal();
         atualizarTaxaCirurgiao();
         calcularTotalAnestesia();
         atualizarTaxaAnestesiaJson();
