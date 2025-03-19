@@ -212,6 +212,16 @@ function contarIdsAgentes() {
 
 
 
+
+document.getElementById("orcamento-form").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        console.log("Envio bloqueado ao pressionar Enter!");
+    }
+});
+
+
+
 // Procedimentos Hospital
 
 try {
@@ -318,17 +328,22 @@ function atualizarValorTotal(tr) {
 function atualizarTotal() {
     let total = 0;
 
-    total += parseFloat(document.getElementById("totalAnestesia").textContent.replace(',', '.')) || 0;
-    total += parseFloat(document.getElementById("totalCirurgiao").textContent.replace(',', '.')) || 0;
+    total += converterStringToMoney(document.getElementById("totalAnestesia").textContent) || 0;
+    total += converterStringToMoney(document.getElementById("totalCirurgiao").textContent) || 0;
 
     document.querySelectorAll("#tabela-procedimentos tr").forEach(tr => {
-        const valorTotal = parseFloat(tr.querySelector(".valor-total").textContent.replace(',', '.')) || 0;
+        const valorTotal = converterStringToMoney(tr.querySelector(".valor-total").textContent) || 0;
         total += valorTotal;
     });
 
-    const totalFormatado = total.toFixed(2).replace('.', ',');
+    if (isNaN(total)) {
+        total = 0;
+    }
+    let totalFormatado = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+
     document.getElementById("totalValor").textContent = totalFormatado;
-    document.getElementById("valor_total").value = total.toFixed(2);
+    document.getElementById("valor_total").value = totalFormatado;
 }
 
 function atualizarInputHidden() {
@@ -380,15 +395,12 @@ function calcularTotal() {
         inputs.forEach(function(input) {
             valor = input.value.replace(/[^0-9,\.]/g, "");
 
-            console.log(input);
 
             numero = converterStringToMoney(valor);
 
-            console.log(numero);
 
             if (!isNaN(numero)) {
                 total += numero;
-                console.log(total);
             }
         });
 
@@ -518,7 +530,7 @@ function carregarTaxasAnestesia() {
     id_linha = maiorID++;
 
     if (exibirColunaPrazo) {
-        addVisibilidadePrazo();
+        addVisibilidadePrazoAnestesia();
     }
 }
 
@@ -541,24 +553,24 @@ function removerLinha(botao) {
 
 
 
-function addVisibilidadePrazo() {
+function addVisibilidadePrazoAnestesia() {
     document.querySelectorAll(".prazoAnestesia").forEach(element => {
         element.classList.remove("d-none");
     });
 
-    document.querySelector('button[onclick="addVisibilidadePrazo()"]').classList.add("d-none");
-    document.querySelector('button[onclick="removeVisibilidadePrazo()"]').classList.remove("d-none");
+    document.querySelector('button[onclick="addVisibilidadePrazoAnestesia()"]').classList.add("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazoAnestesia()"]').classList.remove("d-none");
 
     visibilidade_valor_prazo = true;
 }
 
-function removeVisibilidadePrazo() {
+function removeVisibilidadePrazoAnestesia() {
     document.querySelectorAll(".prazoAnestesia").forEach(element => {
         element.classList.add("d-none");
     });
 
-    document.querySelector('button[onclick="addVisibilidadePrazo()"]').classList.remove("d-none");
-    document.querySelector('button[onclick="removeVisibilidadePrazo()"]').classList.add("d-none");
+    document.querySelector('button[onclick="addVisibilidadePrazoAnestesia()"]').classList.remove("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazoAnestesia()"]').classList.add("d-none");
 
     document.querySelectorAll(".taxaPrazoAnestesia").forEach(input => {
         input.value = "0,00";

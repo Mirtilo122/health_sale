@@ -118,8 +118,8 @@
         </table>
 
         <button type="button" class="btn btn-primary mt-2" onclick="adicionarOutroCusto()">Adicionar Outros Custos de Anestesia</button>
-        <button type="button" class="btn btn-primary prazoAnestesia mt-2" onclick="addVisibilidadePrazo()">Adicionar Valores a Prazo</button>
-        <button type="button" class="btn btn-primary prazoAnestesia d-none mt-2" onclick="removeVisibilidadePrazo()">Remover Valores a Prazo</button>
+        <button type="button" class="btn btn-primary prazoAnestesia mt-2" onclick="addVisibilidadePrazoAnestesia()">Adicionar Valores a Prazo</button>
+        <button type="button" class="btn btn-primary prazoAnestesia d-none mt-2" onclick="removeVisibilidadePrazoAnestesia()">Remover Valores a Prazo</button>
 
 
 
