@@ -213,3 +213,15 @@ Route::get('/orcamento/status_invalid', function() {
 })->name('orcamento.status_invalid');
 
 Route::get('/gerar-pdf/{codigo_solicitacao}', [PdfController::class, 'gerarPdf']);
+
+
+
+
+
+// Manutenção do sistema
+
+
+
+Route::get('/manutencao/orcamentos', [OrcamentoController::class, 'manutencao_listar'])->name('manutencao.orcamentos');
+Route::get('/manutencao/orcamentos/editar/{id}', [OrcamentoController::class, 'manutencao_editar'])->name('manutencao.orcamentos.editar');
+Route::post('/manutencao/orcamentos/atualizar/{id}', [OrcamentoController::class, 'manutencao_salvar'])->name('manutencao.orcamentos.atualizar');

@@ -365,7 +365,7 @@ class OrcamentoController extends Controller
 
         dd($query);
 
-        
+
         $results = Tuss::where('codigo', 'LIKE', "%$query%")
                     ->limit(10)
                     ->get();
@@ -383,6 +383,38 @@ class OrcamentoController extends Controller
                     ->get();
 
         return response()->json($results);
+    }
+
+
+
+
+
+    // Manutenção
+
+
+    public function manutencao_listar()
+    {
+        $orcamentos = Orcamento::all();
+        return view('manutencao.lista_orcamentos', compact('orcamentos'));
+    }
+
+    public function manutencao_editar($codigoSolicitacao)
+    {
+        $orcamento = Orcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
+        $solicitacao = SolicitacaoOrcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
+        return view('manutencao.editar_orcamento', compact('orcamento', 'solicitacao'));
+    }
+
+    public function manutencao_salvar(Request $request, $codigoSolicitacao)
+    {
+        $orcamento = Orcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
+        $solicitacao = SolicitacaoOrcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
+
+        $orcamento->update($request->all());
+
+        $solicitacao->update($request->only('status'));
+
+        return redirect()->route('manutencao.orcamentos')->with('success', 'Orçamento atualizado com sucesso!');
     }
 
 }
