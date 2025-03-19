@@ -343,7 +343,7 @@ function atualizarTotal() {
 
 
     document.getElementById("totalValor").textContent = totalFormatado;
-    document.getElementById("valor_total").value = totalFormatado;
+    document.getElementById("valor_total").value = total;
 }
 
 function atualizarInputHidden() {
