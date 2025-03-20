@@ -76,7 +76,7 @@
 </div>
 
 <div class="preco_anestesista row d-flex flex-direction-row disabled">
-    <div class="col-6 flex-fill border-end">
+    <div class="col-6 flex-fill border-end"> 
         <h5 class="mt-4 mb-2">Honorários Anestesia</h5>
 
         <input type="hidden" id="precosAnestesistaLoad" value='{{json_encode($orcamento->taxa_anestesista ?? "[]") }}'>

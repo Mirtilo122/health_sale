@@ -14,7 +14,7 @@
                 value="{{ \Carbon\Carbon::parse($solicitacao->data_nascimento)->format('d/m/Y') }}"
                 oninput="formatDate(this)"/>
             <input type="date" id="hidden-dataNascPaciente"
-                name="data_nascimento"
+                name="data_nascimento" 
                 value="{{ $solicitacao->data_nascimento }}"
                 style="display: none;" required/>
             <button type="button" class="calendar-button" title="Clique para abrir o calendário"
@@ -136,7 +136,7 @@
 <br>
 
 <div id="procedimentos-container">
- 
+
 </div>
 
 <button type="button" class="alterar-btn" onclick="adicionarSecundario()">Adicionar Procedimento Secundário</button>

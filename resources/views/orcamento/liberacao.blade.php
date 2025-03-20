@@ -7,7 +7,6 @@
 @section('resumo')
 
 <button type="submit" class="btn btn-success" onclick="prepararEnvio('liberar')">Liberar</button>
-<button type="submit" class="btn btn-primary">Salvar e Sair</button>
 </div>
 </div>
 </div>

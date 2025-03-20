@@ -386,7 +386,6 @@ try {
 //Valores Cirurgião
 
 
-
 function calcularTotal() {
     const inputs = document.querySelectorAll('.taxaCirurgiao');
     if (inputs.length > 0) {
@@ -413,9 +412,10 @@ function calcularTotal() {
 
         atualizarTotal();
     } else {
-        document.getElementById('totalAnestesia').textContent = "0,00";
+        try{document.getElementById('totalCirurgiao').textContent = "0,00";} catch {}
     }
 }
+
 
 
 function atualizarTaxaCirurgiao() {
@@ -893,6 +893,23 @@ function excluirOrcamento() {
     camposObrigatorios.forEach(campo => campo.removeAttribute('required'));
 
     document.getElementById("statusHidden").value = "inativo";
+}
+
+
+function recusarOrcamento() {
+    let formulario = document.getElementById('orcamento-form');
+
+    let camposObrigatorios = formulario.querySelectorAll('[required]');
+    camposObrigatorios.forEach(campo => campo.removeAttribute('required'));
+
+    document.getElementById("statusHidden").value = "recusado";
+}
+
+function salvarAndSair() {
+    let formulario = document.getElementById('orcamento-form');
+
+    let camposObrigatorios = formulario.querySelectorAll('[required]');
+    camposObrigatorios.forEach(campo => campo.removeAttribute('required'));
 }
 
 function prepararEnvio(funcao) {

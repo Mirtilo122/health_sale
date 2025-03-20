@@ -12,7 +12,7 @@
     </div>
 
     <div class="col-1 flex-fill d-flex">
-    </div>
+    </div> 
 </div>
 
 <input type="hidden" name="procedimentos_json" id="procedimentos_json">

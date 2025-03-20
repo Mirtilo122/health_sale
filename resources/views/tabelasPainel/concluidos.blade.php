@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($solicitacoes->whereIn('status', ['perdido', 'aprovado', 'recusado']) as $solicitacao)
+                    @forelse ($solicitacoes->whereIn('status', ['perdido', 'aprovado', 'recusado', 'vencido']) as $solicitacao)
                         <tr>
                             <td scope="row" class="align-middle text-center">
                                 <a href="#" onclick="toggleFavorite(event, {{ $solicitacao->codigo_solicitacao }})">

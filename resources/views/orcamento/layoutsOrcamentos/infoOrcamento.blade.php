@@ -35,9 +35,10 @@
         <div class="row d-flex mb-2">
             <div class="col-10 flex-fill">
                 <div class="row d-flex justify-content-between">
-                    <div class="col-auto flex-fill">
-                        <p><strong>Nome do Solicitante:</strong> {{$solicitacao->nome_solicitante}}</p>
-                        <p><strong>Nome do Paciente:</strong> {{$solicitacao->nome_paciente}}</p>
+                    <div class="col-auto flex-fill">,
+                        <p><strong>Nome do Solicitante:</strong> {{ !empty($orcamento->nome_solicitante) ? $orcamento->nome_solicitante : $solicitacao->nome_solicitante }}</p>
+                        <p><strong>Nome do Solicitante:</strong> {{ !empty($orcamento->nome_paciente) ? $orcamento->nome_paciente : $solicitacao->nome_paciente }}</p>
+
                         <p><strong>Data de Nascimento:</strong> {{ \Carbon\Carbon::parse($solicitacao->data_nascimento)->format('d/m/Y') }}</p>
 
                     </div>
@@ -210,7 +211,9 @@
             <?php endif; ?>
 
 
-            <button type="submit" class="btn btn-danger" onclick="prepararEnvio('recusar')">Recusar</button>
+            <button type="submit" class="btn btn-danger" onclick="recusarOrcamento()">Recusar</button>
+
+            <button type="submit" class="btn btn-primary" id="salvarSair" onclick="salvarAndSair()">Salvar e Sair</button>
 
 
 

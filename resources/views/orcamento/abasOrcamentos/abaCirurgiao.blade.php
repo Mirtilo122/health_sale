@@ -45,7 +45,7 @@
     <div class="col-6 flex-fill border-end">
         <h5 class=" mb-2">Honorários Cirurgião</h5>
 
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-striped table-hover"> 
             <thead class="table-light">
                 <tr>
                     <th scope="col" class="col-10">Descrição</th>
