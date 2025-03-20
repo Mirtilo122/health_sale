@@ -6,8 +6,8 @@
 
 @section('resumo')
 
-<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
-<button type="submit" class="btn btn-success btn-sm" onclick="prepararEnvio('anestesista')">Prosseguir</button>
+<button type="submit" class="btn btn-success" onclick="prepararEnvio('anestesista')">Prosseguir</button>
+<button type="submit" class="btn btn-primary" id="salvarSair">Salvar e Sair</button>
 </div>
 </div>
 </div>

@@ -210,5 +210,8 @@
             <?php endif; ?>
 
 
+            <button type="submit" class="btn btn-danger" onclick="prepararEnvio('recusar')">Recusar</button>
+
+
 
 

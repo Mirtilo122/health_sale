@@ -6,9 +6,8 @@
 
 @section('resumo')
 
-<button type="submit" class="btn btn-danger btn-sm" onclick="prepararEnvio('recusar')">Recusar</button>
-<button type="submit" class="btn btn-primary btn-sm" onclick="prepararEnvio('liberar')">Liberar</button>
-<button type="submit" class="btn btn-success btn-sm">Salvar e Sair</button>
+<button type="submit" class="btn btn-success" onclick="prepararEnvio('liberar')">Liberar</button>
+<button type="submit" class="btn btn-primary">Salvar e Sair</button>
 </div>
 </div>
 </div>

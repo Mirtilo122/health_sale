@@ -6,8 +6,8 @@
 
 @section('resumo')
 
-<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
-<button type="submit" class="btn btn-success btn-sm" id="criar" onclick="prepararEnvio('criar')">Criar Orçamento</button>
+<button type="submit" class="btn btn-success" id="criar" onclick="prepararEnvio('criar')">Criar Orçamento</button>
+<button type="submit" class="btn btn-primary" id="salvarSair">Salvar e Sair</button>
 </div>
 </div>
 </div>
