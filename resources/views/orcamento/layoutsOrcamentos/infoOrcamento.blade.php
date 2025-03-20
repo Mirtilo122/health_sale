@@ -203,7 +203,7 @@
 
                 if ($nivelAcesso === 'Administrador' || $nivelAcesso === 'Gerente') :
             ?>
-                <button type="button" class="btn btn-danger btn-sm" id="salvarSair" data-bs-toggle="modal" data-bs-target="#confirmacaoModal">
+                <button type="button" class="btn btn-danger" id="salvarSair" data-bs-toggle="modal" data-bs-target="#confirmacaoModal">
                     Excluir
                 </button>
 
