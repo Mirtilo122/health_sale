@@ -5,7 +5,10 @@
             <h5><span class="badge bg-secondary span_stts">Protocolo: {{$solicitacao->protocolo}}</span></h5>
             </div>
             <div class="d-flex align-items-center row_controle_responsividade">
-                @if($solicitacao->urgencia == 1)
+                @php
+                    $urgente = $orcamento->urgencia ?? $solicitacao->urgencia;
+                @endphp
+                @if($urgente == 1)
                     <div class="text-danger d-flex align-items-center item_info_sup">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="urgent-icon bi bi-exclamation-triangle" viewBox="0 0 16 16">
                             <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
@@ -35,40 +38,51 @@
         <div class="row d-flex mb-2">
             <div class="col-10 flex-fill">
                 <div class="row d-flex justify-content-between">
-                    <div class="col-auto flex-fill">,
-                        <p><strong>Nome do Solicitante:</strong> {{ !empty($orcamento->nome_solicitante) ? $orcamento->nome_solicitante : $solicitacao->nome_solicitante }}</p>
-                        <p><strong>Nome do Solicitante:</strong> {{ !empty($orcamento->nome_paciente) ? $orcamento->nome_paciente : $solicitacao->nome_paciente }}</p>
+                    <div class="col-auto flex-fill">
+                        <p><strong>Nome do Solicitante:</strong> {{ $orcamento->nome_solicitante ?? $solicitacao->nome_solicitante }}</p>
+                        <p><strong>Nome do Paciente:</strong> {{ $orcamento->nome_paciente ?? $solicitacao->nome_paciente }}</p>
 
-                        <p><strong>Data de Nascimento:</strong> {{ \Carbon\Carbon::parse($solicitacao->data_nascimento)->format('d/m/Y') }}</p>
+                        @php
+                            $data_nasc = $orcamento->data_nascimento ?? $solicitacao->data_nascimento;
+                        @endphp
 
+                        <p><strong>Data de Nascimento:</strong> {{ \Carbon\Carbon::parse($data_nasc)->format('d/m/Y') }}</p>
                     </div>
 
                     <div class="col-auto flex-fill">
-                        @if($solicitacao->canal_contato == "telefone")
-                            <p><strong>Canal de Preferência de Contato:</strong> Telefone</p>
-                        @else
-                        <p><strong>Canal de Preferência de Contato:</strong> E-mail</p>
-                        @endif
-                        <p><strong>Telefone:</strong> {{$solicitacao->telefone}}</p>
+                        @php
+                            $canal_contato = $orcamento->canal_contato ?? $solicitacao->canal_contato;
+                        @endphp
 
-                        <p><strong>E-mail:</strong> {{$solicitacao->email}}</p>
+                        <p><strong>Canal de Preferência de Contato:</strong>
+                            {{ $canal_contato == "telefone" ? 'Telefone' : 'E-mail' }}
+                        </p>
+
+                        <p><strong>Telefone:</strong> {{ $orcamento->telefone ?? $solicitacao->telefone }}</p>
+                        <p><strong>E-mail:</strong> {{ $orcamento->email ?? $solicitacao->email }}</p>
                     </div>
 
                     <div class="col-auto flex-fill">
+                        @php
+                            $tipo_orcamento = $orcamento->tipo_orcamento ?? $solicitacao->tipo_orcamento;
+                        @endphp
+
                         <p><strong>Tipo de Orçamento:</strong>
-                            @switch($solicitacao->tipo_orcamento)
+                            @switch($tipo_orcamento)
                                 @case('parto') Parto @break
                                 @case('cirurgia') Cirurgia @break
                                 @case('homecare') Home Care @break
                                 @case('remocao') Remoção @break
                                 @case('leito') Leito UTI @break
-                                @default {{$solicitacao->tipo_orcamento}}
+                                @default {{ ucfirst($tipo_orcamento) }}
                             @endswitch
                         </p>
 
-
+                        @php
+                            $convenio = $orcamento->convenio ?? $solicitacao->convenio;
+                        @endphp
                         <p><strong>Convenio:</strong>
-                            @switch($solicitacao->convenio)
+                            @switch($convenio)
                                 @case('nenhum') Nenhum @break
                                 @case('particular') Particular @break
                                 @case('particularpacote') Particular Pacote@break
@@ -76,10 +90,14 @@
                                 @case('viva') Viva @break
                                 @case('sinopaz') Sinopaz/Primavera @break
                                 @case('judicial') Judicial @break
-                                @default {{$solicitacao->convenio}}
+                                @default {{ ucfirst($convenio) }}
                             @endswitch
                         </p>
-                        <p><strong>Data de Solicitação:</strong> {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('d/m/Y H:i') }}</p>
+                        @php
+                            $data_solicitacao = $orcamento->data_solicitacao ?? $solicitacao->data_solicitacao;
+                        @endphp
+
+                        <p><strong>Data de Solicitação:</strong> {{ \Carbon\Carbon::parse($data_solicitacao)->format('d/m/Y H:i') }}</p>
 
                     </div>
 
