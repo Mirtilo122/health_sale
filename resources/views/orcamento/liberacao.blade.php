@@ -7,9 +7,12 @@
 @section('resumo')
 
 <button type="submit" class="btn btn-danger btn-sm" onclick="prepararEnvio('recusar')">Recusar</button>
-<a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
 <button type="submit" class="btn btn-primary btn-sm" onclick="prepararEnvio('liberar')">Liberar</button>
 <button type="submit" class="btn btn-success btn-sm">Salvar e Sair</button>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

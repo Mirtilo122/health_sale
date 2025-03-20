@@ -6,7 +6,10 @@
 
 @section('resumo')
 
-<a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

@@ -158,6 +158,44 @@
                 </div>
             </div>
             <div class="col-2 flex-fill d-flex flex-column gap-2 mt-2 align-items-end">
+
+            <a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
+
+            <button type="button" class="btn btn-primary btn-sm" id="acoes" data-bs-toggle="modal" data-bs-target="#acoesModal">
+                Prosseguir
+            </button>
+
+            <div class="modal fade" id="confirmacaoModal" tabindex="-1" aria-labelledby="confirmacaoModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmacaoModalLabel">Confirmar Exclusão</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza de que deseja excluir este orçamento? Essa ação não pode ser desfeita.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" onclick="excluirOrcamento()">Confirmar Exclusão</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="acoesModal" tabindex="-1" aria-labelledby="acoesModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="acoesModalLabel">Ações do Orçamento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            O que deseja fazer com o Orçamento?
+                        </div>
+                        <div class="modal-footer">
+
+
             <?php
 
                 $usuario = auth()->user();
@@ -169,23 +207,6 @@
                     Excluir
                 </button>
 
-                <div class="modal fade" id="confirmacaoModal" tabindex="-1" aria-labelledby="confirmacaoModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmacaoModalLabel">Confirmar Exclusão</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                            </div>
-                            <div class="modal-body">
-                                Tem certeza de que deseja excluir este orçamento? Essa ação não pode ser desfeita.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-danger" onclick="excluirOrcamento()">Confirmar Exclusão</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             <?php endif; ?>
 
 

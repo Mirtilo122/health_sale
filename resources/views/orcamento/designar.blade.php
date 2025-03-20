@@ -6,13 +6,15 @@
 
 @section('resumo')
 
-
-                <a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
-                <button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
-                <button type="submit" class="btn btn-success btn-sm" id="prosseguir" onclick="prepararEnvio('designar')">Prosseguir</button>
-            </div>
-        </div>
-    </div>
+<button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
+<button type="submit" class="btn btn-success btn-sm" id="prosseguir" onclick="prepararEnvio('designar')">Prosseguir</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 @endsection
 

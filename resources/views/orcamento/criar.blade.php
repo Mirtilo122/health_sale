@@ -6,9 +6,12 @@
 
 @section('resumo')
 
-<a href="/dashboard" class="btn btn-secondary btn-sm">Sair sem salvar</a>
 <button type="submit" class="btn btn-primary btn-sm" id="salvarSair">Salvar e Sair</button>
 <button type="submit" class="btn btn-success btn-sm" id="criar" onclick="prepararEnvio('criar')">Criar Orçamento</button>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

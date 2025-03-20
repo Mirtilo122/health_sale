@@ -8,8 +8,11 @@
 
 <button type="submit" class="btn btn-primary" onclick="prepararEnvio('ganho')">Aprovado</button>
 <button type="submit" class="btn btn-warning" onclick="prepararEnvio('perdido')">Perdido</button>
-<a href="/dashboard" class="btn btn-secondary">Sair sem salvar</a>
 <button type="submit" class="btn btn-success">Salvar e Sair</button>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
