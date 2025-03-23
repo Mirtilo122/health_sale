@@ -767,7 +767,7 @@ function carregarTaxasCirurgiao() {
         id = id.replace(/\D/g, "");
         maiorID = Math.max(maiorID, parseInt(id));
 
-        if (id === "id0" || id === "id1" || id === "id2" || id === "id3") return;
+        if (id === "0" || id === "1" || id === "2" || id === "3") return;
 
         adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
     });
