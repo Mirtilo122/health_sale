@@ -93,7 +93,6 @@ try{
     }
 
     taxaCirurgiaoJson = dadosCir;
-    console.log(taxaCirurgiaoJson);
 } catch {
 }
 
@@ -769,6 +768,8 @@ function carregarTaxasCirurgiao() {
     });
 
     id_linha = maiorID++;
+
+    console.log(exibirColunaPrazoCirurgiao)
 
     if (exibirColunaPrazoCirurgiao) {
         addVisibilidadePrazoCirurgiao();
