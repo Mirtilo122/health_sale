@@ -36,6 +36,9 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
         }
 
         $status = $solicitacao->status;
@@ -44,7 +47,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento'));
+        return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados'));
     }
     public function cirurgiao($id)
     {
@@ -53,9 +56,19 @@ class OrcamentoController extends Controller
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
 
+        $idCirurgiaoSelecionado = null;
+        $idAnestesistaSelecionado = null;
+
+        if ($orcamento){
+            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
+            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
+        }
 
 
-        return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento'));
+        return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
     }
     public function anestesia($id)
     {
@@ -63,10 +76,18 @@ class OrcamentoController extends Controller
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
+        $idCirurgiaoSelecionado = null;
+        $idAnestesistaSelecionado = null;
 
+        if ($orcamento){
+            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
+            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
+        }
 
-
-        return view('orcamento.anestesista', compact('solicitacao', 'orcamento'));
+        return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
     }
     public function criacaoOrcamento($id)
     {
@@ -92,9 +113,12 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
         }
 
-        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
+        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
     public function liberacao($id)
     {
@@ -122,9 +146,12 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
         }
 
-        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
+        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
     public function negociacao($id)
     {
@@ -150,9 +177,12 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
         }
 
-        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
+        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
     public function concluido($id)
     {
@@ -177,9 +207,13 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+            $dados = $orcamento;
+        } else {
+            $dados = $solicitacao;
         }
 
-        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos'));
+
+        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
 
     public function atualizarOrcamento(Request $request)
@@ -204,7 +238,7 @@ class OrcamentoController extends Controller
 
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->with('warn', 'Erro na validação! Prrencha corretamente os campos.');
+            return redirect()->back()->withErrors($validator)->with('warn', 'Erro na validação! Preencha corretamente os campos.');
         }
 
         $camposAnestesia = [
@@ -222,24 +256,23 @@ class OrcamentoController extends Controller
 
         $permitidos = [];
         if ($tipoData === 'data_anestesista') {
-            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoCirurgiao', 'diarias_enfermaria', 'diarias_apartamento', 'diarias_uti'];
+            $permitidos = ['resumoProcedimento', 'detalhesProcedimento', 'data_provavel', 'precos_procedimentos', 'status', 'data_cirurgiao', 'tempo_cirurgia', 'valor_total', 'taxa_cirurgiao', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoCirurgiao', 'diarias_enfermaria', 'diarias_apartamento', 'diarias_uti', 'id_usuarios_cirurgioes', 'id_usuarios_anestesistas'];
             $dados = $request->only($permitidos);
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $dados['taxa_cirurgiao'] = $taxaCirurgiao;
             $dados['cond_pagamento_cirurgiao'] = $request->input('condPagamentoCirurgiao');
         } elseif ($tipoData === 'data_criacao') {
-            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoAnestesista', 'diarias_enfermaria', 'diarias_apartamento', 'diarias_uti'];
+            $permitidos = ['precos_procedimentos', 'status', 'data_anestesista', 'valor_total', 'taxa_anestesista', 'anestesia_raqui', 'anestesia_sma', 'anestesia_peridural', 'anestesia_sedacao', 'anestesia_externo', 'anestesia_bloqueio', 'anestesia_local', 'anestesia_outros', 'condPagamentoAnestesista', 'diarias_enfermaria', 'diarias_apartamento', 'diarias_uti', 'id_usuarios_cirurgioes', 'id_usuarios_anestesistas'];
             $dados = $request->only($permitidos);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
             $dados['taxa_anestesista'] = $taxaAnestesia;
             $dados['cond_pagamento_anestesista'] = $request->input('condPagamentoAnestesista');
         } else {
+
             $request->merge([
                 'id_usuarios_cirurgioes' => (int) $request->id_usuarios_cirurgioes,
                 'id_usuarios_anestesistas' => (int) $request->id_usuarios_anestesistas
             ]);
-
-
 
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
@@ -290,6 +323,9 @@ class OrcamentoController extends Controller
 
 
         }
+
+
+
 
         foreach ($camposAnestesia as $campo) {
             $dados[$campo] = $request->has($campo) ? 1 : 0;

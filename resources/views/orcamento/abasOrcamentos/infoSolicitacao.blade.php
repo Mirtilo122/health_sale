@@ -4,77 +4,77 @@
     <div class="col-md-4 border-end border-grey">
         <label for="tipoOrcamento">Tipo de Orçamento:</label>
         <div class="select_alterar">
-            <input type="hidden" id="tipo_orcamentoHidden" name="tipo_orcamento" value="{{ $solicitacao->tipo_orcamento}}">
+            <input type="hidden" id="tipo_orcamentoHidden" name="tipo_orcamento" value="{{ $dados->tipo_orcamento}}">
             <select id="tipo_orcamento" name="tipoOrcamento" onchange="atualizarHidden('tipo_orcamento')" disabled>
-                <option value="cirurgia" @selected($solicitacao->tipo_orcamento === "cirurgia")>Cirurgia</option>
-                <option value="parto" @selected($solicitacao->tipo_orcamento === "parto")>Parto</option>
-                <option value="homecare" @selected($solicitacao->tipo_orcamento === "homecare")>Home Care</option>
-                <option value="remocao" @selected($solicitacao->tipo_orcamento === "remocao")>Remoção</option>
-                <option value="leito" @selected($solicitacao->tipo_orcamento === "leito")>Leito UTI</option>
+                <option value="cirurgia" @selected($dados->tipo_orcamento === "cirurgia")>Cirurgia</option>
+                <option value="parto" @selected($dados->tipo_orcamento === "parto")>Parto</option>
+                <option value="homecare" @selected($dados->tipo_orcamento === "homecare")>Home Care</option>
+                <option value="remocao" @selected($dados->tipo_orcamento === "remocao")>Remoção</option>
+                <option value="leito" @selected($dados->tipo_orcamento === "leito")>Leito UTI</option>
             </select>
         <button type="button" class="alterar-btn" onclick="alterar('tipoOrcamento')">Alterar</button>
         </div>
 
-        <input type="hidden" id="urgencia" name="urgencia" value="{{ $solicitacao->urgencia}}">
+        <input type="hidden" id="urgencia" name="urgencia" value="{{ $dados->urgencia}}">
 
         <label for="convenio">Convenio:</label>
         <div class="select_alterar">
-            <input type="hidden" id="convenioHidden" name="convenio" value="{{ $solicitacao->convenio}}">
+            <input type="hidden" id="convenioHidden" name="convenio" value="{{ $dados->convenio}}">
             <select id="convenio" name="convenioSelect" onchange="atualizarHidden('convenio')" disabled>
-                <option value="nenhum" @selected($solicitacao->convenio === "nenhum")>Nenhum</option>
-                <option value="judicial" @selected($solicitacao->convenio === "judicial")>Judicial</option>
-                <option value="luzvida" @selected($solicitacao->convenio === "luzvida")>Luz e Vida</option>
-                <option value="particular" @selected($solicitacao->convenio === "particular")>Particular</option>
-                <option value="particular" @selected($solicitacao->convenio === "particularpacote")>Particular Pacote</option>
-                <option value="particular" @selected($solicitacao->convenio === "sinopaz")>Sinopaz/Primavera</option>
-                <option value="viva" @selected($solicitacao->convenio === "viva")>Viva</option>
+                <option value="nenhum" @selected($dados->convenio === "nenhum")>Nenhum</option>
+                <option value="judicial" @selected($dados->convenio === "judicial")>Judicial</option>
+                <option value="luzvida" @selected($dados->convenio === "luzvida")>Luz e Vida</option>
+                <option value="particular" @selected($dados->convenio === "particular")>Particular</option>
+                <option value="particular" @selected($dados->convenio === "particularpacote")>Particular Pacote</option>
+                <option value="particular" @selected($dados->convenio === "sinopaz")>Sinopaz/Primavera</option>
+                <option value="viva" @selected($dados->convenio === "viva")>Viva</option>
             </select>
         <button type="button" class="alterar-btn" onclick="alterar('convenio')">Alterar</button>
         </div>
 
-        <p><strong>Data de Solicitação:</strong> {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('d/m/Y H:i') }}</p>
+        <p><strong>Data de Solicitação:</strong> {{ \Carbon\Carbon::parse($dados->data_solicitacao)->format('d/m/Y H:i') }}</p>
 
-        <p><strong>Origem do Orçamento:</strong> {{$solicitacao->origem_orcamento === 'site' ? 'Site' : $solicitacao->origem_orcamento}}</p>
-        <input type="hidden" name="origem_orcamento" value="{{ $solicitacao->origem_orcamento }}">
+        <p><strong>Origem do Orçamento:</strong> {{$dados->origem_orcamento === 'site' ? 'Site' : $dados->origem_orcamento}}</p>
+        <input type="hidden" name="origem_orcamento" value="{{ $dados->origem_orcamento }}">
 
-        <p><strong>Protocolo:</strong> {{$solicitacao->protocolo}}</p>
-        <input type="hidden" name="protocolo" value="{{ $solicitacao->protocolo }}">
+        <p><strong>Protocolo:</strong> {{$dados->protocolo}}</p>
+        <input type="hidden" name="protocolo" value="{{ $dados->protocolo }}">
 
         <label for="cirurgiao">Tem cirurgião definido?</label>
         <div class="select_alterar">
-            <input type="hidden" id="cirurgiaoHidden" name="cirurgiao" value="{{ $solicitacao->cirurgiao}}">
+            <input type="hidden" id="cirurgiaoHidden" name="cirurgiao" value="{{ $dados->cirurgiao}}">
             <select id="cirurgiao" name="cirurgiaoSelect" onchange="toggleCirurgiaoAdmin(); atualizarHidden('cirurgiao')" disabled>
-                <option value="nao" @selected($solicitacao->cirurgiao === "nao")>Não</option>
-                <option value="sim" @selected($solicitacao->cirurgiao === "sim")>Sim</option>
+                <option value="nao" @selected($dados->cirurgiao === "nao")>Não</option>
+                <option value="sim" @selected($dados->cirurgiao === "sim")>Sim</option>
             </select>
             <button type="button" class="alterar-btn" onclick="alterar('cirurgiao')">Alterar</button>
         </div>
-        <div id="cirurgiaoInfo" class="{{ $solicitacao->cirurgiao === 'sim' ? '' : 'd-none' }}">
+        <div id="cirurgiaoInfo" class="{{ $dados->cirurgiao === 'sim' ? '' : 'd-none' }}">
             <label for="nomeCirurgiao">Nome do Cirurgião:</label>
-            <input type="text" id="nomeCirurgiao" name="nome_cirurgiao" value="{{$solicitacao->nome_cirurgiao}}">
+            <input type="text" id="nomeCirurgiao" name="nome_cirurgiao" value="{{$dados->nome_cirurgiao}}">
 
             <label for="crmCirurgiao">CRM:</label>
-            <input type="text" id="crmCirurgiao" name="crm_cirurgiao" value="{{$solicitacao->crm_cirurgiao}}">
+            <input type="text" id="crmCirurgiao" name="crm_cirurgiao" value="{{$dados->crm_cirurgiao}}">
         </div>
     </div>
 
     <div class="col-md-4">
         <p><strong>Resumo do Procedimento:</strong></p>
-        <textarea name="resumoProcedimento" id="resumo_procedimento" rows="4">{{$solicitacao->resumo_procedimento}}</textarea>
+        <textarea name="resumoProcedimento" id="resumo_procedimento" rows="4">{{$dados->resumo_procedimento}}</textarea>
 
 
         <p><strong>Detalhes do Procedimento:</strong></p>
-        <textarea name="detalhesProcedimento" id="detalhes_procedimento" rows="4">{{$solicitacao->detalhes_procedimento}}</textarea>
+        <textarea name="detalhesProcedimento" id="detalhes_procedimento" rows="4">{{$dados->detalhes_procedimento}}</textarea>
 
         <label for="data_provavel">Data Provável:</label>
         <div class="input-container">
             <input type="text" id="data_provavel"
                 placeholder="DD/MM/AAAA"
-                value="{{$solicitacao->data_provavel}}"
+                value="{{$dados->data_provavel}}"
                 oninput="formatDate(this)"/>
             <input type="date" id="hidden-data_provavel"
                 name="data_provavel"
-                value="{{$solicitacao->data_provavel}}"
+                value="{{$dados->data_provavel}}"
                 style="display: none;"/>
             <button type="button" class="calendar-button" title="Clique para abrir o calendário"
                     onclick="openDatePicker('data_provavel')">
@@ -87,10 +87,10 @@
     </div>
     <div class="col-md-4 border-end border-grey">
 
-    @if($solicitacao->tempo_cirurgia == 0)
+    @if($dados->tempo_cirurgia == 0)
             <p><strong>Tempo Cirúrgico Previsto:</strong> Não Informado</p>
         @else
-            <p><strong>Tempo Cirúrgico Previsto:</strong> {{$solicitacao->tempo_cirurgia}} Horas</p>
+            <p><strong>Tempo Cirúrgico Previsto:</strong> {{$dados->tempo_cirurgia}} Horas</p>
         @endif
 
         <p><strong>Anestesias Selecionadas:</strong></p>
@@ -98,19 +98,19 @@
         @php
             $anestesias = [];
 
-            if ($solicitacao->anestesia_raqui) $anestesias[] = 'Raquianestesia';
-            if ($solicitacao->anestesia_sma) $anestesias[] = 'SMA (Sedação + Monitorização Anestésica)';
-            if ($solicitacao->anestesia_peridural) $anestesias[] = 'Peridural';
-            if ($solicitacao->anestesia_sedacao) $anestesias[] = 'Sedação';
-            if ($solicitacao->anestesia_externo) $anestesias[] = 'Anestesia Externa';
-            if ($solicitacao->anestesia_bloqueio) $anestesias[] = 'Bloqueio';
-            if ($solicitacao->anestesia_local) $anestesias[] = 'Anestesia Local';
-            if (!empty($solicitacao->anestesia_outros)) $anestesias[] = $solicitacao->anestesia_outros;
+            if ($dados->anestesia_raqui) $anestesias[] = 'Raquianestesia';
+            if ($dados->anestesia_sma) $anestesias[] = 'SMA (Sedação + Monitorização Anestésica)';
+            if ($dados->anestesia_peridural) $anestesias[] = 'Peridural';
+            if ($dados->anestesia_sedacao) $anestesias[] = 'Sedação';
+            if ($dados->anestesia_externo) $anestesias[] = 'Anestesia Externa';
+            if ($dados->anestesia_bloqueio) $anestesias[] = 'Bloqueio';
+            if ($dados->anestesia_local) $anestesias[] = 'Anestesia Local';
+            if (!empty($dados->anestesia_outros)) $anestesias[] = $dados->anestesia_outros;
 
             $diarias = [];
-            if ($solicitacao->diarias_enfermaria > 0) $diarias[] = "Enfermaria: {$solicitacao->diarias_enfermaria} diária(s)";
-            if ($solicitacao->diarias_apartamento > 0) $diarias[] = "Apartamento: {$solicitacao->diarias_apartamento} diária(s)";
-            if ($solicitacao->diarias_uti > 0) $diarias[] = "UTI: {$solicitacao->diarias_uti} diária(s)";
+            if ($dados->diarias_enfermaria > 0) $diarias[] = "Enfermaria: {$dados->diarias_enfermaria} diária(s)";
+            if ($dados->diarias_apartamento > 0) $diarias[] = "Apartamento: {$dados->diarias_apartamento} diária(s)";
+            if ($dados->diarias_uti > 0) $diarias[] = "UTI: {$dados->diarias_uti} diária(s)";
         @endphp
 
         @if (!empty($anestesias))

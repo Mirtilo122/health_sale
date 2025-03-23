@@ -1007,6 +1007,46 @@ window.onload = function() {
 
 
 
+
+
+
+// Atualiza inputs com os mesmos dados
+
+try{
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    function syncInputsByClass(className) {
+        const inputs = document.querySelectorAll(`.${className}`);
+
+        inputs.forEach(input => {
+            input.addEventListener("blur", function () {
+                inputs.forEach(otherInput => {
+                    if (otherInput !== input) {
+                        otherInput.value = input.value;
+                    }
+                });
+            });
+        });
+    }
+
+    syncInputsByClass("resumo_procedimento");
+    syncInputsByClass("tempo_cirurgia");
+    syncInputsByClass("detalhesProcedimento");
+    syncInputsByClass("diarias_enfermaria");
+    syncInputsByClass("diarias_apartamento");
+    syncInputsByClass("diarias_uti");
+});
+
+
+
+} catch {}
+
+
+
+
+
+
 // Funções do Richtext CKEditor
 
 function inicializarCKEditor(id) {

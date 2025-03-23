@@ -101,40 +101,6 @@ document.getElementById("formRepresent").addEventListener("submit", function (ev
 }
 
 
-function openDatePicker() {
-    const hiddenDateInput = document.getElementById("hiddenDateInput");
-    hiddenDateInput.style.display = "block";
-    hiddenDateInput.focus();
-    hiddenDateInput.style.display = "none";
-}
-
-try{
-    document.getElementById("hiddenDateInput").addEventListener("change", function () {
-        const dateInput = document.getElementById("dateInput");
-        const date = new Date(this.value);
-        if (!isNaN(date.getTime())) {
-            dateInput.value = date.toLocaleDateString("pt-BR");
-        }
-    });
-} catch {
-}
-
-
-function formatDate(input) {
-    let value = input.value.replace(/\D/g, "");
-    if (value.length > 8) value = value.slice(0, 8);
-
-    if (value.length >= 4) {
-        value = value.replace(/(\d{2})(\d{2})(\d{0,4})/, "$1/$2/$3");
-    } else if (value.length >= 2) {
-        value = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
-    }
-
-    input.value = value;
-}
-
-
-
 
 
 
@@ -192,18 +158,32 @@ try{
 
 }
 
+
+try{
+    document.getElementById("hiddenDateInput").addEventListener("change", function () {
+        const dateInput = document.getElementById("dateInput");
+        const date = new Date(this.value);
+        if (!isNaN(date.getTime())) {
+            dateInput.value = date.toLocaleDateString("pt-BR", { timeZone: "America/Cuiaba" });
+        }
+    });
+} catch {
+}
+
+
+
+
+
+
+
+
+
 function moveRight() {
     document.getElementById("leftArrowBtn").classList.remove("hidden");
     document.getElementById("leftArrowBtn").classList.add("leftArrowBtn");
 
     document.getElementById("helpBubbleArea").classList.remove("move-left");
     document.getElementById("helpBubbleArea").classList.add("move-right");
-
-
-
-
-
-
 }
 
 function moveLeft() {

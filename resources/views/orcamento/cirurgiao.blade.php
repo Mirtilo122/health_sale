@@ -39,6 +39,9 @@ color: black;
     <input type="hidden" name="tipo_data" id="tipo_data" value="data_anestesista">
     <input type="hidden" name="aba_ativa" id="aba_ativa" value="cirurgiao-tab">
 
+    <input type="hidden" name="id_usuarios_anestesistas" value="{{ $idAnestesistaSelecionado }}">
+    <input type="hidden" name="id_usuarios_cirurgioes" value="{{ $idCirurgiaoSelecionado}}">
+
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="procedimentos-tab" data-bs-toggle="tab" data-bs-target="#procedimentos-tab-pane" type="button" role="tab" aria-controls="procedimentos-tab-pane" aria-selected="false">Cirurgião</button>
     </li>
