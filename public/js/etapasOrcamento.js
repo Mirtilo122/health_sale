@@ -758,7 +758,11 @@ function carregarTaxasCirurgiao() {
 
         let item = dados[id];
 
+
+        console.log(item)
+
         adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
+
         if (item.Prazo > 0) {
             exibirColunaPrazoCirurgiao = true;
         }
