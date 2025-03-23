@@ -85,7 +85,7 @@
 
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-light">
-            <tr> 
+            <tr>
                 <th scope="col" class="col-6">Descrição</th>
                 <th scope="col" class="col">Valor</th>
                 <th scope="col" class="d-none prazoAnestesia col">A prazo</th>

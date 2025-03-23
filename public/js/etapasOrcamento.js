@@ -39,6 +39,64 @@ try{
 } catch {
 }
 
+try{
+    let taxaCirurgiaoHidden = document.getElementById("precosCirurgiaoLoad").value;
+    let dadosCir;
+
+    try {
+        dadosCir = JSON.parse(taxaCirurgiaoHidden);
+    } catch (error) {
+        console.error("Erro ao converter JSON:", error);
+    }
+
+    var taxaCirurgiaoJson = dadosCir;
+
+    if ("cirurgiaoPrincipal" in dadosCir) {
+
+        valorcirurgiaoPrincipalJson = dadosCir.cirurgiaoPrincipal;
+        valorcirurgiaoAuxiliarJson = dadosCir.cirurgiaoAuxiliar;
+        valorinstrumentadorJson = dadosCir.instrumentador;
+        valoroutrosCustosJson = dadosCir.outrosCustos;
+
+        valorcirurgiaoPrincipalJson = Number(parseFloat(valorcirurgiaoPrincipalJson).toFixed(2));
+        valorcirurgiaoAuxiliarJson = Number(parseFloat(valorcirurgiaoAuxiliarJson).toFixed(2));
+        valorinstrumentadorJson = Number(parseFloat(valorinstrumentadorJson).toFixed(2));
+        valoroutrosCustosJson = Number(parseFloat(valoroutrosCustosJson).toFixed(2));
+
+        dadosCir = {
+            id0: {
+                Nome: "Cirurgião Principal",
+                Valor: valorcirurgiaoPrincipalJson,
+                Prazo: 0
+            },
+            id1: {
+                Nome: "Cirurgião Auxiliar",
+                Valor: valorcirurgiaoAuxiliarJson,
+                Prazo: 0
+            },
+            id2: {
+                Nome: "Instrumentador",
+                Valor: valorinstrumentadorJson,
+                Prazo: 0
+            },
+            id3: {
+                Nome: "Taxa de Video",
+                Valor: 0,
+                Prazo: 0
+            },
+            id4: {
+                Nome: "Outros Custos de Cirurgião",
+                Valor: valoroutrosCustosJson,
+                Prazo: 0
+            }
+        };
+    }
+
+    taxaCirurgiaoJson = dadosCir;
+    console.log(taxaCirurgiaoJson);
+} catch {
+}
+
 
 
 
@@ -383,79 +441,13 @@ try {
 }
 
 
-//Valores Cirurgião
-
-
-function calcularTotal() {
-    const inputs = document.querySelectorAll('.taxaCirurgiao');
-    if (inputs.length > 0) {
-        var total = 0;
-
-        inputs.forEach(function(input) {
-            valor = input.value.replace(/[^0-9,\.]/g, "");
-
-
-            numero = converterStringToMoney(valor);
-
-
-            if (!isNaN(numero)) {
-                total += numero;
-            }
-        });
-
-        const totalCirurgiao = document.getElementById('totalCirurgiao');
-        if (totalCirurgiao) {
-            totalCirurgiao.textContent = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        } else {
-            document.getElementById('totalCirurgiao').textContent = "0,00";
-        }
-
-        atualizarTotal();
-    } else {
-        try{document.getElementById('totalCirurgiao').textContent = "0,00";} catch {}
-    }
-}
-
-
-
-function atualizarTaxaCirurgiao() {
-    let taxaCirurgiao = {};
-
-    const inputs = document.querySelectorAll("input[id='valorCirurgiao']");
-    if (inputs.length > 0) {
-        inputs.forEach(input => {
-            const nome = input.getAttribute("name");
-            let valor = parseFloat(input.value.replace(',', '.')) || 0;
-
-            taxaCirurgiao[nome] = valor.toFixed(2);
-        });
-
-        const taxaCirurgiaoHidden = document.getElementById("taxa_cirurgiao_hidden");
-        if (taxaCirurgiaoHidden) {
-            taxaCirurgiaoHidden.value = JSON.stringify(taxaCirurgiao);
-        } else {
-        }
-    } else {
-    }
-}
-
-try {
-    const inputs = document.querySelectorAll("input[id='valorCirurgiao']");
-    if (inputs.length > 0) {
-        inputs.forEach(input => {
-            input.addEventListener("input", atualizarTaxaCirurgiao);
-        });
-    } else {
-    }
-} catch (error) {
-}
-
 
 
 
 
 
 // Adicionar preços dinâmicos anestesia
+
 
 
 let id_linha = 0;
@@ -479,7 +471,7 @@ function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,0
 
     if (visibilidade_valor_prazo) {
         novaLinhaHTML += `
-            <td class="prazoAnestesia"><input type="text" id="taxaAnestesiaPrazo${id}" name="taxaAnestesiaPrazo${id}" class="form-control prazoAnestesia money text-end" value="${prazo}" onblur="calcularTotalPrazoAnestesia()"></td>
+            <td class="prazoAnestesia"><input type="text" id="taxaAnestesiaPrazo${id}" name="taxaAnestesiaPrazo${id}" class="form-control prazoAnestesia taxaPrazoAnestesia money text-end" value="${prazo}" onblur="calcularTotalPrazoAnestesia()"></td>
         `;
     } else {
         novaLinhaHTML += `
@@ -505,6 +497,7 @@ function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,0
     calcularTotalAnestesia();
     calcularTotalPrazoAnestesia();
 }
+
 
 function carregarTaxasAnestesia() {
     let dados = taxaAnestesiaJson;
@@ -534,10 +527,6 @@ function carregarTaxasAnestesia() {
     }
 }
 
-try{
-document.addEventListener("DOMContentLoaded", carregarTaxasAnestesia);
-} catch {
-}
 
 function removerLinha(botao) {
     botao.closest("tr").remove();
@@ -545,6 +534,13 @@ function removerLinha(botao) {
     calcularTotalAnestesia();
     calcularTotalPrazoAnestesia();
 }
+
+try{
+    document.addEventListener("DOMContentLoaded", carregarTaxasAnestesia);
+} catch {
+}
+
+
 
 
 
@@ -678,15 +674,13 @@ function atualizarTaxaAnestesiaJson() {
 
 try{
 document.querySelectorAll('.taxaAnestesia').forEach(input => {
-    input.addEventListener("input", atualizarTaxaAnestesia);
+    input.addEventListener("blur", atualizarTaxaAnestesia);
 });
 } catch (error) {
 }
 
 try {
     document.addEventListener("DOMContentLoaded", function () {
-        calcularTotal();
-        atualizarTaxaCirurgiao();
         calcularTotalAnestesia();
         atualizarTaxaAnestesiaJson();
 });
@@ -695,6 +689,262 @@ try {
 
 
 
+
+
+
+// Adicionar preços dinâmicos cirurgião
+
+
+
+
+let id_linha_cir = 0;
+visibilidade_valor_prazo_cir = false;
+
+function adicionarOutroCustoCirurgiao(id = null, nome = "", valor = "00,00", prazo = "0,00") {
+    let tabela = document.getElementById("tabelaCirurgiao");
+    let novaLinha = document.createElement("tr");
+
+    if (id === null) {
+        id_linha_cir++;
+        id = id_linha_cir;
+    } else {
+        id_linha_cir = Math.max(id_linha_cir, id);
+    }
+
+    let novaLinhaHTML = `
+        <td><input type="text" name="taxaCirurgiaoNome${id}" class="form-control" placeholder="Nome do custo" value="${nome}"></td>
+        <td><input type="text" id="taxaCirurgiaoValor${id}" name="taxaCirurgiaoValor${id}" class="form-control money taxaCirurgiao text-end" value="${valor}" oninput="calcularTotal()"></td>
+    `;
+
+    if (visibilidade_valor_prazo_cir) {
+        novaLinhaHTML += `
+            <td class="prazoCirurgiao"><input type="text" id="taxaCirurgiaoPrazo${id}" name="taxaCirurgiaoPrazo${id}" class="form-control prazoCirurgiao taxaPrazoCirurgiao money text-end" value="${prazo}" onblur="calcularTotalPrazoCirurgiao()"></td>
+        `;
+    } else {
+        novaLinhaHTML += `
+            <td class="prazoCirurgiao d-none"><input type="text" id="taxaCirurgiaoPrazo${id}" name="taxaCirurgiaoPrazo${id}" class="form-control prazoCirurgiao taxaPrazoCirurgiao d-none money text-end" value="${prazo}" onblur="calcularTotalPrazoCirurgiao()"></td>
+        `;
+    }
+
+    novaLinhaHTML += `
+        <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinhaCir(this)">Excluir</button></td>
+    `;
+
+    novaLinha.innerHTML = novaLinhaHTML;
+
+    let totalRow = tabela.lastElementChild;
+    tabela.insertBefore(novaLinha, totalRow);
+
+    novaLinha.querySelectorAll(".money").forEach(element => {
+        element.addEventListener("blur", formatarMoeda);
+        formatarMoeda({ target: element });
+    });
+
+    atualizarTaxaCirurgiaoJson();
+    calcularTotal();
+    calcularTotalPrazoCirurgiao();
+}
+
+
+function carregarTaxasCirurgiao() {
+    let dados = taxaCirurgiaoJson;
+
+    if (!dados) return;
+
+    let maiorID = 0;
+    let exibirColunaPrazoCirurgiao = false;
+
+    Object.keys(dados).forEach(id => {
+        if (id === "id0" || id === "id1" || id === "id2" || id === "id3") return;
+
+        let item = dados[id];
+
+        adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
+        if (item.Prazo > 0) {
+            exibirColunaPrazoCirurgiao = true;
+        }
+
+        id = id.replace(/\D/g, "");
+        maiorID = Math.max(maiorID, parseInt(id));
+    });
+
+    id_linha = maiorID++;
+
+    if (exibirColunaPrazoCirurgiao) {
+        addVisibilidadePrazoCirurgiao();
+    }
+}
+
+
+function removerLinhaCir(botao) {
+    botao.closest("tr").remove();
+    atualizarTaxaCirurgiaoJson();
+    calcularTotal();
+    calcularTotalPrazoCirurgiao();
+}
+
+try{
+    document.addEventListener("DOMContentLoaded", carregarTaxasCirurgiao);
+} catch {
+}
+
+
+
+
+
+
+
+//Valores Cirurgião
+
+
+
+
+function addVisibilidadePrazoCirurgiao() {
+    document.querySelectorAll(".prazoCirurgiao").forEach(element => {
+        element.classList.remove("d-none");
+    });
+
+    document.querySelector('button[onclick="addVisibilidadePrazoCirurgiao()"]').classList.add("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazoCirurgiao()"]').classList.remove("d-none");
+
+    visibilidade_valor_prazo_cir = true;
+}
+
+function removeVisibilidadePrazoCirurgiao() {
+    document.querySelectorAll(".prazoCirurgiao").forEach(element => {
+        element.classList.add("d-none");
+    });
+
+    document.querySelector('button[onclick="addVisibilidadePrazoCirurgiao()"]').classList.remove("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazoCirurgiao()"]').classList.add("d-none");
+
+    document.querySelectorAll(".taxaPrazoCirurgiao").forEach(input => {
+        input.value = "0,00";
+    });
+
+
+    visibilidade_valor_prazo_cir = false;
+
+    calcularTotalPrazoCirurgiao();
+}
+
+
+
+function calcularTotal() {
+    const inputs = document.querySelectorAll('.taxaCirurgiao');
+    if (inputs.length > 0) {
+        var total = 0;
+
+        inputs.forEach(function(input) {
+            valor = input.value.replace(/[^0-9,\.]/g, "");
+
+
+            numero = converterStringToMoney(valor);
+
+
+            if (!isNaN(numero)) {
+                total += numero;
+            }
+        });
+
+        const totalCirurgiao = document.getElementById('totalCirurgiao');
+        if (totalCirurgiao) {
+            totalCirurgiao.textContent = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else {
+            document.getElementById('totalCirurgiao').textContent = "0,00";
+        }
+
+        atualizarTotal();
+        atualizarTaxaCirurgiaoJson();
+    } else {
+        try{document.getElementById('totalCirurgiao').textContent = "0,00";} catch {}
+    }
+}
+
+
+
+function calcularTotalPrazoCirurgiao() {
+    const inputs = document.querySelectorAll('.taxaPrazoCirurgiao');
+    if (inputs.length > 0) {
+        var total = 0;
+
+        inputs.forEach(function(input) {
+            valor = input.value.replace(/[^0-9,\.]/g, "");
+
+            numero = converterStringToMoney(valor);
+
+            if (!isNaN(numero)) {
+                total += numero;
+            }
+        });
+
+        const totalCirurgiao = document.getElementById('totalPrazoCirurgiao');
+        if (totalCirurgiao) {
+            totalCirurgiao.textContent = total.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else {
+            document.getElementById('totalPrazoCirurgiao').textContent = "0,00";
+        }
+        atualizarTotal();
+        atualizarTaxaCirurgiaoJson();
+    } else {
+        document.getElementById('totalPrazoCirurgiao').textContent = "0,00";
+    }
+}
+
+
+
+
+
+
+
+function atualizarTaxaCirurgiaoJson() {
+    let dados = {};
+    let linhas = document.querySelectorAll('#tabelaCirurgiao tr');
+
+    linhas.forEach(function (linha, index) {
+        if (index === linhas.length - 1) {
+            return;
+        }
+
+        let nomeInput = linha.querySelector('input[name^="taxaCirurgiaoNome"]');
+        let valorInput = linha.querySelector('input[name^="taxaCirurgiaoValor"]');
+        let valorinputPrazo = linha.querySelector('input[name^="taxaCirurgiaoPrazo"]');
+
+        let valorVista = valorInput.value;
+        let valorPrazo = valorinputPrazo.value;
+
+        valorVista = converterStringToMoney(valorVista);
+        valorPrazo = converterStringToMoney(valorPrazo);
+
+        let idLinha = nomeInput.name.match(/\d+$/);
+        idLinha = idLinha ? idLinha[0] : index;
+
+        dados['id' + idLinha] = {
+            "Nome": nomeInput.value,
+            "Valor": valorVista,
+            "Prazo": valorPrazo
+        }
+    });
+
+    document.getElementById("taxa_cirurgiao_hidden").value = JSON.stringify(dados);
+}
+
+
+
+try{
+    document.querySelectorAll('.taxaCirugiao').forEach(input => {
+    input.addEventListener("blur", atualizarTaxaCirurgiao);
+});
+} catch (error) {
+}
+
+try {
+    document.addEventListener("DOMContentLoaded", function () {
+        calcularTotal();
+        atualizarTaxaCirurgiaoJson();
+});
+} catch (error) {
+}
 
 
 // Formatar Valores Monetários
@@ -1037,9 +1287,6 @@ document.addEventListener("DOMContentLoaded", function () {
     syncInputsByClass("diarias_apartamento");
     syncInputsByClass("diarias_uti");
 });
-
-
-
 } catch {}
 
 

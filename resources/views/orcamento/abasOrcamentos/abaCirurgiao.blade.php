@@ -39,7 +39,12 @@
     </div>
 </div>
 
-<input type="hidden" name="taxa_cirurgiao" id="taxa_cirurgiao_hidden" value='{{ json_encode($orcamento->taxa_cirurgiao ?? []) }}'>
+
+
+
+<input type="hidden" id="precosCirurgiaoLoad" value='{{json_encode($orcamento->taxa_cirurgiao ?? "[]") }}'>
+
+<input type="hidden" name="taxa_cirurgiao" id="taxa_cirurgiao_hidden" value='{{ json_encode($orcamento->taxa_cirurgiao ?? "[]") }}'>
 
 <div class="tabela_precos_cirurgia row d-flex flex-direction-row">
     <div class="col-6 flex-fill border-end">
@@ -48,33 +53,101 @@
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-light">
                 <tr>
-                    <th scope="col" class="col-10">Descrição</th>
-                    <th scope="col" class="col-2">Valor</th>
+                    <th scope="col" class="col-6">Descrição</th>
+                    <th scope="col" class="col">Valor</th>
+                    <th scope="col" class="d-none prazoCirurgiao col">A prazo</th>
+                    <th scope="col" class="col">Ação</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tabelaCirurgiao">
+
+
+
                 <tr>
-                    <td scope="row">Cirurgião Principal</td>
-                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoPrincipal" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input class="form-control" id="taxaCirurgiaoNome0" name="taxaCirurgiaoNome0" value="Cirurgião Principal" disabled></input></td>
+                    <td>
+                        <input type="text" id="taxaCirurgiaoValor0" name="taxaCirurgiaoValor0" class="form-control taxaCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id0'])
+                            ? $orcamento->taxa_cirurgiao['id0']['Valor']
+                            : (!empty($orcamento->taxa_cirurgiao['cirurgiaoPrincipal'])
+                                    ? ($orcamento->taxa_cirurgiao['cirurgiaoPrincipal'])
+                                    : '00,00') }}" onblur="calcularTotal()">
+                    </td>
+                    <td class="prazoCirurgiao d-none">
+                        <input type="text" id="taxaCirurgiaoPrazo0" name="taxaCirurgiaoPrazo0" class="form-control d-none prazoCirurgiao taxaPrazoCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id0']) ? $orcamento->taxa_cirurgiao['id0']['Prazo'] : '00,00' }}" onblur="calcularTotalPrazoCirurgiao()">
+                    </td>
+                    <td></td>
                 </tr>
+
                 <tr>
-                    <td scope="row">Cirurgião Auxiliar</td>
-                    <td><input type="text" id="valorCirurgiao" name="cirurgiaoAuxiliar" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input class="form-control" id="taxaCirurgiaoNome1" name="taxaCirurgiaoNome1" value="Cirurgião Auxiliar" disabled></input></td>
+                    <td>
+                        <input type="text" id="taxaCirurgiaoValor1" name="taxaCirurgiaoValor1" class="form-control taxaCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id1'])
+                            ? $orcamento->taxa_cirurgiao['id1']['Valor']
+                            : (!empty($orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'])
+                                    ? ($orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'])
+                                    : '00,00') }}" onblur="calcularTotal()">
+                    </td>
+                    <td class="prazoCirurgiao d-none">
+                        <input type="text" id="taxaCirurgiaoPrazo1" name="taxaCirurgiaoPrazo1" class="form-control d-none prazoCirurgiao taxaPrazoCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id1']) ? $orcamento->taxa_cirurgiao['id1']['Prazo'] : '00,00' }}" onblur="calcularTotalPrazoCirurgiao()">
+                    </td>
+                    <td></td>
                 </tr>
+
                 <tr>
-                    <td scope="row">Instrumentador</td>
-                    <td><input type="text" id="valorCirurgiao" name="instrumentador" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input class="form-control" id="taxaCirurgiaoNome2" name="taxaCirurgiaoNome2" value="Instrumentador" disabled></input></td>
+                    <td>
+                        <input type="text" id="taxaCirurgiaoValor2" name="taxaCirurgiaoValor2" class="form-control taxaCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id2'])
+                            ? $orcamento->taxa_cirurgiao['id2']['Valor']
+                            : (!empty($orcamento->taxa_cirurgiao['instrumentador'])
+                                    ? ($orcamento->taxa_cirurgiao['instrumentador'])
+                                    : '00,00') }}" onblur="calcularTotal()">
+                    </td>
+                    <td class="prazoCirurgiao d-none">
+                        <input type="text" id="taxaCirurgiaoPrazo2" name="taxaCirurgiaoPrazo2" class="form-control d-none prazoCirurgiao taxaPrazoCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id2']) ? $orcamento->taxa_cirurgiao['id2']['Prazo'] : '00,00' }}" onblur="calcularTotalPrazoCirurgiao()">
+                    </td>
+                    <td></td>
                 </tr>
+
                 <tr>
-                    <td scope="row">Taxa de Video</td>
-                    <td><input type="text" id="valorCirurgiao" name="outrosCustos" class="form-control taxaCirurgiao money text-end" value="{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}" onblur="try { calcularTotal(); } catch(e) { console.error('Erro ao chamar calcularTotalCirurgiao:', e); }">
+                    <td><input class="form-control" id="taxaCirurgiaoNome3" name="taxaCirurgiaoNome3" value="Taxa de Video" disabled></input></td>
+                    <td>
+                        <input type="text" id="taxaCirurgiaoValor3" name="taxaCirurgiaoValor3" class="form-control taxaCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id3'])
+                            ? $orcamento->taxa_cirurgiao['id3']['Valor']
+                            : (!empty($orcamento->taxa_cirurgiao['taxaVideo'])
+                                    ? ($orcamento->taxa_cirurgiao['taxaVideo'])
+                                    : '00,00') }}" onblur="calcularTotal()">
+                    <td class="prazoCirurgiao d-none">
+                        <input type="text" id="taxaCirurgiaoPrazo3" name="taxaCirurgiaoPrazo3" class="form-control d-none prazoCirurgiao taxaPrazoCirurgiao money text-end"
+                        value="{{ !empty($orcamento->taxa_cirurgiao['id3']) ? $orcamento->taxa_cirurgiao['id3']['Prazo'] : '00,00' }}" onblur="calcularTotalPrazoCirurgiao()">
+                    </td>
+                    <td></td>
                 </tr>
+
+
                 <tr>
                     <td scope="row"><strong>Total</strong></td>
                     <td class="text-end"><strong id="totalCirurgiao">0,00</strong></td>
+                    <td class="text-end prazoCirurgiao d-none"><strong id="totalPrazoCirurgiao">0,00</strong></td>
                 </tr>
+
+
+
             </tbody>
         </table>
+
+
+        <button type="button" class="btn btn-primary mt-2" onclick="adicionarOutroCustoCirurgiao()">Adicionar Outros Custos de Cirurgião</button>
+        <button type="button" class="btn btn-primary prazoCirurgiao mt-2" onclick="addVisibilidadePrazoCirurgiao()">Adicionar Valores a Prazo</button>
+        <button type="button" class="btn btn-primary prazoCirurgiao d-none mt-2" onclick="removeVisibilidadePrazoCirurgiao()">Remover Valores a Prazo</button>
+
+
 
     </div>
 
