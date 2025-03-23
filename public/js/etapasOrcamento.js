@@ -509,17 +509,16 @@ function carregarTaxasAnestesia() {
     Object.keys(dados).forEach(id => {
 
         let item = dados[id];
+        if (!id === "id0") {
+            adicionarOutroCusto(id, item.Nome, item.Valor, item.Prazo);
+        }
+
         if (item.Prazo > 0) {
             exibirColunaPrazo = true;
         }
 
         id = id.replace(/\D/g, "");
         maiorID = Math.max(maiorID, parseInt(id));
-
-
-        if (id === "id0") return;
-
-        adicionarOutroCusto(id, item.Nome, item.Valor, item.Prazo);
     });
 
     id_linha = maiorID++;
@@ -760,6 +759,10 @@ function carregarTaxasCirurgiao() {
 
         let item = dados[id];
 
+        if (!id === "id0" || !id === "id1" || !id === "id2" || !id === "id3") {
+            adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
+        }
+
         if (item.Prazo > 0) {
             exibirColunaPrazoCirurgiao = true;
         }
@@ -767,9 +770,7 @@ function carregarTaxasCirurgiao() {
         id = id.replace(/\D/g, "");
         maiorID = Math.max(maiorID, parseInt(id));
 
-        if (id === "0" || id === "1" || id === "2" || id === "3") return;
 
-        adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
     });
 
     id_linha = maiorID++;
