@@ -754,14 +754,10 @@ function carregarTaxasCirurgiao() {
     let exibirColunaPrazoCirurgiao = false;
 
     Object.keys(dados).forEach(id => {
-        if (id === "id0" || id === "id1" || id === "id2" || id === "id3") return;
 
         let item = dados[id];
 
-
         console.log(item)
-
-        adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
 
         if (item.Prazo > 0) {
             exibirColunaPrazoCirurgiao = true;
@@ -769,6 +765,10 @@ function carregarTaxasCirurgiao() {
 
         id = id.replace(/\D/g, "");
         maiorID = Math.max(maiorID, parseInt(id));
+
+        if (id === "id0" || id === "id1" || id === "id2" || id === "id3") return;
+
+        adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
     });
 
     id_linha = maiorID++;
