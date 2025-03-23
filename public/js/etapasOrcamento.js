@@ -772,6 +772,7 @@ function carregarTaxasCirurgiao() {
 
     if (exibirColunaPrazoCirurgiao) {
         addVisibilidadePrazoCirurgiao();
+        console.log('Prazo Orçamento VIsível')
     }
 }
 
