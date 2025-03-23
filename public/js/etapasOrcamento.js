@@ -507,16 +507,19 @@ function carregarTaxasAnestesia() {
     let exibirColunaPrazo = false;
 
     Object.keys(dados).forEach(id => {
-        if (id === "id0") return;
 
         let item = dados[id];
-        adicionarOutroCusto(id, item.Nome, item.Valor, item.Prazo);
         if (item.Prazo > 0) {
             exibirColunaPrazo = true;
         }
 
         id = id.replace(/\D/g, "");
         maiorID = Math.max(maiorID, parseInt(id));
+
+
+        if (id === "id0") return;
+
+        adicionarOutroCusto(id, item.Nome, item.Valor, item.Prazo);
     });
 
     id_linha = maiorID++;
@@ -757,8 +760,6 @@ function carregarTaxasCirurgiao() {
 
         let item = dados[id];
 
-        console.log(item)
-
         if (item.Prazo > 0) {
             exibirColunaPrazoCirurgiao = true;
         }
@@ -773,11 +774,8 @@ function carregarTaxasCirurgiao() {
 
     id_linha = maiorID++;
 
-    console.log(exibirColunaPrazoCirurgiao)
-
     if (exibirColunaPrazoCirurgiao) {
         addVisibilidadePrazoCirurgiao();
-        console.log('Prazo Orçamento VIsível')
     }
 }
 
