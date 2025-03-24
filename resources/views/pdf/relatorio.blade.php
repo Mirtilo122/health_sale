@@ -327,7 +327,7 @@ section {
         ?>
 
         <div>
-            <h4 class="titulo">02 - Cirurgião</h4>
+            <h4 class="titulo">02 - Honorarios Medicos</h4>
             <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
@@ -337,20 +337,24 @@ section {
                             <td>Valor a Prazo</td>
                         <?php endif; ?>
                     </tr>
-                    <?php foreach ($dadosCirurgiao as $taxa): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($taxa["Nome"]); ?></td>
-                            <td>R$ <?php echo number_format($taxa["Valor"], 2, ',', '.'); ?></td>
-                            <?php if ($exibirValorPrazoCirurgiao): ?>
-                                <td>R$ <?php echo number_format($taxa["Prazo"], 2, ',', '.'); ?></td>
-                            <?php endif; ?>
-                        </tr>
+                    <?php if (!empty($dadosCirurgiao) && is_array($dadosCirurgiao)): ?>
+                        <?php foreach ($dadosCirurgiao as $taxa): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($taxa["Nome"]); ?></td>
+                                <td>R$ <?php echo number_format($taxa["Valor"], 2, ',', '.'); ?></td>
+                                <?php if ($exibirValorPrazoCirurgiao): ?>
+                                    <td>R$ <?php echo number_format($taxa["Prazo"], 2, ',', '.'); ?></td>
+                                <?php endif; ?>
+                            </tr>
 
-                        <?php
-                        $totalValorCirurgiao += $taxa["Valor"];
-                        $totalPrazoCirurgiao += $taxa["Prazo"];
-                        ?>
-                    <?php endforeach; ?>
+                            <?php
+                            $totalValorCirurgiao += $taxa["Valor"];
+                            $totalPrazoCirurgiao += $taxa["Prazo"];
+                            ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Nenhuma informação disponível.</p>
+                    <?php endif; ?>
                     <tr style="background-color: #aaaaaa;">
                         <td>Total</td>
                         <td scope="col">R$ <?php echo number_format($totalValorCirurgiao, 2, ',', '.'); ?></td>
@@ -388,6 +392,7 @@ section {
                             <td>Valor a Prazo</td>
                         <?php endif; ?>
                     </tr>
+                    <?php if (!empty($dadosAnestesista) && is_array($dadosAnestesista)): ?>
                     <?php foreach ($dadosAnestesista as $taxa): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($taxa["Nome"]); ?></td>
@@ -401,6 +406,9 @@ section {
                         $totalPrazoAnestesista += $taxa["Prazo"];
                         ?>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Nenhuma informação disponível.</p>
+                    <?php endif; ?>
                     <tr style="background-color: #aaaaaa;">
                         <td>Total</td>
                         <td scope="col">R$ <?php echo number_format($totalValorAnestesista, 2, ',', '.'); ?></td>
@@ -419,6 +427,7 @@ section {
         $totalValorHospital = 0;
         $totalPrazoHospital = 0;
         $exibirValorPrazoHospital = false;
+
 
         foreach ($dadosHospital as $taxa) {
             if ($taxa->valorPrazo > 0) {
@@ -441,6 +450,7 @@ section {
                             <td>Valor Total a Prazo</td>
                         <?php endif; ?>
                     </tr>
+                    <?php if (!empty($dadosHospital) && is_array($dadosHospital)): ?>
                     <?php foreach ($dadosHospital as $taxa): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($taxa->nome); ?></td>
@@ -458,6 +468,9 @@ section {
                         $totalPrazoHospital += $taxa->valorPrazo * $taxa->qntd;
                         ?>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Nenhuma informação disponível.</p>
+                    <?php endif; ?>
                     <tr style="background-color: #aaaaaa;">
                         <td>Total</td>
                         <td></td>

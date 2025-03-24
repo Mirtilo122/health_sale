@@ -43,6 +43,10 @@ class OrcamentoController extends Controller
 
         $status = $solicitacao->status;
 
+        if ($status !== 'atribuido') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
+        }
+
         return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados'));
     }
     public function cirurgiao($id)
@@ -63,6 +67,12 @@ class OrcamentoController extends Controller
             $dados = $solicitacao;
         }
 
+        $status = $solicitacao->status;
+
+        if ($status !== 'cirurgiao') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
+        }
+
 
         return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
     }
@@ -81,6 +91,12 @@ class OrcamentoController extends Controller
             $dados = $orcamento;
         } else {
             $dados = $solicitacao;
+        }
+
+        $status = $solicitacao->status;
+
+        if ($status !== 'anestesista') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
@@ -112,6 +128,12 @@ class OrcamentoController extends Controller
             $dados = $orcamento;
         } else {
             $dados = $solicitacao;
+        }
+
+        $status = $solicitacao->status;
+
+        if ($status !== 'criacao') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
@@ -147,6 +169,12 @@ class OrcamentoController extends Controller
             $dados = $solicitacao;
         }
 
+        $status = $solicitacao->status;
+
+        if ($status !== 'liberacao') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
+        }
+
         return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
     public function negociacao($id)
@@ -176,6 +204,12 @@ class OrcamentoController extends Controller
             $dados = $orcamento;
         } else {
             $dados = $solicitacao;
+        }
+
+        $status = $solicitacao->status;
+
+        if ($status !== 'negociacao') {
+            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
