@@ -376,6 +376,8 @@ class OrcamentoController extends Controller
             $orcamento->update($dados);
             $mensagem = 'Orçamento atualizado com sucesso!';
         } else {
+            dd($dados);
+
             $orcamento = Orcamento::create($dados);
             $mensagem = 'Orçamento criado com sucesso!';
         }
