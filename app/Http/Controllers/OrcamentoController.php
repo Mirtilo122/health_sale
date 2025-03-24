@@ -43,10 +43,6 @@ class OrcamentoController extends Controller
 
         $status = $solicitacao->status;
 
-        if ($status !== 'atribuido') {
-            return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
-        }
-
         return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados'));
     }
     public function cirurgiao($id)
