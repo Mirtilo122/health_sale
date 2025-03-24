@@ -10,7 +10,6 @@
 
 @section('conteudo')
 
-@include('auth.auth_orcamento')
 
 
 @if(session('mensagem'))
