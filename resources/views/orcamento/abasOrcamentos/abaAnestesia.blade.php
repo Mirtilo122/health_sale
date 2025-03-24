@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_raqui" id="anestesia_raqui" value="1" {{ $orcamento->anestesia_raqui ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_raqui" id="anestesia_raqui" value="1" {{ ($orcamento->anestesia_raqui ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_raqui">
                 Anestesia Raqui
             </label>
@@ -10,7 +10,7 @@
 
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_sma" id="anestesia_sma" value="1" {{ $orcamento->anestesia_sma ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_sma" id="anestesia_sma" value="1" {{ ($orcamento->anestesia_sma ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_sma">
                 Anestesia SMA
             </label>
@@ -19,7 +19,7 @@
 
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_peridural" id="anestesia_peridural" value="1" {{ $orcamento->anestesia_peridural ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_peridural" id="anestesia_peridural" value="1" {{ ($orcamento->anestesia_peridural ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_peridural">
                 Anestesia Peridural
             </label>
@@ -28,7 +28,7 @@
 
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_sedacao" id="anestesia_sedacao" value="1" {{ $orcamento->anestesia_sedacao ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_sedacao" id="anestesia_sedacao" value="1" {{ ($orcamento->anestesia_sedacao ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_sedacao">
                 Anestesia Sedação
             </label>
@@ -39,7 +39,7 @@
 <div class="row">
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_externo" id="anestesia_externo" value="1" {{ $orcamento->anestesia_externo ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_externo" id="anestesia_externo" value="1" {{ ($orcamento->anestesia_externo ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_externo">
                 Anestesia Externo
             </label>
@@ -48,7 +48,7 @@
 
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_bloqueio" id="anestesia_bloqueio" value="1" {{ $orcamento->anestesia_bloqueio ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_bloqueio" id="anestesia_bloqueio" value="1" {{ ($orcamento->anestesia_bloqueio ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_bloqueio">
                 Anestesia Bloqueio
             </label>
@@ -57,7 +57,7 @@
 
     <div class="col-3 mb-3">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="anestesia_local" id="anestesia_local" value="1" {{ $orcamento->anestesia_local ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="anestesia_local" id="anestesia_local" value="1" {{ ($orcamento->anestesia_local ?? 0) == 1 ? 'checked' : '' }}>
             <label class="form-check-label" for="anestesia_local">
                 Anestesia Local
             </label>
