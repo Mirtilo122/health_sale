@@ -12,6 +12,18 @@ label {
     padding: 0.1rem;
 }
 
+.borda_completa_tabela th, td {
+    border: 1px solid rgb(238, 238, 238);
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+
+.table {
+    border: 1px solid rgb(238, 238, 238);
+    border-collapse: collapse;
+}
+
 input[type="text"],
 input[type="date"],
 input[type="email"],

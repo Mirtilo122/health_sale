@@ -10,7 +10,7 @@
 <div class="modal fade" id="procedimentoModal" tabindex="-1" aria-labelledby="procedimentoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header"> 
+            <div class="modal-header">
                 <h5 class="modal-title" id="procedimentoModalLabel">Novo Procedimento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -37,13 +37,15 @@
 </div>
 
 
-<table class="table mt-3">
+<table class="table borda_completa_tabela mt-3">
     <thead>
         <tr>
             <th>Nome</th>
             <th>Quantidade</th>
             <th>Valor Unitário</th>
+            <th class="d-none prazoHospital">Valor a Prazo</th>
             <th>Valor Total</th>
+            <th class="d-none prazoHospital">Valor Total a Prazo</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -51,3 +53,7 @@
 
     </tbody>
 </table>
+
+
+<button type="button" class="btn btn-primary prazoHospital mt-2" onclick="addVisibilidadePrazoHospital()">Adicionar Valores a Prazo</button>
+<button type="button" class="btn btn-primary prazoHospital d-none mt-2" onclick="removeVisibilidadePrazoHospital()">Remover Valores a Prazo</button>

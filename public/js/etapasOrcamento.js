@@ -294,7 +294,7 @@ try {
             return;
         }
 
-        adicionarProcedimento(nome, valor, qntd);
+        adicionarProcedimento(nome, valor, qntd, 0);
 
         document.getElementById("procedimentoNome").value = "";
         document.getElementById("procedimentoValor").value = "0,00";
@@ -305,7 +305,7 @@ try {
 } catch (error) {
 }
 
-function adicionarProcedimento(nome, valor, qntd) {
+function adicionarProcedimento(nome, valor, qntd, valorPrazo) {
     const tabela = document.getElementById("tabela-procedimentos");
     const tr = document.createElement("tr");
 
@@ -332,8 +332,20 @@ function adicionarProcedimento(nome, valor, qntd) {
     tdValor.appendChild(inputValor);
 
     const tdTotal = document.createElement("td");
-    tdTotal.className = "valor-total money";
+    tdTotal.className = "valor-total money text-center";
     tdTotal.textContent = (valor * qntd).toFixed(2).replace(".", ",");
+
+    const tdPrazo = document.createElement("td");
+    tdPrazo.className = "prazoHospital d-none";
+    const inputPrazo = document.createElement("input");
+    inputPrazo.type = "text";
+    inputPrazo.className = "form-control prazoHospital taxaPrazoHospital d-none money text-end";
+    inputPrazo.value = valorPrazo.toFixed(2).replace(".", ",");
+    tdPrazo.appendChild(inputPrazo);
+
+    const tdTotalPrazo = document.createElement("td");
+    tdTotalPrazo.className = "valor-totalHospital prazoHospital d-none money text-center";
+    tdTotalPrazo.textContent = (valorPrazo * qntd).toFixed(2).replace(".", ",");
 
     const tdAcoes = document.createElement("td");
     const btnRemover = document.createElement("button");
@@ -349,25 +361,36 @@ function adicionarProcedimento(nome, valor, qntd) {
     tr.appendChild(tdNome);
     tr.appendChild(tdQntd);
     tr.appendChild(tdValor);
+    tr.appendChild(tdPrazo);
     tr.appendChild(tdTotal);
+    tr.appendChild(tdTotalPrazo);
     tr.appendChild(tdAcoes);
 
     tabela.appendChild(tr);
     atualizarTotal();
     atualizarInputHidden();
 
-    inputQntd.addEventListener("input", () => {
+    inputQntd.addEventListener("blur", () => {
         atualizarValorTotal(tr);
+        atualizarValorTotalPrazo(tr);
         atualizarTotal();
         atualizarInputHidden();
     });
 
-    inputValor.addEventListener("input", () => {
+    inputValor.addEventListener("blur", () => {
         atualizarValorTotal(tr);
         atualizarTotal();
         atualizarInputHidden();
         formatarMoeda({ target: inputValor });
     });
+
+    inputPrazo.addEventListener("blur", () => {
+        atualizarValorTotalPrazo(tr);
+        atualizarTotal();
+        atualizarInputHidden();
+        formatarMoeda({ target: inputPrazo });
+    });
+
 
     formatarMoeda({ target: inputValor });
 }
@@ -379,7 +402,17 @@ function atualizarValorTotal(tr) {
     const total = (qntd * valor).toFixed(2).replace('.', ',');
     tr.querySelector(".valor-total").textContent = total;
 
-    formatarMoeda({ target: tr });
+    formatarMoeda({ target: tr.querySelector(".valor-total") });
+}
+
+function atualizarValorTotalPrazo(tr) {
+    const qntd = parseInt(tr.querySelector(".procedimento-qntd").value) || 1;
+    const valor = parseFloat(tr.querySelector(".taxaPrazoHospital").value.replace(',', '.')) || 0;
+
+    const total = (qntd * valor).toFixed(2).replace('.', ',');
+    tr.querySelector(".valor-totalHospital").textContent = total;
+
+    formatarMoeda({ target: tr.querySelector(".valor-totalHospital") });
 }
 
 function atualizarTotal() {
@@ -410,14 +443,17 @@ function atualizarInputHidden() {
         const nome = tr.querySelector(".procedimento-nome")?.value || "";
         const qntd = tr.querySelector(".procedimento-qntd")?.value || "";
         const valor = tr.querySelector(".valor-procedimento")?.value.replace(',', '.') || "";
+        const valorPrazo = tr.querySelector(".taxaPrazoHospital")?.value.replace(',', '.') || "";
 
         if (nome && valor) {
-            procedimentos.push({ nome, qntd, valor: parseFloat(valor).toFixed(2) });
+            procedimentos.push({ nome, qntd, valor: parseFloat(valor).toFixed(2), valorPrazo: parseFloat(valorPrazo).toFixed(2)});
         }
     });
 
     document.getElementById("precosProcedimentosInput").value = JSON.stringify(procedimentos);
 }
+
+let visibilidade_valor_prazo_hospital = false;
 
 try {
     document.addEventListener("DOMContentLoaded", function () {
@@ -429,9 +465,17 @@ try {
                 precosProcedimentosLoad.forEach(procedimento => {
                     let valor_unit_procedimento = parseFloat(procedimento.valor.toString()) || 0;
                     let qntd_procedimento = parseFloat(procedimento.qntd.toString()) || 0;
+                    let valor_prazo = parseFloat(procedimento.valorPrazo) || 0;
 
-                    adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento);
+                    if (valor_prazo > 0){
+                        visibilidade_valor_prazo_hospital = true;
+                    }
+
+                    adicionarProcedimento(procedimento.nome, valor_unit_procedimento, qntd_procedimento, valor_prazo);
                 });
+            }
+            if (visibilidade_valor_prazo_hospital){
+                addVisibilidadePrazoHospital();
             }
         } else {
         }
@@ -439,6 +483,39 @@ try {
 } catch (error) {
 }
 
+
+
+
+
+function addVisibilidadePrazoHospital() {
+    document.querySelectorAll(".prazoHospital").forEach(element => {
+        element.classList.remove("d-none");
+    });
+
+    document.querySelector('button[onclick="addVisibilidadePrazoHospital()"]').classList.add("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazoHospital()"]').classList.remove("d-none");
+
+    visibilidade_valor_prazo_hospital = true;
+}
+
+function removeVisibilidadePrazoHospital() {
+    document.querySelectorAll(".prazoHospital").forEach(element => {
+        element.classList.add("d-none");
+    });
+
+    document.querySelector('button[onclick="addVisibilidadePrazoHospital()"]').classList.remove("d-none");
+    document.querySelector('button[onclick="removeVisibilidadePrazoHospital()"]').classList.add("d-none");
+
+    document.querySelectorAll(".taxaPrazoHospital").forEach(input => {
+        input.value = "0,00";
+    });
+    document.querySelectorAll(".valor-totalHospital").forEach(input => {
+        input.textContent = "0,00";
+    });
+
+
+    visibilidade_valor_prazo_hospital = false;
+}
 
 
 
