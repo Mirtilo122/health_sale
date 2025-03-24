@@ -318,12 +318,14 @@ section {
         $totalPrazoCirurgiao = 0;
         $exibirValorPrazoCirurgiao = false;
 
+        if (!empty($dadosAnestesista) && is_array($dadosAnestesista)):
         foreach ($dadosCirurgiao as $taxa) {
             if ($taxa["Prazo"] > 0) {
                 $exibirValorPrazoCirurgiao = true;
                 break;
             }
         }
+        endif;
         ?>
 
         <div>
@@ -364,7 +366,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <textarea id="condPagamentoCirurgiao" disabled>{{ $orcamento->cond_pagamento_cirurgiao }}</textarea>
+                <textarea id="condPagamentoCirurgiao" disabled>{{ $orcamento->cond_pagamento_cirurgiao  ?? ''  }}</textarea>
         </div>
 
         <?php
@@ -373,12 +375,14 @@ section {
         $totalPrazoAnestesista = 0;
         $exibirValorPrazoAnestesista = false;
 
+        if (!empty($dadosAnestesista) && is_array($dadosAnestesista)):
         foreach ($dadosAnestesista as $taxa) {
             if ($taxa["Prazo"] > 0) {
                 $exibirValorPrazoAnestesista = true;
                 break;
             }
         }
+        endif;
         ?>
 
         <div class="avoid-break">
@@ -418,7 +422,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista }}</textarea>
+                <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista  ?? ''  }}</textarea>
         </div>
 
 
@@ -428,13 +432,14 @@ section {
         $totalPrazoHospital = 0;
         $exibirValorPrazoHospital = false;
 
-
+        if (!empty($dadosHospital) && is_array($dadosHospital)):
         foreach ($dadosHospital as $taxa) {
             if ($taxa->valorPrazo > 0) {
                 $exibirValorPrazoHospital = true;
                 break;
             }
         }
+        endif;
         ?>
         <div class="avoid-break">
             <h4 class="titulo">04 - Hospitalar Diarias, Taxas e Visitas</h4>
@@ -483,7 +488,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <textarea id="condPagamentoHospital" disabled>{{ $orcamento->cond_pagamento_hosp }}</textarea>
+                <textarea id="condPagamentoHospital" disabled>{!! $orcamento->cond_pagamento_hosp !!}</textarea>
         </div>
 
 <!--        <div class="row mt-4 avoid-break">
@@ -494,7 +499,7 @@ section {
         <div class="avoid-break">
             <h4 class="titulo">06 - Condições Gerais</h4>
             <div class="condicoes mt-4 mb-2">
-                <textarea id="condicoesGerais" disabled>{{ $orcamento->condicoes_gerais }}</textarea>
+                <textarea id="condicoesGerais" disabled>{{ $orcamento->condicoes_gerais ?? ''  }}</textarea>
             </div>
         </div>
 
