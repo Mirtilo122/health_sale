@@ -91,10 +91,8 @@
                                 <span class="badge bg-warning text-dark">Retorno Cirurgião</span>
                             </td>
                             @php
-                            $cirurgiao = $usuarios->firstWhere('id', $solicitacao->orcamento->id_usuarios_cirurgioes);
-
-                            $cirurgiaoNome = $cirurgiao->usuario ?? 'Não atribuído';
-
+                                $cirurgiao = optional($usuarios->firstWhere('id', optional($solicitacao->orcamento)->id_usuarios_cirurgioes));
+                                $cirurgiaoNome = $cirurgiao->usuario ?? 'Não atribuído';
                             @endphp
                             <td scope="row" class="align-middle text-center">{{ $cirurgiaoNome }}</td>
                             <td scope="row" class="align-middle text-center">
