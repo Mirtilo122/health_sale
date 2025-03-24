@@ -272,7 +272,7 @@ class OrcamentoController extends Controller
 
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
-            $procedimentosSecundarios = json_decode($request->procedimentos_json, true);
+            $procedimentosSecundarios = $request->procedimentos_json;
 
             $dados = $request->except('_token');
             $dados['codigo_tabela_base'] = 1;
