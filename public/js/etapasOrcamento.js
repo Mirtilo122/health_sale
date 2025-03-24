@@ -1192,7 +1192,7 @@ document.getElementById("prosseguir").addEventListener("click", function (event)
 
 function adicionarSecundario(codTuss = "", procedimento = "") {
     const novaDiv = document.createElement("div");
-    novaDiv.classList.add("row", "d-flex", "flex-direction-row", "mb-2");
+    novaDiv.classList.add("row", "d-flex", "flex-direction-row", "mb-2", "item_procedimentos_secundarios");
 
     novaDiv.innerHTML = `
         <div class="col-2 flex-fill d-flex">
@@ -1200,11 +1200,11 @@ function adicionarSecundario(codTuss = "", procedimento = "") {
         </div>
 
         <div class="col-3 flex-fill d-flex">
-            <input type="number" name="cod_tuss_sec" placeholder="Insira o Código TUSS..." value="${codTuss}">
+            <input type="number" class="cod_tuss_sec" placeholder="Insira o Código TUSS..." value="${codTuss}" onblur="atualizarProcedimentosSecHidden()">
         </div>
 
         <div class="col-6 flex-fill d-flex">
-            <input type="text" name="procedimento_sec" placeholder="Insira o Procedimento..." value="${procedimento}">
+            <input type="text" class="procedimento_sec" placeholder="Insira o Procedimento..." value="${procedimento}" onblur="atualizarProcedimentosSecHidden()">
         </div>
 
         <div class="col-1 flex-fill d-flex">
@@ -1220,6 +1220,62 @@ function removerProcedimento(botao) {
 }
 
 
+function atualizarProcedimentosSecHidden() {
+    const procedimentos  = {};
+    const itemProcSec = document.querySelectorAll(".item_procedimentos_secundarios");
+
+    let idProc = 0;
+    itemProcSec.forEach(item => {
+        const codTuss = item.querySelector(".cod_tuss_sec").value.trim();
+        const procedimento = item.querySelector(".procedimento_sec").value.trim();
+
+
+
+        if (codTuss && procedimento) {
+        idProc++;
+
+        procedimentos['id' + idProc] = {
+            "codTuss": codTuss,
+            "procedimento": procedimento
+        }}});
+
+    document.getElementById("procedimentos_json").value = JSON.stringify(procedimentos);
+}
+
+
+try{
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+    let inputProcedimentos = document.getElementById("procedimentosSecundariosLoad").value;
+    let dadosString = JSON.parse(inputProcedimentos);
+    let dados;
+
+    try {
+        dados = JSON.parse(dadosString);
+    } catch (error) {
+        console.error("Erro ao converter JSON:", error);
+    }
+
+    if (dados) {
+    try {
+        Object.keys(dados).forEach(id => {
+            let item = dados[id];
+            adicionarSecundario(item.codTuss, item.procedimento)
+
+        });
+        } catch (error) {
+            console.error("Erro ao carregar procedimentos secundários:", error);
+        }
+    }
+
+    atualizarProcedimentosSecHidden();
+    });
+} catch {}
+
+
+
+// Funções de envio de orçamento
 
 function excluirOrcamento() {
     let formulario = document.getElementById('orcamento-form');
@@ -1248,25 +1304,6 @@ function salvarAndSair() {
 }
 
 function prepararEnvio(funcao) {
-
-    try{
-        const procedimentos = [];
-        const codTussInputs = document.querySelectorAll('[name="cod_tuss_sec"]');
-        const procedimentoInputs = document.querySelectorAll('[name="procedimento_sec"]');
-
-
-        codTussInputs.forEach((input, index) => {
-            if (input.value.trim() !== "" && procedimentoInputs[index].value.trim() !== "") {
-                procedimentos.push({
-                    cod_tuss: input.value,
-                    procedimento: procedimentoInputs[index].value
-                });
-            }
-        });
-
-        document.getElementById("procedimentos_json").value = JSON.stringify(procedimentos);
-    } catch {
-    }
 
     switch (funcao){
         case "designar":
