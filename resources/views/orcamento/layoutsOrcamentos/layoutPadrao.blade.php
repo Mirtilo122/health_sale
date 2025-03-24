@@ -75,7 +75,7 @@ try {
 });
 
 } catch (error) {
-    
+
 }
 
 
@@ -85,7 +85,6 @@ try {
 
 
 $(document).ready(function() {
-    // Função para exibir as sugestões no formato "código - descrição"
     function showSuggestions(data, target) {
         let suggestions = '';
         data.forEach(function(item) {
@@ -94,7 +93,6 @@ $(document).ready(function() {
         $(target).html(suggestions).show();
     }
 
-    // Buscar código TUSS
     $('#cod_tuss_principal').on('input', function() {
         const query = $(this).val();
         if (query.length > 2) {
@@ -111,7 +109,6 @@ $(document).ready(function() {
         }
     });
 
-    // Buscar descrição do procedimento
     $('#procedimento_principal').on('input', function() {
         const query = $(this).val();
         if (query.length > 2) {
@@ -128,22 +125,19 @@ $(document).ready(function() {
         }
     });
 
-    // Selecionar sugestão
     $(document).on('click', '.suggestion-item', function() {
-        const value = $(this).data('value'); // Aqui pega o código
-        const id = $(this).data('id');
+        const codigo = $(this).data('value'); // Código TUSS
+        const descricao = $(this).text().split(' - ')[1]; // Descrição do procedimento
+        const id = $(this).data('id'); // ID (caso precise armazenar)
 
-        // Atualiza o valor do input com o código
-        $(this).closest('div').find('input').val(value);
+        // Preenche os campos corretos
+        $('#cod_tuss_principal').val(codigo).data('id', id);
+        $('#procedimento_principal').val(descricao);
 
-        // Esconder sugestões
-        $(this).closest('div').find('.autocomplete-suggestions').hide();
-
-        // Caso precise do ID para salvar em algum lugar
-        $('#cod_tuss_principal').data('id', id); // Exemplo para o código TUSS
+        // Esconde todas as sugestões
+        $('.autocomplete-suggestions').hide();
     });
 
-    // Esconder sugestões quando clicar fora
     $(document).on('click', function(e) {
         if (!$(e.target).closest('.autocomplete-suggestions').length) {
             $('.autocomplete-suggestions').hide();

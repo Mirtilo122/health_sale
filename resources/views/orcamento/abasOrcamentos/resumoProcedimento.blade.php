@@ -118,14 +118,14 @@
         <p>Procedimento Principal:</p>
     </div>
 
-    <div class="col-3 flex-fill d-flex">
-        <input type="text" id="cod_tuss_principal" name="cod_tuss_principal" value="{{$orcamento->cod_tuss_principal ?? ''}}" placeholder="Insira o Código TUSS..." autocomplete="off" class="form-control">
-        <div id="cod_tuss_suggestions" class="autocomplete-suggestions"></div>
+    <div class="col-3 flex-fill d-flex autocomplete-container">
+            <input type="text" id="cod_tuss_principal" name="cod_tuss_principal" value="{{$orcamento->cod_tuss_principal ?? ''}}" placeholder="Insira o Código TUSS..." autocomplete="off" class="form-control">
+            <div id="cod_tuss_suggestions" class="autocomplete-suggestions"></div>
     </div>
 
-    <div class="col-6 flex-fill d-flex">
-        <input type="text" id="procedimento_principal" name="procedimento_principal" value="{{$orcamento->procedimento_principal ?? ''}}" placeholder="Insira a Descrição do Procedimento..." autocomplete="off" class="form-control">
-        <div id="procedimento_suggestions" class="autocomplete-suggestions"></div>
+    <div class="col-6 flex-fill d-flex autocomplete-container">
+            <input type="text" id="procedimento_principal" name="procedimento_principal" value="{{$orcamento->procedimento_principal ?? ''}}" placeholder="Insira a Descrição do Procedimento..." autocomplete="off" class="form-control">
+            <div id="procedimento_suggestions" class="autocomplete-suggestions"></div>
     </div>
 
     <div class="col-1 flex-fill d-flex">

@@ -12,8 +12,10 @@
     </div>
 
     <div class="col-1 flex-fill d-flex">
-    </div> 
+    </div>
 </div>
+
+<input type="hidden" id="procedimentosSecundariosLoad" value='{{json_encode($orcamento->procedimentos_secundarios ?? "[]") }}'>
 
 <input type="hidden" name="procedimentos_json" id="procedimentos_json">
 
