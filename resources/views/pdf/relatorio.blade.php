@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Orçamento {{ $orcamento->codigo_orcamento }}</title>
-    <style>
+<meta charset="utf-8">
+<title>Orçamento {{ $orcamento->codigo_orcamento }}</title>
+<style>
 
         @font-face {
             font-family: 'Inter';
@@ -20,422 +20,479 @@
             src: url('fonts/Poppins-Bold.ttf');
         }
 
-        body {
-            color: #333;
-            font-size: 1rem; /* 16px */
-            font-weight: 400;
-            line-height: 1.5;
-            color: #212529;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-        }
+body {
+    font-size: 12pt;
+    color: #333;
+    background-color: #fff;
+    text-align: justify;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-style: normal;
+}
 
-        h1, h4 {
-            text-align: center;
-        }
+h1, h2, h3, h4, h5 {
+    font-family: "Poppins_Bold";
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+}
 
-        .money {
-            font-family: "Poppins_Bold";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 13px;
-        }
+h1 {
+    font-size: 24px; /* Ajuste de tamanho para título principal */
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-            color: #212529;
-            border: solid 2pxrgb(85, 85, 85);
-        }
+h2 {
+    font-size: 18px; /* Subtítulo de seção */
+}
 
+h3 {
+    font-size: 16px; /* Subtítulo de subseção */
+}
 
+h4, h5 {
+    font-size: 14px; /* Menor título */
+}
 
-        .table-bordered {
-            border: 1px solid #dee2e6;
-        }
-        .table-bordered th,
-        .table-bordered td {
-            border: 1px solid #dee2e6;
-        }
+p {
+    font-family: "Poppins";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #333;
+    text-align: justify;
+}
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
+strong {
+    font-family: "Poppins_Bold";
+    font-weight: 400;
+    font-style: normal;
+}
 
-        .table-hover tbody tr:hover {
-            background-color: rgba(0, 0, 0, 0.075);
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    color: #212529;
+}
 
-        .table th {
-            background-color: #f8f9fa;
-            text-align: center;
-        }
+table, th, td {
+    border: 1px solid #000;
+}
 
-        .table td {
-            text-align: left;
-        }
+th, td {
+    padding: 3px;
+    text-align: left;
+    vertical-align: middle;
+}
 
-        .table th, .table td {
-            vertical-align: middle;
-        }
+th {
+    background-color: #f2f2f2;
+    text-align: center;
+    font-family: "Poppins_Bold";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+}
 
-        .table-bordered {
-            border: 1px solid #dee2e6;
-        }
+td {
+    text-align: left;
+    font-family: "Poppins";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    padding-left: 10px;
+}
 
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
+thead tr th{
+    height: 10px;
+}
 
-        thead, tr, th{
-            padding: 5px;
-            height: 10px;
-        }
+thead th, tfoot td {
+    padding: 0px;
+    margin: 0;
+}
 
-        td, th {
-            padding: 2px 5px;
-            line-height: 1;
-        }
+.table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+}
 
-        .condicoes {
-            width: 100%;
-            margin-top: 20px;
-        }
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
 
-        textarea {
-            width: 96%;
-            max-width: 100%;
-            height: 120px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 14px;
-            background-color: #f9f9f9;
-            color: #333;
-            box-sizing: border-box;
-        }
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
 
-        .signature {
-            text-align: center;
-            margin-top: 50px;
-        }
+textarea {
+    width: 98%;
+    max-width: 98%;
+    height: 50px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 12px;
+    background-color: #f9f9f9;
+    color: #333;
+    box-sizing: border-box;
+}
 
-        .linha_assinatura {
-            width: 100%;
-            height: 1px;
-            background-color: #000;
-            margin-bottom: 20px;
-        }
+.signature {
+    text-align: center;
+    margin-top: 50px;
+}
 
-        .contact {
-            text-align: center;
-            margin-top: 20px;
-        }
+.linha_assinatura {
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin-bottom: 20px;
+}
 
-        .contact p {
-            margin: 5px 0;
-        }
+.contact {
+    text-align: center;
+    margin-top: 20px;
+}
 
-        .section p {
-            text-align: center;
-            font-size: 14px;
-        }
+.contact p {
+    margin: 5px 0;
+}
 
-        .section {
-            margin-top: 30px;
-        }
+.contact p, .section p {
+    font-size: 12pt;
+}
 
-        h1{
-            font-family: "Inter";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 50px;
-        }
+.section {
+    margin-top: 30px;
+}
 
-        h2{
-            font-family: "Poppins_Bold";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 30px;
-        }
+.container {
+    width: 100%;
+}
 
-        h3{
-            font-family: "Poppins_Bold";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 25px;
-        }
+.col-md-8, .col-md-6, .col-md-4, .col-10, .col-2 {
+    padding: 0 15px;
+}
 
-        h4{
-            font-family: "Poppins_Bold";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 20px;
-        }
+.col-md-8 {
+    max-width: 66.666667%;
+}
 
-        h5{
-            font-family: "Poppins_Bold";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 15px;
-        }
+.col-md-6 {
+    max-width: 50%;
+}
 
-        p{
-            font-family: "Poppins";
-            font-weight: 400;
-            font-style: normal;
-            font-size: 13px;
-        }
+.col-md-4 {
+    max-width: 33.333333%;
+}
 
-        strong{
-            font-family: "Poppins_Bold";
-            font-weight: 400;
-            font-style: normal;
-        }
+.col-md-3 {
+    max-width: 25%;
+}
 
-        .container{
-            width: 95%;
-            padding-right: 15px;
-            padding-left: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            justify-content: center;
-            align-items: center;
-        }
+.col-10 {
+    max-width: 83.333333%;
+}
 
-        .img-fluid {
-            max-width: 40%;
-            height: auto;
-        }
+.col-2 {
+    max-width: 16.666667%;
+}
 
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
+.text-end {
+    text-align: right;
+}
 
-        .d-block {
-            display: block;
-        }
+section {
+    display: block;
+    margin-top: 10px;
+}
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-right: -15px;
-            margin-left: -15px;
-            border: solid 1px rgb(228, 228, 228);
-            border-radius: 10px;
-            padding: 5px;
-        }
+.titulo {
+    width: 100%;
+}
 
-        .mt-4 {
-            margin-top: 1.5rem;
-        }
+.container_img {
+    width: 100%;
+    padding-left: 30%;
+    padding-right: 25%;
+}
 
-        .mb-2 {
-            margin-top: 0.5rem;
-        }
+.avoid-break {
+    page-break-inside: avoid;
+}
 
-        .col-md-8 {
-            flex: 0 0 66.666667%;
-            max-width: 66.666667%;
-        }
+.page-break {
+    page-break-before: always;
+}
 
-        .col-md-4 {
-            flex: 0 0 33.333333%;
-            max-width: 33.333333%;
-        }
+.page-break-inside-avoid {
+    page-break-inside: avoid;
+}
 
-        .col-10 {
-            flex: 0 0 83.333333%;
-            max-width: 83.333333%;
-        }
+.table-custom {
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: 5%;
+}
 
-        .col-2 {
-            flex: 0 0 16.666667%;
-            max-width: 16.666667%;
-        }
+.table-custom td {
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 33.333%;
+}
 
-        .text-end {
-            text-align: right;
-        }
+.table-custom tr {
+    border: none
+}
 
-        section {
-            display: block;
-            padding: 1rem 0;
-        }
+.rodape {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding-left: 6%;
+    padding-right: 0px;
+}
 
-        .titulo{
-            width: 100%;
-        }
+</style>
 
-        .container_img{
-            width: 100%;
-            padding-left: 30%;
-            padding-right: 30%;
-        }
-
-        .avoid-break {
-            page-break-inside: avoid; /* Impede que um bloco seja dividido entre páginas */
-        }
-
-    </style>
 </head>
 <body>
 
-    <main class="container py-4">
+    <main class="container">
         <div class="container_img">
         <img src="imagens/logo_modelo.jpg" alt="Logo do Hospital" class="img-fluid mx-auto d-block">
         </div>
 
 
-        <h1>PROPOSTA</h1>
+        <h2>PROPOSTA</h2>
 
-        <div class="row mt-4">
-            <div class="col-md-8">
-                <p><strong>PACIENTE:</strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</p>
-                <p><strong>Cidade/UF:</strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</p>
-                <p><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</p>
-                <p><strong>Cirurgião:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</p>
-            </div>
+        <table class="table-custom">
+            <tbody>
+                <tr>
+                    <td><p><strong>Código Solicitação:</strong> {{ $orcamento->codigo_solicitacao ?? 'Não informado' }}</p></td>
+                    <td><p><strong>Paciente:</strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</p></td>
+                    <td><p><strong>Atendente:</strong> {{ $orcamento->responsavel?->usuario ? ucfirst($orcamento->responsavel->usuario) : 'Não informado' }}</p></td>
+                </tr>
+                <tr>
+                    <td><p><strong>Protocolo:</strong> {{ $solicitacao->protocolo ?? 'Não informado' }}</p></td>
+                    <td><p><strong>Nascimento:</strong> {{ $orcamento->data_nascimento ? \Carbon\Carbon::parse($orcamento->data_nascimento)->format('d/m/Y') : 'Não informado' }}</p></td>
+                    <td><p><strong>Cirurgião:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</p></td>
+                </tr>
+                <tr>
+                    <td><p><strong>Tipo de Orçamento:</strong> {{ ucfirst($orcamento->tipo_orcamento) ?? 'Não informado' }}</p></td>
+                    <td><p><strong>Cidade/UF:</strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</p></td>
+                    <td><p><strong>Data Provável:</strong> {{ $orcamento->data_provavel ? \Carbon\Carbon::parse($orcamento->data_provavel)->format('d/m/Y') : 'Não informado' }}</p></td>
+                </tr>
+                <tr>
+                    <td<p><strong>Solicitante:</strong> {{ ucfirst($orcamento->nome_solicitante) ?? 'Não informado' }}</p></td>
+                    <td><p><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</p></td>
+                    <td><p><strong>Validade:</strong> {{ $solicitacao->validade ? \Carbon\Carbon::parse($solicitacao->validade)->format('d/m/Y') : 'Não informado' }}</p></td>
+                </tr>
+                <tr>
+                    <td><p><strong>Telefone:</strong> {{ $orcamento->telefone ?? 'Não informado' }}</p></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="col-md-4">
-                <p><strong>Solicitante:</strong> {{ ucfirst($orcamento->nome_solicitante) ?? 'Não informado' }}</p>
-                <p><strong>Tipo:</strong> {{ ucfirst($orcamento->tipo_orcamento) ?? 'Não informado' }}</p>
-                <p><strong>Atendente:</strong> {{ $solicitacao->responsavel?->usuario ? ucfirst($solicitacao->responsavel->usuario) : 'Não informado' }}</p>
-
-            </div>
-        </div>
-
-        <div class="row mt-4 avoid-break">
+        <section class="avoid-break">
             <h4 class="titulo">01 - Procedimentos</h4>
             <p><strong>{{$orcamento->cod_tuss_principal ?? 'Não informado' }}</strong> - {{ ucfirst($orcamento->procedimento_principal) ?? 'Não informado' }}</p>
 
             @php
             $procedimentos_secundarios = json_decode($orcamento->procedimentos_secundarios);
+
             @endphp
-            @if (!empty($procedimentos_secundarios))
-                @foreach ($procedimentos_secundarios as $procedimento_secundario)
-                <p><strong>{{$procedimento_secundario->cod_tuss_principal ?? 'Não informado' }}</strong> - {{ ucfirst($procedimento_secundario->procedimento_principal) ?? 'Não informado' }}</p>
-                @endforeach
-            @endif
-        </div>
+            @foreach ($procedimentos_secundarios as $procedimento_secundario)
+            <p><strong>{{$procedimento_secundario->codTuss ?? 'Não informado' }}</strong> - {{ $procedimento_secundario->procedimento ?? 'Não informado' }}</p>
+            @endforeach
+        </section>
 
-        <div class="row mt-4 avoid-break">
+        <?php
+        $dadosCirurgiao = $orcamento->taxa_cirurgiao;
+        $totalValorCirurgiao = 0;
+        $totalPrazoCirurgiao = 0;
+        $exibirValorPrazoCirurgiao = false;
+
+        foreach ($dadosCirurgiao as $taxa) {
+            if ($taxa["Prazo"] > 0) {
+                $exibirValorPrazoCirurgiao = true;
+                break;
+            }
+        }
+        ?>
+
+        <div>
             <h4 class="titulo">02 - Cirurgião</h4>
-            <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col" class="col-10"><h5>Descrição</h5></th>
-                        <th scope="col" class="col-2"><h5>Valor</h5></th>
-                    </tr>
-                </thead>
+            <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
-                    <tr>
-                        <td scope="row"><p>Cirurgião Principal</p></td>
-                        <td><p id="valorCirurgiao" class="money text-end">{{ $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] ?? '' }}</p></td>
+                    <tr style="background-color:#2d7b4b; color: #ffffff;">
+                        <td>Descrição</td>
+                        <td>Valor</td>
+                        <?php if ($exibirValorPrazoCirurgiao): ?>
+                            <td>Valor a Prazo</td>
+                        <?php endif; ?>
                     </tr>
-                    <tr>
-                        <td scope="row"><p>Cirurgião Auxiliar</p></td>
-                        <td><p id="valorCirurgiao" class="money text-end">{{ $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] ?? '' }}</p></td>
-                    </tr>
-                    <tr>
-                        <td scope="row"><p>Instrumentador</p></td>
-                        <td><p id="valorCirurgiao" class="money text-end">{{ $orcamento->taxa_cirurgiao['instrumentador'] ?? '' }}</p></td>
-                    </tr>
-                    <tr>
-                        <td scope="row"><p>Outros Custos de Cirurgião</p></td>
-                        <td><p id="valorCirurgiao" class="money text-end">{{ $orcamento->taxa_cirurgiao['outrosCustos'] ?? '' }}</p></td>
-                    </tr>
-                    @php
-                    $valor_total_cirurgiao = $orcamento->taxa_cirurgiao['cirurgiaoPrincipal'] + $orcamento->taxa_cirurgiao['cirurgiaoAuxiliar'] + $orcamento->taxa_cirurgiao['instrumentador'] + $orcamento->taxa_cirurgiao['outrosCustos'];
-                    @endphp
-                    <tr>
-                        <td scope="row"><strong>Total</strong></td>
-                        <td class="text-end"><strong>{{ number_format((float)$valor_total_cirurgiao, 2, ',', '')}}</strong></td>
+                    <?php foreach ($dadosCirurgiao as $taxa): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($taxa["Nome"]); ?></td>
+                            <td>R$ <?php echo number_format($taxa["Valor"], 2, ',', '.'); ?></td>
+                            <?php if ($exibirValorPrazoCirurgiao): ?>
+                                <td>R$ <?php echo number_format($taxa["Prazo"], 2, ',', '.'); ?></td>
+                            <?php endif; ?>
+                        </tr>
+
+                        <?php
+                        $totalValorCirurgiao += $taxa["Valor"];
+                        $totalPrazoCirurgiao += $taxa["Prazo"];
+                        ?>
+                    <?php endforeach; ?>
+                    <tr style="background-color: #aaaaaa;">
+                        <td>Total</td>
+                        <td scope="col">R$ <?php echo number_format($totalValorCirurgiao, 2, ',', '.'); ?></td>
+                        <?php if ($exibirValorPrazoCirurgiao): ?>
+                            <td scope="col">R$ <?php echo number_format($totalPrazoCirurgiao, 2, ',', '.'); ?></td>
+                        <?php endif; ?>
                     </tr>
                 </tbody>
             </table>
-            <div class="condicoes mt-4 mb-2">
-                <h4>Condições de Pagamento Cirurgião</h4>
                 <textarea id="condPagamentoCirurgiao" disabled>{{ $orcamento->cond_pagamento_cirurgiao }}</textarea>
-            </div>
         </div>
 
-        <div class="row mt-4 avoid-break">
+        <?php
+        $dadosAnestesista = $orcamento->taxa_anestesista;
+        $totalValorAnestesista = 0;
+        $totalPrazoAnestesista = 0;
+        $exibirValorPrazoAnestesista = false;
+
+        foreach ($dadosAnestesista as $taxa) {
+            if ($taxa["Prazo"] > 0) {
+                $exibirValorPrazoAnestesista = true;
+                break;
+            }
+        }
+        ?>
+
+        <div class="avoid-break">
             <h4 class="titulo">03 - Anestesista</h4>
-            <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col" class="col-10"><h5>Descrição</h5></th>
-                        <th scope="col" class="col-2"><h5>Valor</h5></th>
-                    </tr>
-                </thead>
+            <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
-                    <tr>
-                        <td scope="row"><p>Taxa Anestesia</p></td>
-                        <td><p class="money text-end">{{ $orcamento->taxa_anestesista['taxaAnestesia'] ?? '0,00' }}</p></td>
+                    <tr style="background-color:#2d7b4b; color: #ffffff;">
+                        <td>Descrição</td>
+                        <td>Valor</td>
+                        <?php if ($exibirValorPrazoAnestesista): ?>
+                            <td>Valor a Prazo</td>
+                        <?php endif; ?>
                     </tr>
-                    <tr>
-                        <td scope="row"><p>Outros Custos de Anestesia</p></td>
-                        <td><p class="money text-end">{{ $orcamento->taxa_anestesista['outrosCustosAnestesia'] ?? '00,00' }}</p></td>
-                    </tr>
-                    @php
-                    $valor_total_anestesista = $orcamento->taxa_anestesista['outrosCustosAnestesia'] + $orcamento->taxa_anestesista['taxaAnestesia'];
-                    @endphp
-                    <tr>
-                        <td scope="row"><strong>Total</strong></td>
-                        <td class="text-end"><strong>{{ number_format((float)$valor_total_anestesista, 2, ',', '')}}</strong></td>
+                    <?php foreach ($dadosAnestesista as $taxa): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($taxa["Nome"]); ?></td>
+                            <td>R$ <?php echo number_format($taxa["Valor"], 2, ',', '.'); ?></td>
+                            <?php if ($exibirValorPrazoAnestesista): ?>
+                            <td>R$ <?php echo number_format($taxa["Prazo"], 2, ',', '.'); ?></td>
+                            <?php endif; ?>
+                        </tr>
+                        <?php
+                        $totalValorAnestesista += $taxa["Valor"];
+                        $totalPrazoAnestesista += $taxa["Prazo"];
+                        ?>
+                    <?php endforeach; ?>
+                    <tr style="background-color: #aaaaaa;">
+                        <td>Total</td>
+                        <td scope="col">R$ <?php echo number_format($totalValorAnestesista, 2, ',', '.'); ?></td>
+                        <?php if ($exibirValorPrazoAnestesista): ?>
+                            <td scope="col">R$ <?php echo number_format($totalPrazoAnestesista, 2, ',', '.'); ?></td>
+                        <?php endif; ?>
                     </tr>
                 </tbody>
             </table>
-            <div class="condicoes mt-4 mb-2">
-                <h4>Condições de Pagamento Anestesista</h4>
                 <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista }}</textarea>
-            </div>
         </div>
 
-        <div class="row mt-4 avoid-break">
+
+        <?php
+        $dadosHospital = json_decode($orcamento->precos_procedimentos);
+        $totalValorHospital = 0;
+        $totalPrazoHospital = 0;
+        $exibirValorPrazoHospital = false;
+
+        foreach ($dadosHospital as $taxa) {
+            if ($taxa->valorPrazo > 0) {
+                $exibirValorPrazoHospital = true;
+                break;
+            }
+        }
+        ?>
+        <div class="avoid-break">
             <h4 class="titulo">04 - Hospitalar Diarias, Taxas e Visitas</h4>
-            <input type="hidden" id="precosProcedimentosLoad" value='{{ old("precos_procedimentos", $orcamento->precos_procedimentos ?? "[]") }}'>
-            <table class="table mt-3 table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th><h5>Nome</h5></th>
-                        <th><h5>Quantidade</h5></th>
-                        <th><h5>Valor Unitário</h5></th>
-                        <th><h5>Valor Total</h5></th>
+            <table class="table mt-3 table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
+                <tbody>
+                    <tr style="background-color:#2d7b4b; color: #ffffff;">
+                        <td>Nome</td>
+                        <td>Quantidade</td>
+                        <td>Valor Unitário</td>
+                        <td>Valor Total</td>
+                        <?php if ($exibirValorPrazoHospital): ?>
+                            <td>Valor a Prazo</td>
+                            <td>Valor Total a Prazo</td>
+                        <?php endif; ?>
                     </tr>
-                </thead>
-                <tbody id="tabela-procedimentos">
+                    <?php foreach ($dadosHospital as $taxa): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($taxa->nome); ?></td>
+                            <td><?php echo htmlspecialchars($taxa->qntd); ?></td>
+                            <td>R$ <?php echo number_format($taxa->valor, 2, ',', '.'); ?></td>
+                            <td>R$ <?php echo number_format(($taxa->valor * $taxa->qntd), 2, ',', '.'); ?></td>
+
+                            <?php if ($exibirValorPrazoHospital): ?>
+                            <td>R$ <?php echo number_format($taxa->valorPrazo, 2, ',', '.'); ?></td>
+                            <td>R$ <?php echo number_format(($taxa->valorPrazo * $taxa->qntd), 2, ',', '.'); ?></td>
+                            <?php endif; ?>
+                        </tr>
+                        <?php
+                        $totalValorHospital += $taxa->valor * $taxa->qntd;
+                        $totalPrazoHospital += $taxa->valorPrazo * $taxa->qntd;
+                        ?>
+                    <?php endforeach; ?>
+                    <tr style="background-color: #aaaaaa;">
+                        <td>Total</td>
+                        <td></td>
+                        <td></td>
+                        <td scope="col">R$ <?php echo number_format($totalValorHospital, 2, ',', '.'); ?></td>
+                        <?php if ($exibirValorPrazoHospital): ?>
+                            <td></td>
+                            <td scope="col">R$ <?php echo number_format($totalPrazoAnestesista, 2, ',', '.'); ?></td>
+                        <?php endif; ?>
+                    </tr>
                 </tbody>
             </table>
-            <div class="condicoes mt-4 mb-2">
-                <h4>Condições de Pagamento Hospital</h4>
                 <textarea id="condPagamentoHospital" disabled>{{ $orcamento->cond_pagamento_hosp }}</textarea>
-            </div>
         </div>
 
-        <div class="row mt-4 avoid-break">
+<!--        <div class="row mt-4 avoid-break">
             <h4 class="titulo">05 - Materiais (Ortes, Proteses e Sintese)</h4>
             <p>Não Solicitados</p>
         </div>
-
-        <div class="row mt-4 avoid-break">
+                        -->
+        <div class="avoid-break">
             <h4 class="titulo">06 - Condições Gerais</h4>
             <div class="condicoes mt-4 mb-2">
-                <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista }}</textarea>
-                <p><strong>Validade Orçamento:</strong> {{ $orcamento->validade }}</p>
+                <textarea id="condicoesGerais" disabled>{{ $orcamento->condicoes_gerais }}</textarea>
             </div>
         </div>
 
         <div class="section">
-            <p>Sinop/MT, {{ \Carbon\Carbon::now()->locale('pt_BR')->translatedFormat('d \d\e F \d\e Y') }}</p>
+            <p style="font-size: 12px;">Sinop/MT, {{ $data}}</p> <br><br><br>
             <div class="linha_assinatura"></div><p class="signature">Assinatura do responsável</p>
+        </div>
+
+        <div class="container_img rodape">
+        <img src="imagens/rodape_modelo.jpg" alt="" class="img-fluid mx-auto d-block">
         </div>
     </main>
 </body>
-<script src="/js/modelo_orcamento.js"></script>
 </html>
