@@ -585,8 +585,11 @@ function carregarTaxasAnestesia() {
 
     Object.keys(dados).forEach(id => {
 
+
         let item = dados[id];
-        if (!id === "id0") {
+
+
+        if (!(id === "id0")) {
             adicionarOutroCusto(id, item.Nome, item.Valor, item.Prazo);
         }
 
@@ -829,14 +832,14 @@ function carregarTaxasCirurgiao() {
 
     if (!dados) return;
 
-    let maiorID = 0;
+    let maiorIDCir = 0;
     let exibirColunaPrazoCirurgiao = false;
 
     Object.keys(dados).forEach(id => {
 
         let item = dados[id];
 
-        if (!id === "id0" || !id === "id1" || !id === "id2" || !id === "id3") {
+        if (!(id === "id0" || id === "id1" || id === "id2" || id === "id3")) {
             adicionarOutroCustoCirurgiao(id, item.Nome, item.Valor, item.Prazo);
         }
 
@@ -845,12 +848,12 @@ function carregarTaxasCirurgiao() {
         }
 
         id = id.replace(/\D/g, "");
-        maiorID = Math.max(maiorID, parseInt(id));
+        maiorIDCir = Math.max(maiorIDCir, parseInt(id));
 
 
     });
 
-    id_linha = maiorID++;
+    id_linhaCir = maiorIDCir++;
 
     if (exibirColunaPrazoCirurgiao) {
         addVisibilidadePrazoCirurgiao();
