@@ -125,10 +125,12 @@ thead th, tfoot td {
     background-color: #f1f1f1;
 }
 
-textarea {
-    width: 98%;
-    max-width: 98%;
-    height: 50px;
+.texto_html {
+    width: 99%;
+    max-width: 99%;
+    height: auto;
+    overflow: hidden;
+    min-height: 40px;
     border: 1px solid #ced4da;
     border-radius: 5px;
     padding: 4px;
@@ -256,6 +258,7 @@ section {
     padding-right: 0px;
 }
 
+
 </style>
 
 </head>
@@ -366,7 +369,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <textarea id="condPagamentoCirurgiao" disabled>{{ $orcamento->cond_pagamento_cirurgiao  ?? ''  }}</textarea>
+                <div class="texto_html">{!!  html_entity_decode($cond_pagamento_cirurgiao) !!}</div>
         </div>
 
         <?php
@@ -422,7 +425,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <textarea id="condPagamentoAnestesista" disabled>{{ $orcamento->cond_pagamento_anestesista  ?? ''  }}</textarea>
+            <div class="texto_html">{!!  html_entity_decode($cond_pagamento_anestesista) !!}</div>
         </div>
 
 
@@ -488,7 +491,8 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <textarea id="condPagamentoHospital" disabled>{!! $orcamento->cond_pagamento_hosp !!}</textarea>
+                <div class="texto_html">{!!  html_entity_decode($cond_pagamento_hospital) !!}</div>
+
         </div>
 
 <!--        <div class="row mt-4 avoid-break">
@@ -498,9 +502,7 @@ section {
                         -->
         <div class="avoid-break">
             <h4 class="titulo">06 - Condições Gerais</h4>
-            <div class="condicoes mt-4 mb-2">
-                <textarea id="condicoesGerais" disabled>{{ $orcamento->condicoes_gerais ?? ''  }}</textarea>
-            </div>
+            <div class="texto_html">{!!  html_entity_decode($cond_gerais) !!}</div>
         </div>
 
         <div class="section">

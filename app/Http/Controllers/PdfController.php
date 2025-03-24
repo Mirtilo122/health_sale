@@ -26,10 +26,22 @@ class PdfController extends Controller
 
         $data = Carbon::now()->locale('pt_BR')->translatedFormat('d \d\e F \d\e Y');
 
+        $cond_pagamento_cirurgiao = Orcamento::where('codigo_solicitacao', $codigo_solicitacao)->value('cond_pagamento_cirurgiao') ?? '';
+        $cond_pagamento_cirurgiao = str_replace(["\r\n", "\n", "\r"], '', $cond_pagamento_cirurgiao);
+
+        $cond_pagamento_anestesista = Orcamento::where('codigo_solicitacao', $codigo_solicitacao)->value('cond_pagamento_anestesista') ?? '';
+        $cond_pagamento_anestesista = str_replace(["\r\n", "\n", "\r"], '', $cond_pagamento_anestesista);
+
+        $cond_pagamento_hospital = Orcamento::where('codigo_solicitacao', $codigo_solicitacao)->value('cond_pagamento_hosp') ?? '';
+        $cond_pagamento_hospital = str_replace(["\r\n", "\n", "\r"], '', $cond_pagamento_hospital);
+
+        $cond_gerais = Orcamento::where('codigo_solicitacao', $codigo_solicitacao)->value('condicoes_gerais') ?? '';
+        $cond_gerais = str_replace(["\r\n", "\n", "\r"], '', $cond_gerais);
+
 
         PDF::setOptions($options);
 
-        $pdf = PDF::loadView('pdf.relatorio', compact('solicitacao', 'orcamento', 'data'));
+        $pdf = PDF::loadView('pdf.relatorio', compact('solicitacao', 'orcamento', 'data', 'cond_pagamento_cirurgiao', 'cond_pagamento_anestesista', 'cond_pagamento_hospital', 'cond_gerais'));
 
         return $pdf->download('orcamento_' . $codigo_solicitacao . '.pdf');
     }
