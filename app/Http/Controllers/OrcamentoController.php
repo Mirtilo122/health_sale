@@ -276,6 +276,7 @@ class OrcamentoController extends Controller
 
             $taxaCirurgiao = json_decode($request->taxa_cirurgiao, true);
             $taxaAnestesia = json_decode($request->taxa_anestesia, true);
+            $procedimentosSecundarios = json_decode($request->procedimentos_json, true);
 
             $dados = $request->except('_token');
             $dados['codigo_tabela_base'] = 1;
@@ -286,6 +287,7 @@ class OrcamentoController extends Controller
 
             $dados['taxa_cirurgiao'] = $taxaCirurgiao;
             $dados['taxa_anestesista'] = $taxaAnestesia;
+            $dados['procedimentos_secundarios'] = $procedimentosSecundarios;
 
             $camposCirurgiao = ['nome_cirurgiao', 'telefone_cirurgiao', 'email_cirurgiao', 'crm_cirurgiao'];
             foreach ($camposCirurgiao as $campo) {
@@ -303,7 +305,6 @@ class OrcamentoController extends Controller
             $dados['id_usuarios_visualizar'] = json_encode(array_values(array_diff($idsVisualizar, $idsEditar)) ?: []);
 
 
-            $dados['procedimentos_secundarios'] = $request->input('procedimentos_json', '[]');
 
             if ($request->hasFile('arquivo_condicoes')) {
                 $arquivo = $request->file('arquivo_condicoes');
@@ -398,9 +399,6 @@ class OrcamentoController extends Controller
     public function searchTussCodigo(Request $request)
     {
         $query = $request->get('query');
-
-        dd($query);
-
 
         $results = Tuss::where('codigo', 'LIKE', "%$query%")
                     ->limit(10)
