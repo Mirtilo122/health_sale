@@ -414,8 +414,6 @@ class OrcamentoController extends Controller
             if (isset($dados['diarias_uti'])) {
                 $solicitacao->diarias_uti = $dados['diarias_uti'];
             }
-
-            $solicitacao->save();
         }
 
         if ($orcamento) {
@@ -434,6 +432,10 @@ class OrcamentoController extends Controller
         } else {
             $orcamento = Orcamento::create($dados);
             $mensagem = 'Orçamento criado com sucesso!';
+        }
+
+        if ($solicitacao) {
+            $solicitacao->save();
         }
 
         return redirect()->route('dashboard')->with('mensagem', $mensagem);
