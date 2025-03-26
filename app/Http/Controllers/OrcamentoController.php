@@ -14,47 +14,80 @@ use Illuminate\Support\Facades\Validator;
 
 class OrcamentoController extends Controller
 {
-    public function atribuirUsuarios($id)
+    private function carregarDados($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
         $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
-                        ->where('ativo', 1)
-                        ->get();
-
+                            ->where('ativo', 1)
+                            ->get();
+        $modelos = Modelo::where('ativo', true)->get();
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
-        $idCirurgiaoSelecionado = null;
-        $idAnestesistaSelecionado = null;
+        $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
+        $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
         $idsVisualizar = [];
         $idsEditar = [];
 
+
+        if (!$orcamento && $solicitacao->status !== 'atribuido') {
+            return false;
+        }
+
         if ($orcamento) {
-            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
-            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
             $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
+            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
             $dados = $orcamento;
         } else {
             $dados = $solicitacao;
         }
 
-        $status = $solicitacao->status;
+        return compact(
+            'solicitacao', 'cirurgioes', 'anestesistas', 'agentes',
+            'idCirurgiaoSelecionado', 'idAnestesistaSelecionado',
+            'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'
+        );
+    }
 
+    private function atualizarSolicitacaoEAtribuir($solicitacao)
+    {
+        $solicitacao->status = 'atribuido';
+        $solicitacao->save();
+    }
+
+    public function atribuirUsuarios($id)
+    {
+        $dados = $this->carregarDados($id);
+
+        $solicitacao = $dados['solicitacao'];
+        $cirurgioes = $dados['cirurgioes'];
+        $anestesistas = $dados['anestesistas'];
+        $agentes = $dados['agentes'];
+        $modelos = $dados['modelos'];
+        $orcamento = $dados['orcamento'];
+        $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
+        $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
+        $idsVisualizar = $dados['idsVisualizar'];
+        $idsEditar = $dados['idsEditar'];
+        $dados = $dados['dados'];
+
+        $status = $solicitacao->status;
         if ($status !== 'atribuido') {
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
+
         return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados'));
     }
+
+
     public function cirurgiao($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
-
 
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
@@ -64,7 +97,9 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $dados = $orcamento;
         } else {
-            $dados = $solicitacao;
+            $this->atualizarSolicitacaoEAtribuir($solicitacao);
+
+            return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado. Solicitação atualizada para "Atribuídas".');
         }
 
         $status = $solicitacao->status;
@@ -90,7 +125,9 @@ class OrcamentoController extends Controller
             $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
             $dados = $orcamento;
         } else {
-            $dados = $solicitacao;
+            $this->atualizarSolicitacaoEAtribuir($solicitacao);
+
+            return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado. Solicitação atualizada para "Atribuídas".');
         }
 
         $status = $solicitacao->status;
@@ -101,119 +138,104 @@ class OrcamentoController extends Controller
 
         return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
     }
+
+
     public function criacaoOrcamento($id)
     {
-        $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
-                        ->where('ativo', 1)
-                        ->get();
+        $dados = $this->carregarDados($id);
 
-        $modelos = Modelo::where('ativo', true)->get();
+        if (!$dados) {
+            $solicitacao = SolicitacaoOrcamento::findOrFail($id);
+            $this->atualizarSolicitacaoEAtribuir($solicitacao);
 
-        $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
-
-        $idCirurgiaoSelecionado = null;
-        $idAnestesistaSelecionado = null;
-        $idsVisualizar = [];
-        $idsEditar = [];
-
-        if ($orcamento) {
-            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
-            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
-            $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
-            $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
-            $dados = $orcamento;
-        } else {
-            $dados = $solicitacao;
+            return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado. Solicitação atualizada para "Atribuídas".');
         }
 
-        $status = $solicitacao->status;
+        $solicitacao = $dados['solicitacao'];
+        $cirurgioes = $dados['cirurgioes'];
+        $anestesistas = $dados['anestesistas'];
+        $agentes = $dados['agentes'];
+        $modelos = $dados['modelos'];
+        $orcamento = $dados['orcamento'];
+        $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
+        $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
+        $idsVisualizar = $dados['idsVisualizar'];
+        $idsEditar = $dados['idsEditar'];
+        $dados = $dados['dados'];
 
+        $status = $solicitacao->status;
         if ($status !== 'criacao') {
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
+
+
     public function liberacao($id)
     {
-        $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
-                        ->where('ativo', 1)
-                        ->get();
+        $dados = $this->carregarDados($id);
 
-        $modelos = Modelo::where('ativo', true)->get();
+        if (!$dados) {
+            $solicitacao = SolicitacaoOrcamento::findOrFail($id);
+            $this->atualizarSolicitacaoEAtribuir($solicitacao);
 
-        $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
-
-
-
-        $idCirurgiaoSelecionado = null;
-        $idAnestesistaSelecionado = null;
-        $idsVisualizar = [];
-        $idsEditar = [];
-
-        if ($orcamento) {
-            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
-            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
-            $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
-            $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
-            $dados = $orcamento;
-        } else {
-            $dados = $solicitacao;
+            return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado. Solicitação atualizada para "Atribuídas".');
         }
 
-        $status = $solicitacao->status;
+        $solicitacao = $dados['solicitacao'];
+        $cirurgioes = $dados['cirurgioes'];
+        $anestesistas = $dados['anestesistas'];
+        $agentes = $dados['agentes'];
+        $modelos = $dados['modelos'];
+        $orcamento = $dados['orcamento'];
+        $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
+        $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
+        $idsVisualizar = $dados['idsVisualizar'];
+        $idsEditar = $dados['idsEditar'];
+        $dados = $dados['dados'];
 
+        $status = $solicitacao->status;
         if ($status !== 'liberacao') {
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
+
+
     public function negociacao($id)
     {
-        $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
-        $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
-                        ->where('ativo', 1)
-                        ->get();
+        $dados = $this->carregarDados($id);
 
-        $modelos = Modelo::where('ativo', true)->get();
+        if (!$dados) {
+            $solicitacao = SolicitacaoOrcamento::findOrFail($id);
+            $this->atualizarSolicitacaoEAtribuir($solicitacao);
 
-        $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
-
-        $idCirurgiaoSelecionado = null;
-        $idAnestesistaSelecionado = null;
-        $idsVisualizar = [];
-        $idsEditar = [];
-
-        if ($orcamento) {
-            $orcamento->validade = $orcamento->validade ? Carbon::parse($orcamento->validade)->format('Y-m-d') : null;
-            $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
-            $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
-            $idsVisualizar = $orcamento->id_usuarios_visualizar ? json_decode($orcamento->id_usuarios_visualizar, true) : [];
-            $idsEditar = $orcamento->id_usuarios_editar ? json_decode($orcamento->id_usuarios_editar, true) : [];
-            $dados = $orcamento;
-        } else {
-            $dados = $solicitacao;
+            return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado. Solicitação atualizada para "Atribuídas".');
         }
 
-        $status = $solicitacao->status;
+        $solicitacao = $dados['solicitacao'];
+        $cirurgioes = $dados['cirurgioes'];
+        $anestesistas = $dados['anestesistas'];
+        $agentes = $dados['agentes'];
+        $modelos = $dados['modelos'];
+        $orcamento = $dados['orcamento'];
+        $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
+        $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
+        $idsVisualizar = $dados['idsVisualizar'];
+        $idsEditar = $dados['idsEditar'];
+        $dados = $dados['dados'];
 
+        $status = $solicitacao->status;
         if ($status !== 'negociacao') {
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
         return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
     }
+
+
     public function concluido($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
