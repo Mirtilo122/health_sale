@@ -526,7 +526,7 @@ function removeVisibilidadePrazoHospital() {
 
 
 
-let id_linha = 0;
+let id_linha = 1;
 visibilidade_valor_prazo = false;
 
 function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,00") {
@@ -578,7 +578,8 @@ function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,0
 function carregarTaxasAnestesia() {
     let dados = taxaAnestesiaJson;
 
-    if (!dados) return;
+
+    if (!dados || dados == '[]') return;
 
     let maiorID = 0;
     let exibirColunaPrazo = false;
@@ -618,6 +619,7 @@ function removerLinha(botao) {
 
 try{
     document.addEventListener("DOMContentLoaded", carregarTaxasAnestesia);
+    calcularTotalPrazoAnestesia();
 } catch {
 }
 
@@ -778,7 +780,7 @@ try {
 
 
 
-let id_linha_cir = 0;
+let id_linha_cir = 4;
 visibilidade_valor_prazo_cir = false;
 
 function adicionarOutroCustoCirurgiao(id = null, nome = "", valor = "00,00", prazo = "0,00") {
@@ -830,7 +832,7 @@ function adicionarOutroCustoCirurgiao(id = null, nome = "", valor = "00,00", pra
 function carregarTaxasCirurgiao() {
     let dados = taxaCirurgiaoJson;
 
-    if (!dados) return;
+    if (!dados || dados == '[]') return;
 
     let maiorIDCir = 0;
     let exibirColunaPrazoCirurgiao = false;
@@ -870,6 +872,7 @@ function removerLinhaCir(botao) {
 
 try{
     document.addEventListener("DOMContentLoaded", carregarTaxasCirurgiao);
+    calcularTotalPrazoCirurgiao();
 } catch {
 }
 
@@ -1242,38 +1245,42 @@ function atualizarProcedimentosSecHidden() {
     document.getElementById("procedimentos_json").value = JSON.stringify(procedimentos);
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    try{
 
-try{
 
-    document.addEventListener("DOMContentLoaded", function () {
 
-    let inputProcedimentos = document.getElementById("procedimentosSecundariosLoad").value;
-    let dadosString = JSON.parse(inputProcedimentos);
-    let dados;
+        let inputProcedimentos = document.getElementById("procedimentosSecundariosLoad").value;
 
-    try {
-        dados = JSON.parse(dadosString);
-    } catch (error) {
-        console.error("Erro ao converter JSON:", error);
-    }
-
-    if (dados) {
-    try {
-        Object.keys(dados).forEach(id => {
-            let item = dados[id];
-            adicionarSecundario(item.codTuss, item.procedimento)
-
-        });
-        } catch (error) {
-            console.error("Erro ao carregar procedimentos secundários:", error);
+        if (!inputProcedimentos) {
+            return;
         }
-    }
 
-    atualizarProcedimentosSecHidden();
-    });
-} catch {}
+        let dadosString = JSON.parse(inputProcedimentos);
+        let dados;
 
+        try {
+            dados = JSON.parse(dadosString);
+        } catch (error) {
+            console.error("Erro ao converter JSON:", error);
+        }
 
+        if (dados) {
+        try {
+            Object.keys(dados).forEach(id => {
+                let item = dados[id];
+                adicionarSecundario(item.codTuss, item.procedimento)
+
+            });
+            } catch (error) {
+                console.error("Erro ao carregar procedimentos secundários:", error);
+            }
+        }
+
+        atualizarProcedimentosSecHidden();
+
+    } catch {}
+});
 
 // Funções de envio de orçamento
 

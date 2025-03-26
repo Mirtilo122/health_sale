@@ -63,7 +63,7 @@
         </div>
 
         <label for="observacoesPaciente">Observações:</label>
-        <textarea id="observacoesPaciente" name="observacoes_adicionais" rows="4" value="{{$dados->observacoes_adicionais}}"></textarea>
+        <textarea id="observacoesPaciente" name="observacoes_adicionais" rows="4">{{$dados->observacoes_adicionais}}</textarea>
 
     </div>
 

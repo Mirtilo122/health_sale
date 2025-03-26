@@ -58,7 +58,6 @@ session(['codigo_solicitacao' => $solicitacao->codigo_solicitacao]);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/etapasOrcamento.js"></script>
-<script src="/js/tuss-search.js"></script>
 <script>
 try {
 
@@ -82,7 +81,7 @@ try {
 
 
 
-
+try{
 
 $(document).ready(function() {
     function showSuggestions(data, target) {
@@ -144,6 +143,8 @@ $(document).ready(function() {
         }
     });
 });
+
+} catch {}
 
 </script>
 

@@ -271,6 +271,7 @@ class OrcamentoController extends Controller
     public function atualizarOrcamento(Request $request)
     {
 
+
         session(['aba_ativa' => $request->aba_ativa]);
 
         $validator = Validator::make($request->all(), [
@@ -387,7 +388,7 @@ class OrcamentoController extends Controller
         $dados['status'] = $request->status;
         $dados['codigo_solicitacao'] = $codigoSolicitacao;
         $dados['precos_procedimentos'] = $request->input('precos_procedimentos', '[]');
-
+        $dados['observacoes_adicionais'] = trim($request->observacoes_adicionais);
 
 
         $orcamento = Orcamento::where('codigo_solicitacao', $codigoSolicitacao)->first();
