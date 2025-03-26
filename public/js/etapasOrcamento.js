@@ -521,7 +521,6 @@ function removeVisibilidadePrazoHospital() {
 
 
 
-
 // Adicionar preços dinâmicos anestesia
 
 
@@ -541,7 +540,7 @@ function adicionarOutroCusto(id = null, nome = "", valor = "00,00", prazo = "0,0
     }
 
     let novaLinhaHTML = `
-        <td><input type="text" name="taxaAnestesiaNome${id}" class="form-control" placeholder="Nome do custo" value="${nome}"></td>
+        <td><input type="text" name="taxaAnestesiaNome${id}" class="form-control" placeholder="Nome do custo" value="${nome}" onblur='atualizarTaxaAnestesiaJson();'></td>
         <td><input type="text" id="taxaAnestesiaValor${id}" name="taxaAnestesiaValor${id}" class="form-control money taxaAnestesia text-end" value="${valor}" oninput="calcularTotalAnestesia()"></td>
     `;
 
@@ -795,7 +794,7 @@ function adicionarOutroCustoCirurgiao(id = null, nome = "", valor = "00,00", pra
     }
 
     let novaLinhaHTML = `
-        <td><input type="text" name="taxaCirurgiaoNome${id}" class="form-control" placeholder="Nome do custo" value="${nome}"></td>
+        <td><input type="text" name="taxaCirurgiaoNome${id}" class="form-control" placeholder="Nome do custo" value="${nome}" onblur='atualizarTaxaCirurgiaoJson();'></td>
         <td><input type="text" id="taxaCirurgiaoValor${id}" name="taxaCirurgiaoValor${id}" class="form-control money taxaCirurgiao text-end" value="${valor}" oninput="calcularTotal()"></td>
     `;
 
