@@ -101,7 +101,7 @@ td {
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
-    padding-left: 10px;
+    padding-left: 5px;
 }
 
 thead tr th{
@@ -146,10 +146,20 @@ thead th, tfoot td {
 }
 
 .linha_assinatura {
-    width: 100%;
+    width: 70%;
     height: 1px;
     background-color: #000;
     margin-bottom: 20px;
+    margin-left: 15%;
+}
+
+.linha_sessao {
+    width: 80%;
+    height: 1px;
+    background-color:rgb(172, 172, 172);
+    margin-bottom: 20px;
+    margin-left: 10%;
+    display: none;
 }
 
 .contact {
@@ -236,7 +246,6 @@ section {
     border: none;
     border-collapse: collapse;
     width: 100%;
-    margin-left: 5%;
 }
 
 .table-custom td {
@@ -271,39 +280,32 @@ section {
 
 
         <h2>PROPOSTA</h2>
+        <div class="linha_sessao"></div>
 
         <table class="table-custom">
             <tbody>
                 <tr>
-                    <td><p><strong>Código Solicitação:</strong> {{ $orcamento->codigo_solicitacao ?? 'Não informado' }}</p></td>
-                    <td><p><strong>Paciente:</strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</p></td>
-                    <td><p><strong>Atendente:</strong> {{ $orcamento->responsavel?->usuario ? ucfirst($orcamento->responsavel->usuario) : 'Não informado' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p><strong>Protocolo:</strong> {{ $solicitacao->protocolo ?? 'Não informado' }}</p></td>
-                    <td><p><strong>Nascimento:</strong> {{ $orcamento->data_nascimento ? \Carbon\Carbon::parse($orcamento->data_nascimento)->format('d/m/Y') : 'Não informado' }}</p></td>
-                    <td><p><strong>Cirurgião:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p><strong>Tipo de Orçamento:</strong> {{ ucfirst($orcamento->tipo_orcamento) ?? 'Não informado' }}</p></td>
-                    <td><p><strong>Cidade/UF:</strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</p></td>
-                    <td><p><strong>Data Provável:</strong> {{ $orcamento->data_provavel ? \Carbon\Carbon::parse($orcamento->data_provavel)->format('d/m/Y') : 'Não informado' }}</p></td>
-                </tr>
-                <tr>
-                    <td<p><strong>Solicitante:</strong> {{ ucfirst($orcamento->nome_solicitante) ?? 'Não informado' }}</p></td>
-                    <td><p><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</p></td>
-                    <td><p><strong>Validade:</strong> {{ $solicitacao->validade ? \Carbon\Carbon::parse($solicitacao->validade)->format('d/m/Y') : 'Não informado' }}</p></td>
-                </tr>
-                <tr>
-                    <td><p><strong>Telefone:</strong> {{ $orcamento->telefone ?? 'Não informado' }}</p></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <p><strong>Código Solicitação:</strong> {{ $orcamento->codigo_solicitacao ?? 'Não informado' }}</p>
+                        <p><strong>Paciente:</strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</p>
+                        <p><strong>Solicitante:</strong> {{ ucfirst($orcamento->nome_solicitante) ?? 'Não informado' }}</p>
+                        <p><strong>Médico Responsável:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</p>
+                        <p><strong>Protocolo:</strong> {{ $solicitacao->protocolo ?? 'Não informado' }}</p>
+                    </td>
+                    <td>
+                        <p><strong>Data de Nascimento:</strong> {{ $orcamento->data_nascimento ? \Carbon\Carbon::parse($orcamento->data_nascimento)->format('d/m/Y') : 'Não informado' }}</p>
+                        <p><strong>Telefone:</strong> {{ $orcamento->telefone ?? 'Não informado' }}</p>
+                        <p><strong>Tipo de Orçamento:</strong> {{ ucfirst($orcamento->tipo_orcamento) ?? 'Não informado' }}</p>
+                        <p><strong>Cidade/UF:</strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</p>
+                        <p><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</p>
+                    </td>
                 </tr>
             </tbody>
         </table>
 
         <section class="avoid-break">
             <h4 class="titulo">01 - Procedimentos</h4>
+            <div class="linha_sessao"></div>
             <p><strong>{{$orcamento->cod_tuss_principal ?? 'Não informado' }}</strong> - {{ ucfirst($orcamento->procedimento_principal) ?? 'Não informado' }}</p>
 
             @php
@@ -333,6 +335,7 @@ section {
 
         <div>
             <h4 class="titulo">02 - Honorarios Medicos</h4>
+            <div class="linha_sessao"></div>
             <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
@@ -369,7 +372,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <div class="texto_html">{!!  html_entity_decode($cond_pagamento_cirurgiao) !!}</div>
+                {!!  html_entity_decode($cond_pagamento_cirurgiao) !!}
         </div>
 
         <?php
@@ -390,6 +393,7 @@ section {
 
         <div class="avoid-break">
             <h4 class="titulo">03 - Anestesista</h4>
+            <div class="linha_sessao"></div>
             <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
@@ -425,9 +429,8 @@ section {
                     </tr>
                 </tbody>
             </table>
-            <div class="texto_html">{!!  html_entity_decode($cond_pagamento_anestesista) !!}</div>
+            {!!  html_entity_decode($cond_pagamento_anestesista) !!}
         </div>
-
 
         <?php
         $dadosHospital = json_decode($orcamento->precos_procedimentos);
@@ -446,6 +449,7 @@ section {
         ?>
         <div class="avoid-break">
             <h4 class="titulo">04 - Hospitalar Diarias, Taxas e Visitas</h4>
+            <div class="linha_sessao"></div>
             <table class="table mt-3 table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
@@ -491,7 +495,7 @@ section {
                     </tr>
                 </tbody>
             </table>
-                <div class="texto_html">{!!  html_entity_decode($cond_pagamento_hospital) !!}</div>
+            {!!  html_entity_decode($cond_pagamento_hospital) !!}
 
         </div>
 
@@ -502,10 +506,12 @@ section {
                         -->
         <div class="avoid-break">
             <h4 class="titulo">06 - Condições Gerais</h4>
-            <div class="texto_html">{!!  html_entity_decode($cond_gerais) !!}</div>
+            <div class="linha_sessao"></div>
+            {!!  html_entity_decode($cond_gerais) !!}
         </div>
+        <p><strong>Validade:</strong> {{ $solicitacao->validade ? \Carbon\Carbon::parse($solicitacao->validade)->format('d/m/Y') : 'Não informado' }}</p>
 
-        <div class="section">
+        <div class="section avoid-break">
             <p style="font-size: 12px;">Sinop/MT, {{ $data}}</p> <br><br><br>
             <div class="linha_assinatura"></div><p class="signature">Assinatura do responsável</p>
         </div>
