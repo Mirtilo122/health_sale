@@ -246,17 +246,20 @@ section {
     border: none;
     border-collapse: collapse;
     width: 100%;
+    margin: 0px;
+    padding: 0px;
 }
-
 .table-custom td {
     border: none;
-    padding: 0;
     text-align: left;
-    width: 33.333%;
+    margin: 0px;
+    padding: 0px;
 }
 
 .table-custom tr {
-    border: none
+    border: none;
+    margin: 0px;
+    padding: 0px;
 }
 
 .rodape {
@@ -282,26 +285,45 @@ section {
         <h2>PROPOSTA</h2>
         <div class="linha_sessao"></div>
 
-        <table class="table-custom">
-            <tbody>
-                <tr>
-                    <td>
-                        <p><strong>Código Solicitação:</strong> {{ $orcamento->codigo_solicitacao ?? 'Não informado' }}</p>
-                        <p><strong>Paciente:</strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</p>
-                        <p><strong>Solicitante:</strong> {{ ucfirst($orcamento->nome_solicitante) ?? 'Não informado' }}</p>
-                        <p><strong>Médico Responsável:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</p>
-                        <p><strong>Protocolo:</strong> {{ $solicitacao->protocolo ?? 'Não informado' }}</p>
-                    </td>
-                    <td>
-                        <p><strong>Data de Nascimento:</strong> {{ $orcamento->data_nascimento ? \Carbon\Carbon::parse($orcamento->data_nascimento)->format('d/m/Y') : 'Não informado' }}</p>
-                        <p><strong>Telefone:</strong> {{ $orcamento->telefone ?? 'Não informado' }}</p>
-                        <p><strong>Tipo de Orçamento:</strong> {{ ucfirst($orcamento->tipo_orcamento) ?? 'Não informado' }}</p>
-                        <p><strong>Cidade/UF:</strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</p>
-                        <p><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div>
+            <table class="table-custom">
+                <tbody>
+                    <tr>
+                        <td><strong>Código Solicitação: </strong>{{ $orcamento->codigo_solicitacao ?? 'Não informado' }}</td>
+                        <td><strong>Protocolo: </strong>{{ $solicitacao->protocolo ?? 'Não informado' }}</td>
+                        <td><strong>Tipo de Orçamento: </strong>{{ ucfirst($orcamento->tipo_orcamento) ?? 'Não informado' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table-custom">
+                <tbody>
+                    <tr height="50%">
+                        <td width="50%"><strong>Paciente: </strong> {{ $orcamento->nome_paciente ? ucfirst($orcamento->nome_paciente) : 'Não informado' }}</td>
+                        <td width="30%"><strong>Nascimento: </strong> {{ $orcamento->data_nascimento ? \Carbon\Carbon::parse($orcamento->data_nascimento)->format('d/m/Y') : 'Não informado' }}</td>
+                        <td width="20%"><strong>Cidade/UF: </strong> {{ $orcamento->cidade ? ucfirst($orcamento->cidade) : 'Não informado' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table-custom">
+                <tbody>
+                    <tr>
+                        <td width="60%"><strong>Solicitante: </strong> {{ ucfirst($orcamento->nome_solicitante) ?? 'Não informado' }}</td>
+                        <td width="40%"><strong>Telefone: </strong> {{ $orcamento->telefone ?? 'Não informado' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table-custom">
+                <tbody>
+                    <tr>
+                        <td width="60%"><strong>Médico Responsável:</strong> {{ $orcamento->cirurgiao_responsavel?->usuario ? ucfirst($orcamento->cirurgiao_responsavel->usuario) : 'Não informado' }}</td>
+                        <td width="40%"><strong>Convenio:</strong> {{ $orcamento->convenio ? ucfirst($orcamento->convenio) : 'Não informado' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
 
         <section class="avoid-break">
             <h4 class="titulo">01 - Procedimentos</h4>
@@ -339,10 +361,10 @@ section {
             <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
-                        <td>Descrição</td>
-                        <td>Valor</td>
+                        <td width="60%">Descrição</td>
+                        <td width="20%">Valor</td>
                         <?php if ($exibirValorPrazoCirurgiao): ?>
-                            <td>Valor a Prazo</td>
+                            <td width="20%">Valor a Prazo</td>
                         <?php endif; ?>
                     </tr>
                     <?php if (!empty($dadosCirurgiao) && is_array($dadosCirurgiao)): ?>
@@ -361,7 +383,7 @@ section {
                             ?>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>Nenhuma informação disponível.</p>
+                        <p style="padding-left: 5px;">Nenhuma informação disponível.</p>
                     <?php endif; ?>
                     <tr style="background-color: #aaaaaa;">
                         <td>Total</td>
@@ -397,10 +419,10 @@ section {
             <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
-                        <td>Descrição</td>
-                        <td>Valor</td>
+                        <td width="60%">Descrição</td>
+                        <td width="20%">Valor</td>
                         <?php if ($exibirValorPrazoAnestesista): ?>
-                            <td>Valor a Prazo</td>
+                            <td width="20%">Valor a Prazo</td>
                         <?php endif; ?>
                     </tr>
                     <?php if (!empty($dadosAnestesista) && is_array($dadosAnestesista)): ?>
@@ -418,7 +440,7 @@ section {
                         ?>
                     <?php endforeach; ?>
                     <?php else: ?>
-                        <p>Nenhuma informação disponível.</p>
+                        <p style="padding-left: 5px;">Nenhuma informação disponível.</p>
                     <?php endif; ?>
                     <tr style="background-color: #aaaaaa;">
                         <td>Total</td>
@@ -453,8 +475,8 @@ section {
             <table class="table mt-3 table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
-                        <td>Nome</td>
-                        <td>Quantidade</td>
+                        <td width="40%">Nome</td>
+                        <td width="10%">Quantidade</td>
                         <td>Valor Unitário</td>
                         <td>Valor Total</td>
                         <?php if ($exibirValorPrazoHospital): ?>
@@ -481,7 +503,7 @@ section {
                         ?>
                     <?php endforeach; ?>
                     <?php else: ?>
-                        <p>Nenhuma informação disponível.</p>
+                        <p style="padding-left: 5px;">Nenhuma informação disponível.</p>
                     <?php endif; ?>
                     <tr style="background-color: #aaaaaa;">
                         <td>Total</td>
