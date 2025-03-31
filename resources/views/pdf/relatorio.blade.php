@@ -358,7 +358,7 @@ section {
         <div>
             <h4 class="titulo">02 - Honorarios Medicos</h4>
             <div class="linha_sessao"></div>
-            <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
+            <table class="table table-bordered table-striped table-hover avoid-break" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
                         <td width="60%">Descrição</td>
@@ -413,10 +413,10 @@ section {
         endif;
         ?>
 
-        <div class="avoid-break">
+        <div>
             <h4 class="titulo">03 - Anestesista</h4>
             <div class="linha_sessao"></div>
-            <table class="table table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
+            <table class="table table-bordered table-striped table-hover avoid-break" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
                         <td width="60%">Descrição</td>
@@ -469,10 +469,10 @@ section {
         }
         endif;
         ?>
-        <div class="avoid-break">
+        <div>
             <h4 class="titulo">04 - Hospitalar Diarias, Taxas e Visitas</h4>
             <div class="linha_sessao"></div>
-            <table class="table mt-3 table-bordered table-striped table-hover" style="border-radius: 5px; overflow: hidden;">
+            <table class="table mt-3 table-bordered table-striped table-hover avoid-break" style="border-radius: 5px; overflow: hidden;">
                 <tbody>
                     <tr style="background-color:#2d7b4b; color: #ffffff;">
                         <td width="40%">Nome</td>
@@ -526,7 +526,7 @@ section {
             <p>Não Solicitados</p>
         </div>
                         -->
-        <div class="avoid-break">
+        <div>
             <h4 class="titulo">06 - Condições Gerais</h4>
             <div class="linha_sessao"></div>
             {!!  html_entity_decode($cond_gerais) !!}
