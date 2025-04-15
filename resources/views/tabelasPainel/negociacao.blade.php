@@ -28,8 +28,8 @@
                         <th scope="col" class="align-middle text-center"><a class="align-middle text-center tittle_table">Urgência</a></th>
                         <th scope="col" class="align-middle text-center"><a class="align-middle text-center tittle_table">Valor</a></th>
                         <th scope="col" class="align-middle text-center">
-                            <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
-                            class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
+                            <a href="{{ route('dashboard.order', ['order_by' => 'data_negociacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
+                            class="sortable {{ request()->order_by == 'data_negociacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
                             Tempo
                             </a>
                         </th>

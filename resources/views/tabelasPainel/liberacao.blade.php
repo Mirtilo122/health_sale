@@ -30,6 +30,12 @@
                         <th scope="col" class="align-middle text-center">
                             <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
                             class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
+                            Solicitado Em
+                            </a>
+                        </th>
+                        <th scope="col" class="align-middle text-center">
+                            <a href="{{ route('dashboard.order', ['order_by' => 'data_liberacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
+                            class="sortable {{ request()->order_by == 'data_liberacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
                             Tempo
                             </a>
                         </th>
@@ -113,6 +119,12 @@
                             <td scope="row" class="align-middle text-center">
                                 {{ isset($solicitacao->orcamento->valor_total) ? number_format($solicitacao->orcamento->valor_total, 2, ',', '.') : '00,00' }}
                             </td>
+
+                            <td scope="row" class="align-middle text-center">
+                                {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('d/m/Y') }}<br>
+                                {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('H:i') }}
+                            </td>
+
                             <td scope="row" class="align-middle text-center
                                 @php
                                     $diferencaMinutos = \Carbon\Carbon::parse($solicitacao->data_liberacao)->diffInMinutes(now());

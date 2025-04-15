@@ -27,8 +27,8 @@
                         <th scope="col" class="align-middle text-center"><a class="align-middle text-center tittle_table">Responsável</a></th>
                         <th scope="col" class="align-middle text-center"><a class="align-middle text-center tittle_table">Urgência</a></th>
                         <th scope="col" class="align-middle text-center">
-                            <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
-                            class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
+                            <a href="{{ route('dashboard.order', ['order_by' => 'data_concluido', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
+                            class="sortable {{ request()->order_by == 'data_concluido' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
                             Tempo
                             </a>
                         </th>

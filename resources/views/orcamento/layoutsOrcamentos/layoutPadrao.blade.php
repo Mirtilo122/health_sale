@@ -146,6 +146,51 @@ $(document).ready(function() {
 
 } catch {}
 
+const prestadores = @json($prestadores->keyBy('usuario_id'));
+
+
+document.addEventListener('DOMContentLoaded', function () {
+        const selectAnestesista = document.getElementById('id_usuarios_anestesistas');
+        const selectCirurgiao = document.getElementById('id_usuarios_cirurgioes');
+
+        const infoAnestesista = {
+            nome: document.querySelector('#info-anestesista-nome'),
+            especialidade: document.querySelector('#info-anestesista-especialidade')
+        };
+
+        const infoCirurgiao = {
+            nome: document.querySelector('#info-cirurgiao-nome'),
+            especialidade: document.querySelector('#info-cirurgiao-especialidade'),
+            crm: document.querySelector('#info-cirurgiao-crm')
+        };
+
+        selectAnestesista.addEventListener('change', function () {
+            const id = this.value;
+            const prestador = prestadores[id];
+            if (prestador) {
+                infoAnestesista.nome.textContent = this.options[this.selectedIndex].text;
+                infoAnestesista.especialidade.textContent = prestador.especialidade || 'Não informado';
+            } else {
+                infoAnestesista.nome.textContent = 'Nenhum anestesista selecionado.';
+                infoAnestesista.especialidade.textContent = '';
+            }
+        });
+
+        selectCirurgiao.addEventListener('change', function () {
+            const id = this.value;
+            const prestador = prestadores[id];
+            if (prestador) {
+                infoCirurgiao.nome.textContent = this.options[this.selectedIndex].text;
+                infoCirurgiao.especialidade.textContent = prestador.especialidade || 'Não informado';
+                infoCirurgiao.crm.textContent = prestador.crm || 'Não informado';
+            } else {
+                infoCirurgiao.nome.textContent = 'Nenhum cirurgião selecionado.';
+                infoCirurgiao.especialidade.textContent = '';
+                infoCirurgiao.crm.textContent = '';
+            }
+        });
+    });
+
 </script>
 
 

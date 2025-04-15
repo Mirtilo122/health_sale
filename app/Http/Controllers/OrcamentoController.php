@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SolicitacaoOrcamento;
 use App\Models\Orcamento;
 use App\Models\Usuarios;
+use App\Models\Prestador;
 use App\Models\Modelo;
 use App\Models\Tuss;
 use Carbon\Carbon;
@@ -17,10 +18,13 @@ class OrcamentoController extends Controller
     private function carregarDados($id)
     {
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
-        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
-        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->orderBy('usuario')->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->orderBy('usuario')->get();
+        $idsUsuariosPrestadores = $cirurgioes->pluck('id')->merge($anestesistas->pluck('id'))->unique();
+        $prestadores = Prestador::whereIn('usuario_id', $idsUsuariosPrestadores)->get();
         $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
                             ->where('ativo', 1)
+                            ->orderBy('usuario')
                             ->get();
         $modelos = Modelo::where('ativo', true)->get();
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
@@ -47,7 +51,7 @@ class OrcamentoController extends Controller
         return compact(
             'solicitacao', 'cirurgioes', 'anestesistas', 'agentes',
             'idCirurgiaoSelecionado', 'idAnestesistaSelecionado',
-            'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'
+            'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'
         );
     }
 
@@ -71,6 +75,7 @@ class OrcamentoController extends Controller
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
         $idsVisualizar = $dados['idsVisualizar'];
         $idsEditar = $dados['idsEditar'];
+        $prestadores = $dados['prestadores'];
         $dados = $dados['dados'];
 
         $status = $solicitacao->status;
@@ -79,7 +84,7 @@ class OrcamentoController extends Controller
         }
 
 
-        return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados'));
+        return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados', 'prestadores'));
     }
 
 
@@ -91,6 +96,12 @@ class OrcamentoController extends Controller
 
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
+
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->orderBy('usuario')->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->orderBy('usuario')->get();
+        $idsUsuariosPrestadores = $cirurgioes->pluck('id')->merge($anestesistas->pluck('id'))->unique();
+        $prestadores = Prestador::whereIn('usuario_id', $idsUsuariosPrestadores)->get();
+
 
         if ($orcamento){
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
@@ -109,7 +120,8 @@ class OrcamentoController extends Controller
         }
 
 
-        return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
+
+        return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado', 'prestadores'));
     }
     public function anestesia($id)
     {
@@ -119,6 +131,11 @@ class OrcamentoController extends Controller
 
         $idCirurgiaoSelecionado = null;
         $idAnestesistaSelecionado = null;
+
+        $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->orderBy('usuario')->get();
+        $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->orderBy('usuario')->get();
+        $idsUsuariosPrestadores = $cirurgioes->pluck('id')->merge($anestesistas->pluck('id'))->unique();
+        $prestadores = Prestador::whereIn('usuario_id', $idsUsuariosPrestadores)->get();
 
         if ($orcamento){
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
@@ -136,7 +153,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado'));
+        return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado', 'prestadores'));
     }
 
 
@@ -161,6 +178,7 @@ class OrcamentoController extends Controller
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
         $idsVisualizar = $dados['idsVisualizar'];
         $idsEditar = $dados['idsEditar'];
+        $prestadores = $dados['prestadores'];
         $dados = $dados['dados'];
 
         $status = $solicitacao->status;
@@ -168,7 +186,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
+        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
 
@@ -183,6 +201,8 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Orçamento não encontrado. Solicitação atualizada para "Atribuídas".');
         }
 
+
+
         $solicitacao = $dados['solicitacao'];
         $cirurgioes = $dados['cirurgioes'];
         $anestesistas = $dados['anestesistas'];
@@ -193,14 +213,16 @@ class OrcamentoController extends Controller
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
         $idsVisualizar = $dados['idsVisualizar'];
         $idsEditar = $dados['idsEditar'];
+        $prestadores = $dados['prestadores'];
         $dados = $dados['dados'];
+
 
         $status = $solicitacao->status;
         if ($status !== 'liberacao') {
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
+        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
 
@@ -225,6 +247,7 @@ class OrcamentoController extends Controller
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
         $idsVisualizar = $dados['idsVisualizar'];
         $idsEditar = $dados['idsEditar'];
+        $prestadores = $dados['prestadores'];
         $dados = $dados['dados'];
 
         $status = $solicitacao->status;
@@ -232,7 +255,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
+        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
 
@@ -241,6 +264,10 @@ class OrcamentoController extends Controller
         $solicitacao = SolicitacaoOrcamento::findOrFail($id);
         $cirurgioes = Usuarios::where('funcao', 'cirurgiao')->where('ativo', 1)->get();
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->get();
+
+        $idsUsuariosPrestadores = $cirurgioes->pluck('id')->merge($anestesistas->pluck('id'))->unique();
+        $prestadores = Prestador::whereIn('usuario_id', $idsUsuariosPrestadores)->get();
+
         $agentes = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
                         ->where('ativo', 1)
                         ->get();
@@ -265,7 +292,7 @@ class OrcamentoController extends Controller
         }
 
 
-        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados'));
+        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
     public function atualizarOrcamento(Request $request)

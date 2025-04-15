@@ -1168,6 +1168,8 @@ try {
 document.getElementById("prosseguir").addEventListener("click", function (event) {
         let cirurgiao = document.getElementById("id_usuarios_cirurgioes").value;
         let anestesista = document.getElementById("id_usuarios_anestesistas").value;
+        let tipo_orcamento = document.getElementById("tipo_orcamento").value;
+
 
         if (cirurgiao === "") {
             alert("Selecione um cirurgião.");
@@ -1175,11 +1177,15 @@ document.getElementById("prosseguir").addEventListener("click", function (event)
             return;
         }
 
-        if (anestesista === "") {
-            alert("Selecione um anestesista.");
-            event.preventDefault();
-            return;
+        if (!tipo_orcamento == 'leito') {
+            if (anestesista === "") {
+                alert("Selecione um anestesista.");
+                event.preventDefault();
+                return;
+            }
         }
+
+
     });
 } catch (error) {
 }
@@ -1550,3 +1556,10 @@ try {
     });
 } catch (error) {
 }
+
+
+
+
+
+
+

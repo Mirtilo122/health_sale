@@ -65,7 +65,7 @@
                 </button>
             </li>
 
-            @if ($podeAcessarTudo)
+            @if ($podeAcessarTudo || $ehAgente)
                 <li class="nav-item">
                     <button class="nav-link {{ $abaAtiva == 'novos-tab' ? 'active' : '' }}" id="novos-tab" data-bs-toggle="tab" data-bs-target="#novos-tab-pane">
                         Novas ({{ $solicitacoes->where('status', 'novo')->count() }})

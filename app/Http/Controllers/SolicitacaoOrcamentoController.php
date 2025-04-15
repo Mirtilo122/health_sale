@@ -112,6 +112,7 @@ namespace App\Http\Controllers;
 
     $usuarios = Usuarios::whereIn('acesso', ['Agente', 'Gerente', 'Administrador'])
                     ->where('ativo', 1)
+                    ->orderBy('usuario')
                     ->get();
 
 

@@ -27,9 +27,9 @@
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Cirurgião</a></th>
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Urgência</a></th>
                         <th scope="col" class="align-middle text-center tittle_table ">
-                            <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
-                            class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
-                            Tempo desde a Solicitação
+                            <a href="{{ route('dashboard.order', ['order_by' => 'data_cirurgiao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
+                            class="sortable {{ request()->order_by == 'data_cirurgiao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
+                            Tempo
                             </a>
                         </th>
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Ações</a></th>

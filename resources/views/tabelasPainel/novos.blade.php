@@ -25,10 +25,16 @@
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Tipo de Orçamento</a></th>
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Status</a></th>
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Urgência</a></th>
-                        <th scope="col" class="align-middle text-center tittle_table ">
+                        <th scope="col" class="align-middle text-center">
                             <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
                             class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
-                            Tempo desde a Solicitação
+                            Solicitado Em
+                            </a>
+                        </th>
+                        <th scope="col" class="align-middle text-center">
+                            <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
+                            class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
+                            Tempo
                             </a>
                         </th>
                         <th scope="col" class="align-middle text-center tittle_table"><a class="align-middle text-center tittle_table">Ações</a></th>
@@ -88,6 +94,10 @@
                                         <span>Urgente</span>
                                     </div>
                                 @endif
+                            </td>
+                            <td scope="row" class="align-middle text-center">
+                                {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('d/m/Y') }}<br>
+                                {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('H:i') }}
                             </td>
                             <td scope="row" class="align-middle text-center">
                                 @php

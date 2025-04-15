@@ -23,6 +23,17 @@
         </div>
         <div class="mb-3">
             <h5>Informações do Cirurgião:</h5>
+            @php
+                $cirurgiaoSelecionado = $cirurgioes->firstWhere('id', $idCirurgiaoSelecionado);
+                $prestadorCirurgiaoSelecionado = $prestadores->firstWhere('usuario_id', $idCirurgiaoSelecionado);
+            @endphp
+            @if($cirurgiaoSelecionado)
+                <p><strong>Nome:</strong> <span id="info-cirurgiao-nome">{{ $cirurgiaoSelecionado->usuario ?? 'Nenhum cirurgião selecionado.' }}</span></p>
+                <p><strong>Especialidade:</strong> <span id="info-cirurgiao-especialidade">{{ $prestadorCirurgiaoSelecionado->especialidade ?? 'Não informado' }}</span></p>
+                <p><strong>CRM:</strong> <span id="info-cirurgiao-crm">{{ $prestadorCirurgiaoSelecionado->crm ?? 'Não informado' }}</span></p>
+            @else
+                <p>Nenhum cirurgião selecionado.</p>
+            @endif
         </div>
     </div>
 
@@ -30,7 +41,8 @@
     <div class="col-md-4 border-end border-grey">
         <div class="mb-3">
             <label for="id_usuarios_anestesistas" class="form-label">Anestesista</label>
-            <select name="id_usuarios_anestesistas" id="id_usuarios_anestesistas" class="form-control" required>
+            <select name="id_usuarios_anestesistas" id="id_usuarios_anestesistas" class="form-control"
+                @if($dados->tipo_orcamento != 'leito') required @endif>
                 <option value="">Selecione um anestesista</option>
                 @foreach($anestesistas as $anestesista)
                     <option value="{{ $anestesista->id }}"
@@ -42,6 +54,17 @@
         </div>
         <div class="mb-3">
             <h5>Informações do Anestesista:</h5>
+            @php
+                $anestesistaSelecionado = $anestesistas->firstWhere('id', $idAnestesistaSelecionado);
+                $prestadorSelecionado = $prestadores->firstWhere('usuario_id', $idAnestesistaSelecionado);
+            @endphp
+            @if($anestesistaSelecionado)
+                <p><strong>Nome:</strong> <span id="info-anestesista-nome">{{ $anestesistaSelecionado->usuario ?? 'Nenhum anestesista selecionado.' }}</span></p>
+                <p><strong>Especialidade:</strong> <span id="info-anestesista-especialidade">{{ $prestadorSelecionado->especialidade ?? 'Não informado' }}</span></p>
+
+            @else
+                <p>Nenhum anestesista selecionado.</p>
+            @endif
         </div>
     </div>
 
