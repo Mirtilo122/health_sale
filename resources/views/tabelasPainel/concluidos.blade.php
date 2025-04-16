@@ -27,6 +27,12 @@
                         <th scope="col" class="align-middle text-center"><a class="align-middle text-center tittle_table">Responsável</a></th>
                         <th scope="col" class="align-middle text-center"><a class="align-middle text-center tittle_table">Urgência</a></th>
                         <th scope="col" class="align-middle text-center">
+                            <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
+                            class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
+                            Solicitado Em
+                            </a>
+                        </th>
+                        <th scope="col" class="align-middle text-center">
                             <a href="{{ route('dashboard.order', ['order_by' => 'data_concluido', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
                             class="sortable {{ request()->order_by == 'data_concluido' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
                             Tempo
@@ -109,6 +115,12 @@
                                     </div>
                                 @endif
                             </td>
+
+                            <td scope="row" class="align-middle text-center">
+                                {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('d/m/Y') }}<br>
+                                {{ \Carbon\Carbon::parse($solicitacao->data_solicitacao)->format('H:i') }}
+                            </td>
+                            
                             <td scope="row" class="align-middle text-center">
                                 @php
                                     $diferenca = \Carbon\Carbon::parse($solicitacao->data_concluido)->diffForHumans();

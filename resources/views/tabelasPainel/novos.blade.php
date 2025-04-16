@@ -28,7 +28,7 @@
                         <th scope="col" class="align-middle text-center">
                             <a href="{{ route('dashboard.order', ['order_by' => 'data_solicitacao', 'direction' => request()->direction == 'asc' ? 'desc' : 'asc']) }}"
                             class="sortable {{ request()->order_by == 'data_solicitacao' ? (request()->direction == 'asc' ? 'active-asc' : 'active-desc') : '' }}">
-                            Solicitado Em
+                            Solicitado Em 
                             </a>
                         </th>
                         <th scope="col" class="align-middle text-center">
