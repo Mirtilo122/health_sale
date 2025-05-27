@@ -104,6 +104,7 @@ class OrcamentoController extends Controller
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->orderBy('usuario')->get();
         $idsUsuariosPrestadores = $cirurgioes->pluck('id')->merge($anestesistas->pluck('id'))->unique();
         $prestadores = Prestador::whereIn('usuario_id', $idsUsuariosPrestadores)->get();
+        $modeloPadroes = ModeloPadrao::all()->keyBy('tipo');
 
 
         if ($orcamento){
@@ -124,7 +125,7 @@ class OrcamentoController extends Controller
 
 
 
-        return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado', 'prestadores'));
+        return view('orcamento.cirurgiao', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado', 'prestadores', 'modeloPadroes'));
     }
     public function anestesia($id)
     {
@@ -139,6 +140,7 @@ class OrcamentoController extends Controller
         $anestesistas = Usuarios::where('funcao', 'anestesista')->where('ativo', 1)->orderBy('usuario')->get();
         $idsUsuariosPrestadores = $cirurgioes->pluck('id')->merge($anestesistas->pluck('id'))->unique();
         $prestadores = Prestador::whereIn('usuario_id', $idsUsuariosPrestadores)->get();
+        $modeloPadroes = ModeloPadrao::all()->keyBy('tipo');
 
         if ($orcamento){
             $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
@@ -156,7 +158,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado', 'prestadores'));
+        return view('orcamento.anestesista', compact('solicitacao', 'orcamento', 'dados', 'idAnestesistaSelecionado', 'idCirurgiaoSelecionado', 'prestadores', 'modeloPadroes'));
     }
 
 
