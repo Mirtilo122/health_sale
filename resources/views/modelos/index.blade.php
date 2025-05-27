@@ -11,8 +11,9 @@
 <div class="container my-4">
     <h1 class="text-center mb-4">Gerenciamento de Modelos</h1>
 
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-end mb-3 p-3 gap-3">
         <a href="{{ route('modelos.create') }}" class="btn btn-success">Cadastrar Novo Modelo</a>
+        <a href="{{ route('modelos.definir_padrao') }}" class="btn btn-primary">Definir Padrões de Modelo</a>
     </div>
 
     <div class="table-responsive">

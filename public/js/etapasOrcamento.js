@@ -1430,133 +1430,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Funções do Richtext CKEditor
 
-function inicializarCKEditor(id) {
-    var elemento = document.getElementById(id);
-    if (elemento) {
-        try {
-            CKEDITOR.replace(id, {
-                toolbar: [
-                    { name: 'clipboard', items: ['Undo', 'Redo'] },
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                    { name: 'links', items: ['Link'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-                ],
-                removePlugins: 'elementspath',
-                resize_enabled: false,
-                height: 100
-            });
-        } catch (e) {
-        }
-    } else {
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    inicializarCKEditor('condPagamentoAnestesista');
-    inicializarCKEditor('condPagamentoCirurgiao');
-});
-
-
 try {
     document.addEventListener("DOMContentLoaded", function () {
         if (typeof CKEDITOR === "undefined") {
             return;
         }
 
-        var editorElement = document.getElementById('editor');
-        if (editorElement) {
-            var editorInstance = CKEDITOR.replace('editor', {
-                toolbar: [
-                    { name: 'clipboard', items: ['Undo', 'Redo'] },
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                    { name: 'links', items: ['Link'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-                ],
-                removePlugins: 'elementspath',
-                resize_enabled: false,
-            });
 
-            editorInstance.on('instanceReady', function () {
-                var selectedOption = document.getElementById('presetSelect')?.selectedOptions[0];
-                var selectedContent = selectedOption ? selectedOption.value : '';
-                editorInstance.setData(selectedContent);
-            });
+        const editors = [
+            { id: 'editor', select: 'presetSelect', button: 'insertPreset' },
+            { id: 'condPagamentoHosp', select: 'presetSelectPag', button: 'insertPresetPag' },
+            { id: 'condPagamentoCirurgiao', select: 'presetSelectCirurgiao', button: 'insertPresetCirurgiao' },
+            { id: 'condPagamentoAnestesista', select: 'presetSelectAnestesista', button: 'insertPresetAnestesista' }
+        ];
 
-            var insertPresetButton = document.getElementById('insertPreset');
-            if (insertPresetButton) {
-                insertPresetButton.addEventListener('click', function () {
-                    var selectedOption = document.getElementById('presetSelect')?.selectedOptions[0];
-                    var selectedContent = selectedOption ? selectedOption.value : '';
-                    CKEDITOR.instances.editor.setData(selectedContent);
+        editors.forEach(function(editorConfig) {
+            const editorElement = document.getElementById(editorConfig.id);
+            if (editorElement) {
+                const editorInstance = CKEDITOR.replace(editorConfig.id, {
+                    toolbar: [
+                        { name: 'clipboard', items: ['Undo', 'Redo'] },
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+                        { name: 'links', items: ['Link'] },
+                        { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
+                    ],
+                    removePlugins: 'elementspath',
+                    resize_enabled: false,
                 });
+
+                editorInstance.on('instanceReady', function () {
+                    const selectedOption = document.getElementById(editorConfig.select)?.selectedOptions[0];
+                    const selectedContent = selectedOption ? selectedOption.value : '';
+                    editorInstance.setData(selectedContent);
+                });
+
+                const insertPresetButton = document.getElementById(editorConfig.button);
+                if (insertPresetButton) {
+                    insertPresetButton.addEventListener('click', function () {
+                        const selectedOption = document.getElementById(editorConfig.select)?.selectedOptions[0];
+                        const selectedContent = selectedOption ? selectedOption.value : '';
+                        CKEDITOR.instances[editorConfig.id].setData(selectedContent);
+                    });
+                }
             }
-        } else {
-        }
-
-        var presetSelect = document.getElementById('presetSelect');
-        if (!presetSelect) {
-        }
-
-        var insertPresetButton = document.getElementById('insertPreset');
-        if (!insertPresetButton) {
-        }
+        });
     });
 } catch (error) {
+    console.error("Erro ao inicializar CKEditor: ", error);
 }
-
-
-
-
-
-
-
-try {
-    document.addEventListener("DOMContentLoaded", function () {
-        if (typeof CKEDITOR === "undefined") {
-            return;
-        }
-
-        var editorCondPag = document.getElementById('condPagamentoHosp');
-        if (editorCondPag) {
-            var editorInstancePag = CKEDITOR.replace('condPagamentoHosp', {
-                toolbar: [
-                    { name: 'clipboard', items: ['Undo', 'Redo'] },
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                    { name: 'links', items: ['Link'] },
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] }
-                ],
-                removePlugins: 'elementspath',
-                resize_enabled: false,
-            });
-
-            editorInstancePag.on('instanceReady', function () {
-                var selectedOption = document.getElementById('presetSelectPag')?.selectedOptions[0];
-                var selectedContent = selectedOption ? selectedOption.value : '';
-                editorInstancePag.setData(selectedContent);
-            });
-
-            var insertPresetPagButton = document.getElementById('insertPresetPag');
-            if (insertPresetPagButton) {
-                insertPresetPagButton.addEventListener('click', function () {
-                    var selectedOption = document.getElementById('presetSelectPag')?.selectedOptions[0];
-                    var selectedContent = selectedOption ? selectedOption.value : '';
-                    CKEDITOR.instances.condPagamentoHosp.setData(selectedContent);
-                });
-            }
-        } else {
-        }
-
-        var presetSelectPag = document.getElementById('presetSelectPag');
-        if (!presetSelectPag) {
-        }
-
-        var insertPresetPagButton = document.getElementById('insertPresetPag');
-        if (!insertPresetPagButton) {
-        }
-    });
-} catch (error) {
-}
-
 
 
 

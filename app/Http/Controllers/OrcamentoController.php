@@ -9,6 +9,7 @@ use App\Models\Usuarios;
 use App\Models\Prestador;
 use App\Models\Modelo;
 use App\Models\Tuss;
+use App\Models\ModeloPadrao;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,6 +29,7 @@ class OrcamentoController extends Controller
                             ->get();
         $modelos = Modelo::where('ativo', true)->get();
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
+        $modeloPadroes = ModeloPadrao::all()->keyBy('tipo');
 
         $idCirurgiaoSelecionado = $orcamento->id_usuarios_cirurgioes ?? null;
         $idAnestesistaSelecionado = $orcamento->id_usuarios_anestesistas ?? null;
@@ -51,7 +53,7 @@ class OrcamentoController extends Controller
         return compact(
             'solicitacao', 'cirurgioes', 'anestesistas', 'agentes',
             'idCirurgiaoSelecionado', 'idAnestesistaSelecionado',
-            'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'
+            'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'modeloPadroes', 'dados', 'prestadores'
         );
     }
 
@@ -70,6 +72,7 @@ class OrcamentoController extends Controller
         $anestesistas = $dados['anestesistas'];
         $agentes = $dados['agentes'];
         $modelos = $dados['modelos'];
+        $modeloPadroes = $dados['modeloPadroes'];
         $orcamento = $dados['orcamento'];
         $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
@@ -84,7 +87,7 @@ class OrcamentoController extends Controller
         }
 
 
-        return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados', 'prestadores'));
+        return view('orcamento.designar', compact('solicitacao', 'cirurgioes', 'modeloPadroes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'dados', 'prestadores'));
     }
 
 
@@ -173,6 +176,7 @@ class OrcamentoController extends Controller
         $anestesistas = $dados['anestesistas'];
         $agentes = $dados['agentes'];
         $modelos = $dados['modelos'];
+        $modeloPadroes = $dados['modeloPadroes'];
         $orcamento = $dados['orcamento'];
         $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
@@ -186,7 +190,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
+        return view('orcamento.criar', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modeloPadroes', 'modelos', 'dados', 'prestadores'));
     }
 
 
@@ -208,6 +212,7 @@ class OrcamentoController extends Controller
         $anestesistas = $dados['anestesistas'];
         $agentes = $dados['agentes'];
         $modelos = $dados['modelos'];
+        $modeloPadroes = $dados['modeloPadroes'];
         $orcamento = $dados['orcamento'];
         $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
@@ -222,7 +227,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
+        return view('orcamento.liberacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'modeloPadroes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
 
@@ -242,6 +247,7 @@ class OrcamentoController extends Controller
         $anestesistas = $dados['anestesistas'];
         $agentes = $dados['agentes'];
         $modelos = $dados['modelos'];
+        $modeloPadroes = $dados['modeloPadroes'];
         $orcamento = $dados['orcamento'];
         $idCirurgiaoSelecionado = $dados['idCirurgiaoSelecionado'];
         $idAnestesistaSelecionado = $dados['idAnestesistaSelecionado'];
@@ -255,7 +261,7 @@ class OrcamentoController extends Controller
             return redirect()->route('dashboard')->with('error', 'Ação não permitida.');
         }
 
-        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
+        return view('orcamento.negociacao', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'modeloPadroes', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
 
@@ -273,6 +279,7 @@ class OrcamentoController extends Controller
                         ->get();
 
         $modelos = Modelo::where('ativo', true)->get();
+        $modeloPadroes = ModeloPadrao::all()->keyBy('tipo');
 
         $orcamento = Orcamento::where('codigo_solicitacao', $id)->first();
 
@@ -292,7 +299,7 @@ class OrcamentoController extends Controller
         }
 
 
-        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
+        return view('orcamento.concluido', compact('solicitacao', 'cirurgioes', 'anestesistas', 'agentes', 'idCirurgiaoSelecionado', 'modeloPadroes', 'idAnestesistaSelecionado', 'idsVisualizar', 'idsEditar', 'orcamento', 'modelos', 'dados', 'prestadores'));
     }
 
     public function atualizarOrcamento(Request $request)

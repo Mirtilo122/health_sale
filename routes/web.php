@@ -19,25 +19,25 @@ use App\Http\Controllers\TussController;
 // Rotas da página Inicial
 
 Route::get('/', function() {
-    return view('inicio/inicio');
+    return view('inicio.inicio');
 });
 
 Route::get('/inicio', function() {
-    return view('inicio/inicio');
+    return view('inicio.inicio');
 });
 
 Route::get('/medico', function() {
-    return view('inicio/formularioMedico');
+    return view('inicio.formularioMedico');
 });
 
 Route::get('/paciente', function() {
-    return view('inicio/formularioPaciente');
+    return view('inicio.formularioPaciente');
 });
 
 Route::post('/processarFormulario', [SolicitacaoOrcamentoController::class, 'store']);
 
 Route::get('/confirmacao', function() {
-    return view('inicio/confirmacao');
+    return view('inicio.confirmacao');
 })->name('confirmacao');
 
 
@@ -47,11 +47,11 @@ Route::get('/confirmacao', function() {
 // Rotas da página de Login, Logout
 
 Route::get('/admin/login', function() {
-    return view('admin/login');
+    return view('admin.login');
 });
 
 Route::get('/login', function () {
-    return view('admin/login');
+    return view('admin.login');
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -114,7 +114,7 @@ Route::delete('/procedimentos/{id}', [ProcedimentosController::class, 'destroy']
 // Rotas da página de Tabelas de Preços
 
 Route::get('/precos', function() {
-    return view('precos/precos');
+    return view('precos.precos');
 });
 
 
@@ -166,10 +166,13 @@ Route::get('/convenios', [ConvenioController::class, 'index'])->name('convenios.
 
 
 // Rotas de Modelos
+Route::get('/modelos/definir_padrao', [ModeloController::class, 'padrao'])->name('modelos.definir_padrao');
+Route::post('/modelos/salvar_padrao', [ModeloController::class, 'salvarPadrao'])->name('modelos.salvar_padrao');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('modelos', ModeloController::class);
 });
+
 
 
 

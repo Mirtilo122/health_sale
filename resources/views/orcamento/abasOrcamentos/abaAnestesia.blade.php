@@ -120,19 +120,49 @@
         <button type="button" class="btn btn-primary mt-2" onclick="adicionarOutroCusto()">Adicionar Outros Custos de Anestesia</button>
         <button type="button" class="btn btn-primary prazoAnestesia mt-2" onclick="addVisibilidadePrazoAnestesia()">Adicionar Valores a Prazo</button>
         <button type="button" class="btn btn-primary prazoAnestesia d-none mt-2" onclick="removeVisibilidadePrazoAnestesia()">Remover Valores a Prazo</button>
-
-
-
-
     </div>
 
 
     <div class="col-6 flex-fill">
-    <div class="mt-4 mb-2">
-        <label for="condPagamentoAnestesista">Condições de Pagamento</label>
-        <textarea id="condPagamentoAnestesista" name="condPagamentoAnestesista">
-            <?= old('condPagamentoAnestesista', $orcamento->cond_pagamento_anestesista ?? '') ?>
-        </textarea>
-    </div>
+        <div class="mt-4 mb-2">
+            <label for="presetSelectAnestesista">Modelo de Condições de Pagamento - Anestesista</label>
+            <div class="select_alterar mb-2">
+                <select id="presetSelectAnestesista">
+                    @php
+                        $padraoAnestesista = optional($modeloPadroes->get('pagamento_anestesista'))->modelo->conteudo ?? null;
+                        $condPagAnestesista = $orcamento->cond_pagamento_anestesista;
+                    @endphp
+
+                    <option value="{{ $padraoAnestesista }}"
+                        @if(is_null($condPagAnestesista)) selected @endif>
+                        Padrão de Modelo
+                    </option>
+
+                    <option value=""
+                        @if($condPagAnestesista === '') selected @endif>
+                        Nenhum
+                    </option>
+
+                    @if(!is_null($condPagAnestesista) && $condPagAnestesista !== '')
+                        <option value="{{ $condPagAnestesista }}" selected>
+                            Salvo para esse orçamento
+                        </option>
+                    @endif
+
+                    @foreach ($modelos as $modelo)
+                        <option value="{{ $modelo['conteudo'] }}" data-nome="{{ $modelo['nome'] }}">
+                            {{ $modelo['nome'] }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <button type="button" id="insertPresetAnestesista" class="alterar-btn">Adicionar</button>
+            </div>
+
+            <label for="condPagamentoAnestesista">Condições de Pagamento</label>
+            <textarea id="condPagamentoAnestesista" name="condPagamentoAnestesista">
+                <?= old('condPagamentoAnestesista', $orcamento->cond_pagamento_anestesista ?? '') ?>
+            </textarea>
+        </div>
     </div>
 </div>

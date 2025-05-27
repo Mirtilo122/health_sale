@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Modelo;
+use App\Models\ModeloPadrao;
 
 class ModeloController extends Controller
 {
@@ -19,7 +20,10 @@ class ModeloController extends Controller
         return view('modelos.create');
     }
 
-
+    public function show()
+    {
+        return view('modelos.create'); 
+    }
 
     public function store(Request $request)
     {
@@ -71,5 +75,29 @@ class ModeloController extends Controller
     {
         $modelo->delete();
         return redirect()->route('modelos.index')->with('success', 'Modelo excluído com sucesso!');
+    }
+
+    public function padrao() {
+        $modelos = Modelo::all();
+        $modeloPadroes = ModeloPadrao::all()->keyBy('tipo');
+
+        return view('modelos.padroes', compact('modelos', 'modeloPadroes'));
+    }
+    public function salvarPadrao(Request $request)
+    {
+        $tipos = [
+            'condicoes_gerais',
+            'pagamento_hospital',
+            'pagamento_cirurgiao',
+            'pagamento_anestesista',
+        ];
+
+        foreach ($tipos as $tipo) {
+            ModeloPadrao::where('tipo', $tipo)->update([
+                'modelo_id' => $request->input($tipo) ?: null,
+            ]);
+        }
+
+        return redirect()->route('modelos.index')->with('success', 'Padrões atualizados com sucesso!');
     }
 }

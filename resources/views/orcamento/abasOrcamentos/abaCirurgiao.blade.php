@@ -171,9 +171,40 @@
         </div>
 
         <div class="mt-4 mb-2">
-            <label for="condPagamentoCirurgiao">Condições de Pagamento</label>
+            <label for="presetSelectCirurgiao">Condições de Pagamento - Cirurgião</label>
+            <div class="select_alterar mb-2">
+                <select id="presetSelectCirurgiao">
+                    @php
+                        $padraoCirurgiao = optional($modeloPadroes->get('pagamento_cirurgiao'))->modelo->conteudo ?? null;
+                        $condPagCirurgiao = $orcamento->cond_pagamento_cirurgiao;
+                    @endphp
+
+                    <option value="{{ $padraoCirurgiao }}"
+                        @if(is_null($condPagCirurgiao)) selected @endif>
+                        Padrão de Modelo
+                    </option>
+
+                    <option value=""
+                        @if($condPagCirurgiao === '') selected @endif>
+                        Nenhum
+                    </option>
+
+                    @if(!is_null($condPagCirurgiao) && $condPagCirurgiao !== '')
+                        <option value="{{ $condPagCirurgiao }}" selected>
+                            Salvo para esse orçamento
+                        </option>
+                    @endif
+
+                    @foreach ($modelos as $modelo)
+                        <option value="{{ $modelo['conteudo'] }}" data-nome="{{ $modelo['nome'] }}">
+                            {{ $modelo['nome'] }}
+                        </option>
+                    @endforeach
+                </select>
+                <button type="button" id="insertPresetCirurgiao" class="alterar-btn">Adicionar</button>
+            </div>
             <textarea id="condPagamentoCirurgiao" name="condPagamentoCirurgiao">
-                <?= old('condPagamentoCirurgiao', $orcamento->cond_pagamento_cirurgiao ?? '') ?>
+                {{ old('condPagamentoCirurgiao', $orcamento->cond_pagamento_cirurgiao ?? '') }}
             </textarea>
         </div>
     </div>

@@ -23,6 +23,8 @@ class AuthController extends Controller
 
             $usuario = Auth::user();
 
+            
+
 
             session()->put([
                 'id' => $usuario->id,
